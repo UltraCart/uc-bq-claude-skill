@@ -164,7 +164,10 @@ The channel IDs and email addresses live in the manifests. API keys and bot toke
 | `SLACK_TOKEN_CLNT5` | `xoxb-...` | CLNT5's workspace bot |
 | `SENDGRID_API_KEY` | `SG.xxx` | Email delivery via SendGrid |
 | `POSTMARK_API_KEY` | `xxx` | Email delivery via Postmark (if some clients use it) |
-| `ANTHROPIC_API_KEY` | `sk-ant-...` | For AI analysis (optional) |
+| `ANTHROPIC_API_KEY` | `sk-ant-...` | For AI analysis with Anthropic (optional) |
+| `OPENAI_API_KEY` | `sk-...` | For AI analysis with OpenAI (optional) |
+| `XAI_API_KEY` | `xai-...` | For AI analysis with xAI Grok (optional) |
+| `GOOGLE_API_KEY` | `AIza...` | For AI analysis with Gemini (optional) |
 
 ### Variables (Settings -> Variables -> Actions)
 
@@ -271,7 +274,9 @@ The channel ID is in each manifest. The bot token is set per-client via the `sec
 
 ## Workflow: With AI Analysis
 
-Add the API key and model selection. Use Haiku for daily, Sonnet for monthly:
+Add the API key for your configured LLM provider and optionally specify the model. Use smaller models for daily runs, larger ones for monthly deep analysis. The provider is set in your `.ultracart-bq.json` `llm` section (defaults to Anthropic).
+
+**With Anthropic:**
 
 ```yaml
       - name: Run and deliver with analysis
@@ -281,6 +286,18 @@ Add the API key and model selection. Use Haiku for daily, Sonnet for monthly:
           EMAIL_FROM: ${{ vars.EMAIL_FROM }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
         run: uc-bq run-all --merchant=${{ matrix.client.id }} --deliver --analysis-model=claude-haiku-4-5-20251001
+```
+
+**With OpenAI (override via flag):**
+
+```yaml
+      - name: Run and deliver with analysis
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SLACK_BOT_TOKEN: ${{ secrets[format('SLACK_TOKEN_{0}', matrix.client.id)] }}
+          EMAIL_FROM: ${{ vars.EMAIL_FROM }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        run: uc-bq run-all --merchant=${{ matrix.client.id }} --deliver --llm-provider=openai
 ```
 
 The analysis is generated per-report using each report's `analysis_prompt.md`. The prompt was tailored to the specific query and data when you designed the report in Claude Code, so each client gets analysis relevant to their data.
@@ -354,15 +371,15 @@ Running 5 clients with 3 reports each, weekly:
 |-----------|---------|-------------------------------|---------|
 | GitHub Actions | ~2 min per client | ~10 min | ~40 min (free tier: 2,000 min) |
 | BigQuery | ~$0.01/query | ~$0.15 | ~$0.60 |
-| Analysis (Haiku) | ~$0.002/report | ~$0.03 | ~$0.12 |
-| Analysis (Sonnet) | ~$0.03/report | ~$0.45 | ~$1.80 |
+| Analysis (small model) | ~$0.002/report | ~$0.03 | ~$0.12 |
+| Analysis (large model) | ~$0.03/report | ~$0.45 | ~$1.80 |
 | Slack | Free | Free | Free |
 | Email (SendGrid) | Free | Free | Free (100/day free tier) |
 | **Total (no analysis)** | | **~$0.15/week** | **$0.60/month** |
-| **Total (Haiku)** | | **~$0.18/week** | **$0.72/month** |
-| **Total (Sonnet)** | | **~$0.60/week** | **$2.40/month** |
+| **Total (small model)** | | **~$0.18/week** | **$0.72/month** |
+| **Total (large model)** | | **~$0.60/week** | **$2.40/month** |
 
-At 20 clients with 5 reports each, you're still under $10/month with Sonnet analysis. Compare that to any reporting SaaS.
+At 20 clients with 5 reports each, you're still under $10/month with a large model. Compare that to any reporting SaaS.
 
 ---
 
@@ -486,7 +503,7 @@ Add a final job that checks all matrix results and sends one summary:
 | Email API key invalid | Email delivery for that provider | Regenerate key, update GitHub Secret |
 | BigQuery transient error (503) | That client, that run | Auto-retry handles it |
 | Query cost exceeds limit | One report in one client | Adjust `max_query_bytes` or add partition filters |
-| Anthropic API rate limit | Analysis only, that client | Use `--no-analysis` or retry |
+| LLM API rate limit | Analysis only, that client | Use `--no-analysis` or retry |
 | GitHub Actions outage | All clients, that run | Wait for GitHub to recover, next scheduled run catches up |
 | Bad SQL in a report | One report in one client | Fix the SQL, commit, push — next run picks it up |
 
@@ -528,6 +545,23 @@ Yes. Give them access to the repo and they can trigger the workflow manually via
 
 **Q: What if I need different GCP service accounts per client?**
 Add separate secrets (`GCP_SA_KEY_CLNT1`, `GCP_SA_KEY_CLNT2`, etc.) and use `secrets[format('GCP_SA_KEY_{0}', matrix.client.id)]` in the auth step. But typically one service account registered across all clients is simpler.
+
+**Q: Can different clients use different LLM providers for analysis?**
+Yes. Use the `--llm-provider` flag in the matrix to override the provider per-client. For example, one client might use OpenAI while another uses Anthropic:
+
+```yaml
+matrix:
+  client:
+    - { id: 'CLNT1', name: 'Client 1', llm: 'anthropic', llm_key_secret: 'ANTHROPIC_API_KEY' }
+    - { id: 'CLNT2', name: 'Client 2', llm: 'openai', llm_key_secret: 'OPENAI_API_KEY' }
+
+# In the step:
+run: uc-bq run-all --merchant=${{ matrix.client.id }} --llm-provider=${{ matrix.client.llm }} --deliver
+env:
+  LLM_API_KEY: ${{ secrets[matrix.client.llm_key_secret] }}
+```
+
+Alternatively, set the `llm` section in the shared `.ultracart-bq.json` config to pick one provider for all clients.
 
 **Q: Can different clients use different email providers?**
 Yes. Each report manifest specifies its own `delivery.email.provider`. Set all provider API keys in the environment and the CLI picks the right one per report.

@@ -1,7 +1,9 @@
 import { Command } from 'commander';
 import * as fs from 'fs';
 import * as path from 'path';
-import { loadConfig, resolveMerchant } from '../lib/config';
+import { loadConfig, resolveMerchant, resolveLlmConfig } from '../lib/config';
+import { createProvider } from '../lib/llm';
+import { getDefaultModels } from '../lib/llm/models';
 import { executeQuery, QueryParameter } from '../lib/bigquery';
 import { listReports, loadManifest, saveManifest, addRunHistoryEntry } from '../lib/manifest';
 import { resolveParameters, ReportParameter } from '../lib/params';
@@ -137,18 +139,29 @@ export const runAllCommand = new Command('run-all')
             const analysisConfig = manifest.analysis || { include: true, prompt_file: 'analysis_prompt.md', output_file: 'report.md' };
             const promptFile = safePath(reportDir, analysisConfig.prompt_file || 'analysis_prompt.md');
             const outputFile = safePath(reportDir, analysisConfig.output_file || 'report.md');
-            const apiKey = options.analysisApiKey || process.env.ANTHROPIC_API_KEY;
 
-            if (apiKey && fs.existsSync(promptFile)) {
+            // Resolve LLM config: CLI flags > config file > defaults
+            const llmConfig = resolveLlmConfig(config, {
+              provider: globalOpts.llmProvider,
+              apiKey: options.analysisApiKey,
+            });
+            const defaultModels = getDefaultModels(llmConfig.provider);
+            const analysisModel = options.analysisModel || llmConfig.analysisModel || defaultModels.analysis;
+
+            if ((llmConfig.apiKey || llmConfig.provider === 'bedrock') && fs.existsSync(promptFile)) {
               try {
+                const provider = createProvider(llmConfig.provider, {
+                  apiKey: llmConfig.apiKey,
+                  region: llmConfig.region,
+                });
                 const chartPng = path.join(reportDir, 'chart.png');
                 await generateAnalysis({
-                  apiKey,
+                  provider,
                   analysisPromptPath: promptFile,
                   dataJsonPath: dataPath,
                   chartPngPath: fs.existsSync(chartPng) ? chartPng : undefined,
                   outputPath: outputFile,
-                  model: options.analysisModel,
+                  model: analysisModel,
                 });
               } catch (analysisErr: any) {
                 console.error(`  Analysis failed for ${manifest.name}: ${analysisErr.message}`);

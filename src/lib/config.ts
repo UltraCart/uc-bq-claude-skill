@@ -26,6 +26,22 @@ export interface UcBqConfig {
     height: number;
   };
   max_query_bytes?: number;  // Max bytes before aborting (default: 10 GB). Set to 0 to disable.
+  llm?: {
+    provider?: string;
+    api_key_env?: string;
+    analysis_model?: string;
+    schema_filter_model?: string;
+    region?: string;
+  };
+}
+
+export interface LlmConfig {
+  provider: string;        // 'anthropic' | 'openai' | 'grok' | 'bedrock' | 'gemini'
+  apiKey?: string;
+  apiKeyEnv?: string;
+  analysisModel?: string;
+  schemaFilterModel?: string;
+  region?: string;
 }
 
 export interface ResolvedMerchantConfig {
@@ -144,4 +160,37 @@ export function resolveMerchant(config: UcBqConfig, merchantId?: string): Resolv
 
 export function validateConfig(config: UcBqConfig): { valid: boolean; errors: string[] } {
   return schemaValidateConfig(config);
+}
+
+const DEFAULT_API_KEY_ENV: Record<string, string> = {
+  anthropic: 'ANTHROPIC_API_KEY',
+  openai: 'OPENAI_API_KEY',
+  grok: 'XAI_API_KEY',
+  bedrock: '', // Uses AWS credential chain, no API key
+  gemini: 'GOOGLE_API_KEY',
+};
+
+export function resolveLlmConfig(config: UcBqConfig, overrides?: { provider?: string; apiKey?: string }): LlmConfig {
+  const provider = overrides?.provider || config.llm?.provider || 'anthropic';
+
+  // Resolve API key: CLI override > env var from config > default env var for provider
+  let apiKey = overrides?.apiKey;
+  let apiKeyEnv = config.llm?.api_key_env;
+
+  if (!apiKey) {
+    const envVarName = apiKeyEnv || DEFAULT_API_KEY_ENV[provider] || '';
+    if (envVarName) {
+      apiKey = process.env[envVarName];
+      apiKeyEnv = envVarName;
+    }
+  }
+
+  return {
+    provider,
+    apiKey,
+    apiKeyEnv,
+    analysisModel: config.llm?.analysis_model,
+    schemaFilterModel: config.llm?.schema_filter_model,
+    region: config.llm?.region,
+  };
 }

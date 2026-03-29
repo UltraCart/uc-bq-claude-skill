@@ -1,4 +1,4 @@
-import Anthropic from '@anthropic-ai/sdk';
+import type { LlmProvider, LlmMessage } from './llm/provider';
 
 const SCHEMA_FILTER_SYSTEM_PROMPT = `You are an expert at taking a natural language query from users for building reports or charts and filtering down BigQuery schema to fields highly likely to be used by another AI agent to write the query. Take the user's query and the schema in JSON format, then return only the applicable schema in minified single line JSON format inside a markdown code block (\`\`\`json).
 
@@ -17,36 +17,28 @@ Do not include any other output, explanations, or unnecessary whitespace to mini
 export async function filterSchemaWithLLM(
   schema: any[],
   naturalLanguageQuery: string,
-  apiKey: string
+  provider: LlmProvider,
+  model: string
 ): Promise<any[]> {
-  if (!apiKey || !apiKey.startsWith('sk-')) {
-    throw new Error('Invalid Anthropic API key format. Key should start with "sk-".');
-  }
-  const client = new Anthropic({ apiKey });
+  const messages: LlmMessage[] = [
+    { role: 'system', content: SCHEMA_FILTER_SYSTEM_PROMPT },
+    {
+      role: 'user',
+      content: `Here is the BigQuery schema:\n\`\`\`json\n${JSON.stringify(schema)}\n\`\`\``,
+    },
+    {
+      role: 'user',
+      content: `Please filter the schema based on this query: ${naturalLanguageQuery}`,
+    },
+  ];
 
-  const response = await client.messages.create({
-    model: 'claude-haiku-4-5-20251001',
-    max_tokens: 8192,
+  const text = await provider.complete(messages, {
+    model,
+    maxTokens: 8192,
     temperature: 0,
-    system: SCHEMA_FILTER_SYSTEM_PROMPT,
-    messages: [
-      {
-        role: 'user',
-        content: `Here is the BigQuery schema:\n\`\`\`json\n${JSON.stringify(schema)}\n\`\`\``,
-      },
-      {
-        role: 'user',
-        content: `Please filter the schema based on this query: ${naturalLanguageQuery}`,
-      },
-    ],
   });
 
   // Extract the JSON from the markdown code block
-  const text = response.content
-    .filter((block): block is Anthropic.TextBlock => block.type === 'text')
-    .map((block) => block.text)
-    .join('');
-
   const match = text.match(/```json\s*([\s\S]*?)```/);
   if (match) {
     return JSON.parse(match[1].trim());

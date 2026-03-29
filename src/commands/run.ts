@@ -1,7 +1,9 @@
 import { Command } from 'commander';
 import * as fs from 'fs';
 import * as path from 'path';
-import { loadConfig, resolveMerchant } from '../lib/config';
+import { loadConfig, resolveMerchant, resolveLlmConfig } from '../lib/config';
+import { createProvider } from '../lib/llm';
+import { getDefaultModels } from '../lib/llm/models';
 import { executeQuery, QueryParameter } from '../lib/bigquery';
 import { loadManifest, saveManifest, addRunHistoryEntry } from '../lib/manifest';
 import { resolveParameters, ReportParameter } from '../lib/params';
@@ -183,20 +185,29 @@ export const runCommand = new Command('run')
         const promptFile = safePath(reportDir, analysisConfig.prompt_file || 'analysis_prompt.md');
         const outputFile = safePath(reportDir, analysisConfig.output_file || 'report.md');
 
-        // Determine API key: CLI flag > environment variable
-        const apiKey = options.analysisApiKey || process.env.ANTHROPIC_API_KEY;
+        // Resolve LLM config: CLI flags > config file > defaults
+        const llmConfig = resolveLlmConfig(config, {
+          provider: globalOpts.llmProvider,
+          apiKey: options.analysisApiKey,
+        });
+        const defaultModels = getDefaultModels(llmConfig.provider);
+        const analysisModel = options.analysisModel || llmConfig.analysisModel || defaultModels.analysis;
 
-        if (apiKey && fs.existsSync(promptFile)) {
+        if ((llmConfig.apiKey || llmConfig.provider === 'bedrock') && fs.existsSync(promptFile)) {
           console.log('  Generating analysis...');
           try {
+            const provider = createProvider(llmConfig.provider, {
+              apiKey: llmConfig.apiKey,
+              region: llmConfig.region,
+            });
             const chartPng = path.join(reportDir, 'chart.png');
             await generateAnalysis({
-              apiKey,
+              provider,
               analysisPromptPath: promptFile,
               dataJsonPath: dataPath,
               chartPngPath: fs.existsSync(chartPng) ? chartPng : undefined,
               outputPath: outputFile,
-              model: options.analysisModel,
+              model: analysisModel,
             });
             console.log(`  Analysis: ${path.relative(process.cwd(), outputFile)}`);
           } catch (err: any) {
@@ -205,7 +216,7 @@ export const runCommand = new Command('run')
         } else if (!fs.existsSync(promptFile)) {
           console.log('  Analysis: No analysis_prompt.md found. Use Claude Code to generate one.');
         } else {
-          console.log('  Analysis: Set --analysis-api-key or ANTHROPIC_API_KEY to generate analysis on replay.');
+          console.log(`  Analysis: Set --analysis-api-key or ${llmConfig.apiKeyEnv || 'ANTHROPIC_API_KEY'} to generate analysis on replay.`);
         }
       }
 

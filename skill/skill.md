@@ -28,10 +28,17 @@ The CLI supports multiple merchants in a single config file. The config uses `de
       "taxonomy_level": "standard"
     }
   },
-  "max_query_bytes": 10737418240
+  "max_query_bytes": 10737418240,
+  "llm": {
+    "provider": "openai",
+    "api_key_env": "OPENAI_API_KEY",
+    "analysis_model": "gpt-4o",
+    "schema_filter_model": "gpt-4o-mini"
+  }
 }
 ```
 
+- **`llm`**: Optional. Configures the LLM provider for headless analysis generation and schema filtering. All fields optional; defaults to Anthropic. Supported providers: `anthropic`, `openai`, `grok`, `bedrock`, `gemini`. **This setting does not affect Claude Code interactive usage** -- when the merchant is using the skill in Claude Code, Claude Code itself is the LLM. The provider config only applies to headless/scheduled operations (`--analysis-api-key`, `uc-bq run` with API key, etc.).
 - **`max_query_bytes`**: Maximum bytes a query can process before being aborted (default: 10737418240 = 10 GB). Set to `0` to disable. Can be overridden per-command with `--max-bytes`.
 - **Project ID derivation**: `ultracart-dw-{merchantid}` (e.g., merchant `DEMO` -> project `ultracart-dw-demo`)
 - **Report storage**: Reports are stored under `./reports/{merchant_id}/{report-name}/`
@@ -67,6 +74,7 @@ All BigQuery operations go through the `uc-bq` CLI. Never call BigQuery APIs dir
 
 All commands accept these flags:
 - `--merchant=ID` / `-m ID` -- Override the default merchant for this command
+- `--llm-provider=PROVIDER` -- Override the configured LLM provider for this command (one of: `anthropic`, `openai`, `grok`, `bedrock`, `gemini`)
 
 ### `uc-bq init`
 Interactive setup. Creates `.ultracart-bq.json` in the project root.

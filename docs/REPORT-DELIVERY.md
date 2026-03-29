@@ -323,7 +323,9 @@ jobs:
 
       - name: Run and deliver with deep analysis
         env:
+          # Set the API key for your configured LLM provider:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           EMAIL_FROM: ${{ vars.EMAIL_FROM }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
@@ -342,7 +344,7 @@ jobs:
 |--------|---------|
 | `GCP_SA_KEY` | BigQuery authentication |
 | `SLACK_BOT_TOKEN` | Slack delivery |
-| `ANTHROPIC_API_KEY` | AI-generated analysis (optional) |
+| LLM provider API key | AI-generated analysis (optional) -- set the key matching your `llm.provider` config (e.g., `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `XAI_API_KEY`, `GOOGLE_API_KEY`, or AWS credentials for Bedrock) |
 | Provider API key(s) | Whichever email provider you use |
 
 | Variable | Purpose |

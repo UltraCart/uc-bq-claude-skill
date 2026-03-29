@@ -105,8 +105,18 @@ Go to your repo -> Settings -> Secrets and variables -> Actions, and add:
 |--------|-------|---------|
 | `GCP_SA_KEY` | Your service account JSON key (entire file contents) | BigQuery authentication |
 | `SLACK_BOT_TOKEN` | `xoxb-...` | Slack delivery (if using Slack) |
-| `ANTHROPIC_API_KEY` | `sk-ant-...` | AI-generated analysis (optional) |
+| LLM provider API key | See below | AI-generated analysis (optional) |
 | Email provider key | e.g., `SENDGRID_API_KEY` | Email delivery (if using email) |
+
+**LLM provider API key** -- set the secret matching the provider in your `.ultracart-bq.json` `llm.provider` config:
+
+| Provider | Secret Name | Value |
+|----------|-------------|-------|
+| `anthropic` (default) | `ANTHROPIC_API_KEY` | `sk-ant-...` |
+| `openai` | `OPENAI_API_KEY` | `sk-...` |
+| `grok` | `XAI_API_KEY` | `xai-...` |
+| `bedrock` | (uses AWS credential chain -- configure via `GCP_SA_KEY` or AWS-specific auth) | AWS credentials |
+| `gemini` | `GOOGLE_API_KEY` | `AIza...` |
 
 | Variable | Value | Purpose |
 |----------|-------|---------|
@@ -173,7 +183,9 @@ jobs:
 
 ### Weekly Reports with AI Analysis
 
-If you want the executive analysis regenerated with fresh data each week, add the API key:
+If you want the executive analysis regenerated with fresh data each week, add the API key for your configured LLM provider. The provider is set in your `.ultracart-bq.json` `llm` section (defaults to Anthropic if not specified).
+
+**With Anthropic (default):**
 
 ```yaml
       - name: Run and deliver all reports with analysis
@@ -185,7 +197,21 @@ If you want the executive analysis regenerated with fresh data each week, add th
         run: uc-bq run-all --deliver --analysis-model=claude-haiku-4-5-20251001
 ```
 
-Use Haiku for scheduled runs — it's cheap (~$0.002/report) and good enough for recurring analysis. Save Sonnet/Opus for interactive sessions.
+**With OpenAI:**
+
+```yaml
+      - name: Run and deliver all reports with analysis
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          EMAIL_FROM: ${{ vars.EMAIL_FROM }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        run: uc-bq run-all --deliver --llm-provider=openai
+```
+
+You can also override the provider per-command with `--llm-provider` without changing your config. The provider's default models are used unless you specify `--analysis-model`.
+
+Use smaller/cheaper models for scheduled runs (Haiku, gpt-4o-mini, gemini-2.0-flash-lite) and save larger models for interactive sessions.
 
 ### Daily Chart Snapshots (Lightweight)
 
@@ -251,7 +277,9 @@ jobs:
 
       - name: Run and deliver with deep analysis
         env:
+          # Set the API key for your configured LLM provider:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           EMAIL_FROM: ${{ vars.EMAIL_FROM }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
@@ -305,13 +333,13 @@ For a merchant running 5 reports weekly:
 |-----------|------|-------|
 | GitHub Actions | Free | Well within 2,000 min/month free tier (~2 min per run) |
 | BigQuery | ~$0.01-0.05/run | Depends on data scanned per query |
-| Anthropic API (Haiku) | ~$0.01/run | 5 reports x ~$0.002 each |
-| Anthropic API (Sonnet) | ~$0.15/run | 5 reports x ~$0.03 each |
+| LLM API (small model) | ~$0.01/run | 5 reports x ~$0.002 each (e.g., Haiku, gpt-4o-mini, gemini-flash-lite) |
+| LLM API (large model) | ~$0.15/run | 5 reports x ~$0.03 each (e.g., Sonnet, gpt-4o, gemini-flash) |
 | Slack | Free | Bot tokens are free |
 | Email (SendGrid) | Free | Free tier: 100 emails/day |
 | **Total (no analysis)** | **~$0.05/week** | **$2.60/year** |
-| **Total (Haiku analysis)** | **~$0.06/week** | **$3.12/year** |
-| **Total (Sonnet analysis)** | **~$0.20/week** | **$10.40/year** |
+| **Total (small model)** | **~$0.06/week** | **$3.12/year** |
+| **Total (large model)** | **~$0.20/week** | **$10.40/year** |
 
 ---
 
@@ -391,7 +419,7 @@ If you're running into issues with Chromium on a specific runner, you can set th
 
 - **GCP credentials** are stored as GitHub Secrets — never exposed in logs or workflow files
 - **Slack tokens** are stored as GitHub Secrets
-- **Anthropic API keys** are stored as GitHub Secrets
+- **LLM provider API keys** (Anthropic, OpenAI, xAI, Google, etc.) are stored as GitHub Secrets
 - **Email provider API keys** are stored as GitHub Secrets
 - **The config file** contains only merchant IDs and taxonomy levels — no secrets
 - **Delivery config** in manifests contains channel IDs and email addresses but no tokens or keys

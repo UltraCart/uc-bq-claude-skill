@@ -20,7 +20,8 @@ program
   .name('uc-bq')
   .description('UltraCart BigQuery reporting CLI — create, refine, and replay e-commerce reports')
   .version(pkg.version)
-  .option('-m, --merchant <id>', 'Merchant ID (overrides default_merchant in config)');
+  .option('-m, --merchant <id>', 'Merchant ID (overrides default_merchant in config)')
+  .option('--llm-provider <provider>', 'LLM provider: anthropic, openai, grok, bedrock, gemini');
 
 program.addCommand(initCommand);
 program.addCommand(schemaCommand);

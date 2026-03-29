@@ -1,6 +1,8 @@
 import { Command } from 'commander';
 import { BigQuery } from '@google-cloud/bigquery';
-import { loadConfig, resolveMerchant } from '../lib/config';
+import { loadConfig, resolveMerchant, resolveLlmConfig } from '../lib/config';
+import { createProvider } from '../lib/llm';
+import { getDefaultModels } from '../lib/llm/models';
 import { getTables, getTableSchema, getExternalTables, getExternalTableSchema, refreshSchemaCache } from '../lib/bigquery';
 import { filterSchemaWithLLM } from '../lib/schema-filter';
 
@@ -84,7 +86,14 @@ export const schemaCommand = new Command('schema')
       }
 
       const tableNames = options.tables.split(',').map((t: string) => t.trim());
-      const apiKey = options.apiKey || process.env.ANTHROPIC_API_KEY;
+
+      // Resolve LLM config for schema filtering
+      const llmConfig = resolveLlmConfig(config, {
+        provider: globalOpts.llmProvider,
+        apiKey: options.apiKey,
+      });
+      const defaultModels = getDefaultModels(llmConfig.provider);
+      const schemaFilterModel = llmConfig.schemaFilterModel || defaultModels.schemaFilter;
 
       const results: Record<string, any[]> = {};
 
@@ -106,9 +115,13 @@ export const schemaCommand = new Command('schema')
         }
 
         let filtered: any[];
-        if (options.filter && apiKey) {
-          // LLM-powered filtering via Haiku
-          filtered = await filterSchemaWithLLM(columns, options.filter, apiKey);
+        if (options.filter && (llmConfig.apiKey || llmConfig.provider === 'bedrock')) {
+          // LLM-powered filtering
+          const llmProvider = createProvider(llmConfig.provider, {
+            apiKey: llmConfig.apiKey,
+            region: llmConfig.region,
+          });
+          filtered = await filterSchemaWithLLM(columns, options.filter, llmProvider, schemaFilterModel);
         } else if (options.filter) {
           // Keyword fallback (no API key available)
           const filterKeywords = options.filter.split(',').map((k: string) => k.trim().toLowerCase());

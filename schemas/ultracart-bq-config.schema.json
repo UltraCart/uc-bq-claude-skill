@@ -57,6 +57,34 @@
         }
       },
       "additionalProperties": false
+    },
+    "llm": {
+      "type": "object",
+      "description": "LLM provider configuration for analysis and schema filtering",
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "type": "string",
+          "enum": ["anthropic", "openai", "grok", "bedrock", "gemini"],
+          "description": "LLM provider to use for analysis and schema filtering"
+        },
+        "api_key_env": {
+          "type": "string",
+          "description": "Environment variable name containing the API key"
+        },
+        "analysis_model": {
+          "type": "string",
+          "description": "Model to use for report analysis generation"
+        },
+        "schema_filter_model": {
+          "type": "string",
+          "description": "Model to use for LLM-powered schema filtering"
+        },
+        "region": {
+          "type": "string",
+          "description": "AWS region for Bedrock provider"
+        }
+      }
     }
   },
   "$defs": {

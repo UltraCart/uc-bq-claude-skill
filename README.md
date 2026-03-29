@@ -27,6 +27,8 @@ The key insight: **design a report once with Claude Code, replay it forever with
 npm install -g @ultracart/bq-skill
 ```
 
+All LLM provider SDKs (Anthropic, OpenAI, Google Gemini, AWS Bedrock) are bundled — no extra installs needed.
+
 ## Quick Start
 
 ### 1. Configure
@@ -49,7 +51,13 @@ Or create the config manually:
   "output_format": "png",
   "chart_theme": "default",
   "chart_defaults": { "width": 1200, "height": 600 },
-  "max_query_bytes": 10737418240
+  "max_query_bytes": 10737418240,
+  "llm": {
+    "provider": "anthropic",
+    "api_key_env": "ANTHROPIC_API_KEY",
+    "analysis_model": "claude-sonnet-4-5-20250929",
+    "schema_filter_model": "claude-haiku-4-5-20251001"
+  }
 }
 ```
 
@@ -64,6 +72,8 @@ Add more merchants to manage multiple stores from one config:
   }
 }
 ```
+
+The `llm` section is optional. All fields within it are optional. If omitted, the CLI defaults to Anthropic. See [LLM Providers](#llm-providers) for details.
 
 Use the global `--merchant` / `-m` flag to target a specific merchant on any command:
 
@@ -306,6 +316,58 @@ uc-bq history revenue-by-category
 #   2026-03-21   start=2025-12-21 end=2026-03-21    1,189  2.3 GB
 ```
 
+## LLM Providers
+
+The CLI supports 5 LLM providers for analysis generation (`uc-bq run` with API key) and schema filtering. All provider SDKs are bundled — just set your provider and API key.
+
+**Note:** When using the skill interactively in Claude Code, the LLM provider config does not matter. Claude Code itself is the LLM doing the thinking. The provider config only applies to headless/scheduled operations (`--analysis-api-key`, `uc-bq run` with an API key, etc.).
+
+### Supported Providers
+
+| Provider | SDK | API Key Env | Analysis Model | Filter Model |
+|----------|-----|-------------|----------------|-------------|
+| `anthropic` (default) | `@anthropic-ai/sdk` | `ANTHROPIC_API_KEY` | `claude-sonnet-4-5-20250929` | `claude-haiku-4-5-20251001` |
+| `openai` | `openai` | `OPENAI_API_KEY` | `gpt-4o` | `gpt-4o-mini` |
+| `grok` | `openai` | `XAI_API_KEY` | `grok-2` | `grok-2` |
+| `bedrock` | `@aws-sdk/client-bedrock-runtime` | AWS credential chain | `anthropic.claude-sonnet-4-5-20250929-v1:0` | `anthropic.claude-haiku-4-5-20251001-v1:0` |
+| `gemini` | `@google/generative-ai` | `GOOGLE_API_KEY` | `gemini-2.0-flash` | `gemini-2.0-flash-lite` |
+
+### Configuration
+
+Add an `llm` section to `.ultracart-bq.json`:
+
+```json
+{
+  "llm": {
+    "provider": "openai",
+    "api_key_env": "OPENAI_API_KEY",
+    "analysis_model": "gpt-4o",
+    "schema_filter_model": "gpt-4o-mini"
+  }
+}
+```
+
+All fields are optional. If omitted entirely, the CLI defaults to Anthropic.
+
+### `--llm-provider` flag
+
+Override the configured provider for a single command:
+
+```bash
+uc-bq run revenue-by-category --llm-provider=openai --analysis-api-key=$OPENAI_API_KEY
+uc-bq run-all --llm-provider=gemini --deliver
+```
+
+This is a global flag available on all commands. It overrides the `llm.provider` value from your config for that invocation only.
+
+### Provider Installation
+
+All provider SDKs are bundled with the package. Just install `@ultracart/bq-skill` and all providers are available:
+
+```bash
+npm install -g @ultracart/bq-skill
+```
+
 ## Report Structure
 
 Each report is a self-contained directory, scoped by merchant:
@@ -400,11 +462,15 @@ See [docs/REPORT-DELIVERY.md](docs/REPORT-DELIVERY.md) for full setup instructio
 
 ## Scheduling Reports
 
-Since `uc-bq run` is pure Node.js with no LLM dependency, you can schedule it with cron or CI/CD:
+Since `uc-bq run` is pure Node.js with no LLM dependency, you can schedule it with cron or CI/CD. If you want AI-generated analysis on scheduled runs, set the appropriate API key for your configured LLM provider:
 
 ```bash
-# Crontab: refresh all reports every Monday at 6am
+# Crontab: refresh all reports every Monday at 6am (no analysis)
 0 6 * * 1 cd /path/to/project && uc-bq run-all --no-analysis --start_date=-7d --end_date=today
+
+# With analysis using your configured provider (set the matching API key)
+0 6 * * 1 cd /path/to/project && ANTHROPIC_API_KEY=sk-... uc-bq run-all
+0 6 * * 1 cd /path/to/project && OPENAI_API_KEY=sk-... uc-bq run-all --llm-provider=openai
 ```
 
 ```yaml
@@ -428,6 +494,11 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           EMAIL_FROM: ${{ vars.EMAIL_FROM }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          # Set the API key matching your configured LLM provider (if using analysis):
+          # ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          # GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
       - uses: actions/upload-artifact@v4
         with: { name: reports, path: './reports/**/chart.png' }
 ```

@@ -1,22 +1,17 @@
-import Anthropic from '@anthropic-ai/sdk';
 import * as fs from 'fs';
 import * as path from 'path';
+import type { LlmProvider, LlmMessage, LlmContentPart } from './llm/provider';
 
 export interface AnalysisOptions {
-  apiKey: string;
+  provider: LlmProvider;
   analysisPromptPath: string;
   dataJsonPath: string;
   chartPngPath?: string;
   outputPath: string;
-  model?: string;
+  model: string;
 }
 
 export async function generateAnalysis(options: AnalysisOptions): Promise<string> {
-  if (!options.apiKey || !options.apiKey.startsWith('sk-')) {
-    throw new Error('Invalid Anthropic API key format. Key should start with "sk-".');
-  }
-  const client = new Anthropic({ apiKey: options.apiKey });
-
   const analysisPrompt = fs.readFileSync(options.analysisPromptPath, 'utf-8');
   const rawData = fs.readFileSync(options.dataJsonPath, 'utf-8');
 
@@ -29,48 +24,42 @@ export async function generateAnalysis(options: AnalysisOptions): Promise<string
     dataStr = rawData;
   }
 
-  // Build the message content
-  const content: Anthropic.MessageCreateParams['messages'][0]['content'] = [];
+  // Build user message content parts
+  const contentParts: LlmContentPart[] = [];
 
-  content.push({
-    type: 'text' as const,
+  contentParts.push({
+    type: 'text',
     text: `Here is the query result data (JSON):\n\n\`\`\`json\n${dataStr}\n\`\`\``,
   });
 
   // Include chart PNG if available
   if (options.chartPngPath && fs.existsSync(options.chartPngPath)) {
     const pngData = fs.readFileSync(options.chartPngPath);
-    content.push({
-      type: 'image' as const,
-      source: {
-        type: 'base64' as const,
-        media_type: 'image/png' as const,
-        data: pngData.toString('base64'),
-      },
+    contentParts.push({
+      type: 'image',
+      mediaType: 'image/png',
+      base64Data: pngData.toString('base64'),
     });
-    content.push({
-      type: 'text' as const,
+    contentParts.push({
+      type: 'text',
       text: 'Above is the rendered chart visualization for this report.',
     });
   }
 
-  content.push({
-    type: 'text' as const,
+  contentParts.push({
+    type: 'text',
     text: 'Please generate the executive analysis based on the data and visualization provided.',
   });
 
-  const response = await client.messages.create({
-    model: options.model || 'claude-sonnet-4-5-20250929',
-    max_tokens: 4096,
-    system: analysisPrompt,
-    messages: [{ role: 'user', content }],
-  });
+  const messages: LlmMessage[] = [
+    { role: 'system', content: analysisPrompt },
+    { role: 'user', content: contentParts },
+  ];
 
-  // Extract text from response
-  const analysisText = response.content
-    .filter((block): block is Anthropic.TextBlock => block.type === 'text')
-    .map((block) => block.text)
-    .join('\n\n');
+  const analysisText = await options.provider.complete(messages, {
+    model: options.model,
+    maxTokens: 4096,
+  });
 
   // Write to output file
   fs.writeFileSync(options.outputPath, analysisText);

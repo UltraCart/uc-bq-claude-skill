@@ -409,7 +409,7 @@ Now every time you run `uc-bq run top-products-by-revenue`, the PDF comes out la
 
 > **You:** What if I want to run this report on a schedule and still get the written analysis without Claude Code?
 
-**Claude Code:** You can pass your Anthropic API key and the CLI will call the Claude API directly to generate the analysis:
+**Claude Code:** You can pass your LLM provider's API key and the CLI will call the API directly to generate the analysis. By default it uses Anthropic, but you can configure any supported provider (see the LLM provider question below).
 
 ```bash
 uc-bq run top-products-by-revenue --analysis-api-key=$ANTHROPIC_API_KEY
@@ -447,6 +447,13 @@ You can also set the key as an environment variable so you don't have to pass it
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
 uc-bq run-all    # All reports get fresh analysis with default model (Sonnet)
+```
+
+Or if you're using a different provider:
+
+```bash
+export OPENAI_API_KEY=sk-...
+uc-bq run-all --llm-provider=openai
 ```
 
 Three ways to get the executive analysis:
@@ -746,13 +753,59 @@ The PDF gets uploaded to your Slack channel and emailed to both addresses. If de
 0 6 * * 1 cd /path/to/project && uc-bq run-all --deliver --no-analysis
 ```
 
-Or if you want fresh executive analysis too, set your API key:
+Or if you want fresh executive analysis too, set the API key for your configured LLM provider:
 
 ```bash
+# Anthropic (default provider)
 0 6 * * 1 cd /path/to/project && ANTHROPIC_API_KEY=sk-... uc-bq run-all --deliver
+
+# Or with a different provider
+0 6 * * 1 cd /path/to/project && OPENAI_API_KEY=sk-... uc-bq run-all --deliver --llm-provider=openai
 ```
 
 The reports will replay with fresh data — the `-90d` and `today` defaults resolve at runtime, so each Monday you get the latest 90-day window automatically. The `--deliver` flag sends each report to whatever Slack channel and email addresses are in its manifest. No Claude Code subscription needed for replay.
+
+---
+
+> **You:** Can I use OpenAI instead of Anthropic for the scheduled analysis?
+
+**Claude Code:** Yes -- the CLI supports multiple LLM providers for headless analysis. You can configure it in your `.ultracart-bq.json`:
+
+```json
+{
+  "llm": {
+    "provider": "openai",
+    "api_key_env": "OPENAI_API_KEY",
+    "analysis_model": "gpt-4o",
+    "schema_filter_model": "gpt-4o-mini"
+  }
+}
+```
+
+All provider SDKs are bundled, so just set your API key:
+
+```bash
+export OPENAI_API_KEY=sk-...
+uc-bq run-all --deliver
+```
+
+You can also override the provider for a single command without changing your config:
+
+```bash
+uc-bq run revenue-by-category --llm-provider=openai --analysis-api-key=$OPENAI_API_KEY
+```
+
+Five providers are supported:
+
+| Provider | SDK to Install | API Key Env |
+|----------|---------------|-------------|
+| `anthropic` (default) | `@anthropic-ai/sdk` | `ANTHROPIC_API_KEY` |
+| `openai` | `openai` | `OPENAI_API_KEY` |
+| `grok` (xAI) | `openai` | `XAI_API_KEY` |
+| `bedrock` | `@aws-sdk/client-bedrock-runtime` | AWS credential chain |
+| `gemini` | `@google/generative-ai` | `GOOGLE_API_KEY` |
+
+This only affects scheduled/headless runs. Right now, in this Claude Code session, I'm doing the thinking -- the provider config doesn't come into play for interactive usage.
 
 ---
 
