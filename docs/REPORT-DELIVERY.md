@@ -36,7 +36,7 @@ parameters:
 
 delivery:
   slack:
-    channel: "C0123456789"
+    channels: ["C0123456789"]
   email:
     to: ["ceo@example.com", "marketing@example.com"]
     subject: "Weekly: Revenue by Payment Method"
@@ -70,10 +70,10 @@ The `delivery` section is optional. Reports without it are unaffected by `--deli
 ```yaml
 delivery:
   slack:
-    channel: "C0123456789"    # Channel ID (not channel name)
+    channels: ["C0123456789"]    # Channel ID(s) (not channel names)
 ```
 
-Uploads the report PDF (or chart PNG if no PDF exists) to the specified Slack channel with a formatted message.
+Uploads the report PDF (or chart PNG if no PDF exists) to the specified Slack channel(s) with a formatted message.
 
 ### Email delivery
 
@@ -92,7 +92,7 @@ Sends the report PDF as an attachment to the listed recipients. The `subject` fi
 ```yaml
 delivery:
   slack:
-    channel: "C0123456789"
+    channels: ["C0123456789"]
   email:
     to: ["reports@example.com"]
     subject: "Weekly Revenue Report"
@@ -135,7 +135,11 @@ In the target channel, type `/invite @YourBotName` so the bot can post there.
 export SLACK_BOT_TOKEN=xoxb-your-token-here
 ```
 
-Add the channel ID to the report manifest's `delivery.slack.channel` field.
+Add the channel ID to the report manifest using the CLI:
+
+```bash
+uc-bq config add-slack <report> C0123456789
+```
 
 ---
 
@@ -353,7 +357,7 @@ When managing multiple merchants, each report manifest contains its own delivery
 
 ### Same Slack workspace
 
-If all clients share a workspace (e.g., channels in your agency's Slack), one `SLACK_BOT_TOKEN` covers everything. Each manifest has the correct `delivery.slack.channel`.
+If all clients share a workspace (e.g., channels in your agency's Slack), one `SLACK_BOT_TOKEN` covers everything. Each manifest has the correct `delivery.slack.channels`.
 
 ### Separate Slack workspaces
 
@@ -403,6 +407,63 @@ export POSTMARK_API_KEY=xxx           # Used by reports with provider: "postmark
 
 ---
 
+## Managing Delivery via CLI
+
+Instead of hand-editing `report.yaml`, use the `uc-bq config` delivery commands to manage Slack channels and email settings for any report.
+
+### Slack channels
+
+```bash
+# Add one or more Slack channels to a report
+uc-bq config add-slack revenue-by-payment C0123456789 C9876543210
+
+# Remove a channel
+uc-bq config remove-slack revenue-by-payment C9876543210
+```
+
+### Email — full setup
+
+```bash
+# Set the complete email config at once
+uc-bq config set-email revenue-by-payment \
+  --to=ceo@example.com,marketing@example.com \
+  --provider=sendgrid \
+  --subject="Weekly: Revenue by Payment Method"
+```
+
+### Email — incremental changes
+
+```bash
+# Add recipients
+uc-bq config add-email revenue-by-payment ops@example.com
+
+# Remove recipients
+uc-bq config remove-email revenue-by-payment ops@example.com
+
+# Change the email provider
+uc-bq config set-email-provider revenue-by-payment postmark
+
+# Change the subject line
+uc-bq config set-email-subject revenue-by-payment "Monthly: Revenue by Payment Method"
+```
+
+### View delivery config
+
+```bash
+uc-bq config show-delivery revenue-by-payment
+```
+
+```
+Delivery config for "revenue-by-payment":
+  Slack channels: C0123456789
+  Email:
+    To: ceo@example.com, marketing@example.com
+    Provider: sendgrid
+    Subject: Weekly: Revenue by Payment Method
+```
+
+---
+
 ## Failure Handling
 
 Delivery failures are isolated and non-fatal:
@@ -447,7 +508,7 @@ parameters:
 
 delivery:
   slack:
-    channel: "C0123456789"
+    channels: ["C0123456789"]
   email:
     to: ["ceo@example.com", "marketing@example.com"]
     subject: "Weekly: Revenue by Payment Method"

@@ -668,17 +668,43 @@ I can see `campaign_name`, `campaign_id`, `cost`, `impressions`, `clicks`, and `
 
 > **You:** Slack channel is C0123456789. Email to reports@example.com and ceo@example.com. We use SendGrid.
 
-**Claude Code:** I'll add the delivery section to the report manifest:
+**Claude Code:** I'll set up the delivery config using the CLI:
+
+```bash
+uc-bq config add-slack revenue-by-state C0123456789
+```
+
+```
+Added Slack channel C0123456789 to report "revenue-by-state"
+```
+
+```bash
+uc-bq config set-email revenue-by-state \
+  --to=reports@example.com,ceo@example.com \
+  --provider=sendgrid \
+  --subject="Revenue by State"
+```
+
+```
+Set email delivery for report "revenue-by-state":
+  To: reports@example.com, ceo@example.com
+  Provider: sendgrid
+  Subject: Revenue by State
+```
+
+The manifest now has:
 
 ```yaml
 delivery:
   slack:
-    channel: "C0123456789"
+    channels: ["C0123456789"]
   email:
     to: ["reports@example.com", "ceo@example.com"]
     subject: "Revenue by State"
     provider: "sendgrid"
 ```
+
+You can verify with `uc-bq config show-delivery revenue-by-state`, and add or remove channels/recipients later with `uc-bq config add-slack`, `uc-bq config remove-email`, etc.
 
 You'll need these environment variables set:
 - `SLACK_BOT_TOKEN` — your Slack bot token (`xoxb-...`)

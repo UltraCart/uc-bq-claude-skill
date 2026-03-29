@@ -34,8 +34,8 @@ export async function deliverReport(reportDir: string, manifest: ReportManifest)
   if (manifest.delivery.slack) {
     try {
       const comment = `${manifest.name} — ${new Date().toISOString().split('T')[0]}`;
-      await deliverSlack(filePath, fileName, manifest.delivery.slack.channel, comment);
-      console.log(`  Delivered to Slack channel: ${manifest.delivery.slack.channel}`);
+      await deliverSlack(filePath, fileName, manifest.delivery.slack.channels, comment);
+      console.log(`  Delivered to Slack channels: ${manifest.delivery.slack.channels.join(', ')}`);
     } catch (err: any) {
       console.error(`  Slack delivery failed: ${err.message}`);
     }

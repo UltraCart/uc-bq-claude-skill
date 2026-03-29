@@ -154,12 +154,16 @@
         "slack": {
           "type": "object",
           "properties": {
-            "channel": {
-              "type": "string",
-              "description": "Slack channel ID (e.g., C0123456789)"
+            "channels": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "Slack channel IDs (e.g., C0123456789)"
             }
           },
-          "required": ["channel"],
+          "required": ["channels"],
           "additionalProperties": false
         },
         "email": {

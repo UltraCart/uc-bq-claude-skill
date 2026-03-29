@@ -125,6 +125,16 @@ uc-bq config add-dataset <alias> <dataset> [--discover]        # Add dataset to 
 uc-bq config remove-dataset <alias> <dataset>                  # Remove dataset
 uc-bq config add-tables <alias> <dataset> <tables...>          # Expose specific tables
 uc-bq config remove-tables <alias> <dataset> <tables...>       # Remove table access
+
+# Delivery config
+uc-bq config add-slack <report> <channel-id...>                # Add Slack channel(s) to a report
+uc-bq config remove-slack <report> <channel-id...>             # Remove Slack channel(s)
+uc-bq config set-email <report> --to=a@example.com,b@example.com --provider=sendgrid --subject="Weekly"  # Set full email config
+uc-bq config add-email <report> <email...>                     # Add email recipient(s)
+uc-bq config remove-email <report> <email...>                  # Remove email recipient(s)
+uc-bq config set-email-provider <report> <provider>            # Set email provider
+uc-bq config set-email-subject <report> <subject>              # Set email subject line
+uc-bq config show-delivery <report>                            # Show delivery config for a report
 ```
 
 ### `uc-bq schema`
@@ -336,7 +346,7 @@ parameters:
 
 delivery:                                # Optional: auto-deliver on --deliver
   slack:
-    channel: "C0123456789"
+    channels: ["C0123456789", "C9876543210"]
   email:
     to: ["ceo@example.com", "marketing@example.com"]
     subject: "Weekly: Revenue by Product Category"
@@ -368,7 +378,7 @@ Reports can be automatically delivered to Slack channels and email recipients af
 ```yaml
 delivery:
   slack:
-    channel: "C0123456789"
+    channels: ["C0123456789", "C9876543210"]
   email:
     to: ["ceo@example.com", "marketing@example.com"]
     subject: "Weekly: Revenue by Payment Method"

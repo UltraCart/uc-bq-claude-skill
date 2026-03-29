@@ -1,13 +1,13 @@
 import * as fs from 'fs';
 
 /**
- * Deliver a file to a Slack channel via the files.upload API.
+ * Deliver a file to one or more Slack channels via the files.upload API.
  * Requires SLACK_BOT_TOKEN environment variable.
  */
 export async function deliverSlack(
   filePath: string,
   fileName: string,
-  channel: string,
+  channels: string[],
   comment?: string,
 ): Promise<void> {
   const token = process.env.SLACK_BOT_TOKEN;
@@ -19,28 +19,31 @@ export async function deliverSlack(
   }
 
   const fileBuffer = fs.readFileSync(filePath);
-  const form = new FormData();
-  form.append('file', new Blob([fileBuffer]), fileName);
-  form.append('channels', channel);
-  form.append('title', fileName);
-  if (comment) {
-    form.append('initial_comment', comment);
-  }
 
-  const resp = await fetch('https://slack.com/api/files.upload', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    body: form,
-  });
+  for (const channel of channels) {
+    const form = new FormData();
+    form.append('file', new Blob([fileBuffer]), fileName);
+    form.append('channels', channel);
+    form.append('title', fileName);
+    if (comment) {
+      form.append('initial_comment', comment);
+    }
 
-  if (!resp.ok) {
-    throw new Error(`Slack API HTTP error: ${resp.status} ${resp.statusText}`);
-  }
+    const resp = await fetch('https://slack.com/api/files.upload', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: form,
+    });
 
-  const body = (await resp.json()) as { ok: boolean; error?: string };
-  if (!body.ok) {
-    throw new Error(`Slack API error: ${body.error || 'unknown error'}`);
+    if (!resp.ok) {
+      throw new Error(`Slack API HTTP error for channel ${channel}: ${resp.status} ${resp.statusText}`);
+    }
+
+    const body = (await resp.json()) as { ok: boolean; error?: string };
+    if (!body.ok) {
+      throw new Error(`Slack API error for channel ${channel}: ${body.error || 'unknown error'}`);
+    }
   }
 }

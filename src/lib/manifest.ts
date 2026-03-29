@@ -48,7 +48,7 @@ export interface ReportManifest {
     landscape?: boolean;
   };
   delivery?: {
-    slack?: { channel: string };
+    slack?: { channels: string[] };
     email?: { to: string[]; subject: string; provider: string };
   };
 }

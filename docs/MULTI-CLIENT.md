@@ -119,7 +119,7 @@ description: "Weekly revenue breakdown by acquisition channel"
 
 delivery:
   slack:
-    channel: "C0111111111"          # CLNT1's Slack channel
+    channels: ["C0111111111"]       # CLNT1's Slack channel(s)
   email:
     to: ["ceo@clnt1-example.com", "analytics@clnt1-example.com"]
     subject: "Weekly: Revenue by Channel"
@@ -136,7 +136,7 @@ name: "Revenue by Channel"
 
 delivery:
   slack:
-    channel: "C0222222222"          # CLNT2's Slack channel
+    channels: ["C0222222222"]       # CLNT2's Slack channel(s)
   email:
     to: ["owner@clnt2-example.com"]
     subject: "Weekly: Revenue by Channel"
@@ -178,7 +178,7 @@ The channel IDs and email addresses live in the manifests. API keys and bot toke
 
 ## Workflow: Same Slack Workspace
 
-If all your clients have channels in YOUR Slack workspace (simplest case), you only need one bot token. Each report manifest has the correct `delivery.slack.channel`, and `--deliver` routes to the right channel automatically.
+If all your clients have channels in YOUR Slack workspace (simplest case), you only need one bot token. Each report manifest has the correct `delivery.slack.channels`, and `--deliver` routes to the right channel(s) automatically.
 
 ```yaml
 name: Weekly Client Reports

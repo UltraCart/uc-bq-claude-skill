@@ -95,6 +95,16 @@ uc-bq config remove-dataset --merchant=DEMO --alias=marketing --dataset=google_a
 # Add/remove tables within a dataset
 uc-bq config add-tables --merchant=DEMO --alias=marketing --dataset=google_ads_data --tables=funnel_data,funnel_costs
 uc-bq config remove-tables --merchant=DEMO --alias=marketing --dataset=google_ads_data --tables=funnel_costs
+
+# Delivery config
+uc-bq config add-slack <report> <channel-id...>
+uc-bq config remove-slack <report> <channel-id...>
+uc-bq config set-email <report> --to=a@example.com,b@example.com --provider=sendgrid --subject="Weekly"
+uc-bq config add-email <report> <email...>
+uc-bq config remove-email <report> <email...>
+uc-bq config set-email-provider <report> <provider>
+uc-bq config set-email-subject <report> <subject>
+uc-bq config show-delivery <report>
 ```
 
 ### `uc-bq schema`
@@ -419,7 +429,7 @@ After saving the manifest, ask the merchant if they want to set up automatic del
 ```yaml
 delivery:
   slack:
-    channel: "C0123456789"
+    channels: ["C0123456789"]
   email:
     to: ["ceo@example.com"]
     subject: "Weekly: Report Name"
@@ -427,9 +437,29 @@ delivery:
 ```
 
 The `delivery` section is optional. Both `slack` and `email` subsections are independently optional. Guide the merchant through:
-- **Slack**: They need a bot token (`SLACK_BOT_TOKEN` env var) and the channel ID from Slack
+- **Slack**: They need a bot token (`SLACK_BOT_TOKEN` env var) and the channel ID(s) from Slack
 - **Email**: They need `EMAIL_FROM` env var plus the provider API key (e.g., `SENDGRID_API_KEY`)
 - **Providers**: SendGrid, Postmark, Mailgun, Resend, or AWS SES — all REST-based, no SMTP
+
+Use the delivery config CLI commands instead of hand-editing YAML:
+
+```bash
+# Slack channels
+uc-bq config add-slack <report> <channel-id...>
+uc-bq config remove-slack <report> <channel-id...>
+
+# Email — set full config at once
+uc-bq config set-email <report> --to=a@example.com,b@example.com --provider=sendgrid --subject="Weekly"
+
+# Email — incremental changes
+uc-bq config add-email <report> <email...>
+uc-bq config remove-email <report> <email...>
+uc-bq config set-email-provider <report> <provider>
+uc-bq config set-email-subject <report> <subject>
+
+# View current delivery config
+uc-bq config show-delivery <report>
+```
 
 Once configured, they can deliver with `uc-bq run <name> --deliver`.
 
@@ -830,7 +860,7 @@ run_history:
 
 delivery:                                  # Optional: auto-deliver on --deliver
   slack:
-    channel: "C0123456789"               # Slack channel ID
+    channels: ["C0123456789"]            # Slack channel ID(s)
   email:
     to: ["ceo@example.com"]              # Recipient list
     subject: "Weekly: Revenue Report"    # Optional (defaults to report name)
