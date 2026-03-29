@@ -349,6 +349,44 @@ Each merchant's reports have their own delivery config in their manifests (diffe
 
 ---
 
+## Puppeteer / Chart Rendering in GitHub Actions
+
+Yes, Puppeteer works in GitHub Actions out of the box. The `ubuntu-latest` runners have the Chromium system dependencies pre-installed, and Puppeteer bundles its own Chromium binary.
+
+The only downside: Puppeteer downloads ~400MB of Chromium on each run via `npm install`. To avoid this, cache the Puppeteer browser between runs:
+
+```yaml
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      # Cache Puppeteer's Chromium download
+      - name: Cache Puppeteer browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/puppeteer
+          key: puppeteer-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: puppeteer-${{ runner.os }}-
+
+      - run: npm install -g @ultracart/bq-skill
+
+      # ... rest of workflow
+```
+
+This caches `~/.cache/puppeteer` (where Chromium is stored) and restores it on subsequent runs. First run downloads Chromium (~30s), subsequent runs skip the download entirely.
+
+If you're running into issues with Chromium on a specific runner, you can set the environment variable to use the system-installed Chromium instead:
+
+```yaml
+      - name: Run reports
+        env:
+          PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium-browser
+        run: uc-bq run-all --deliver --no-analysis
+```
+
+---
+
 ## Security Notes
 
 - **GCP credentials** are stored as GitHub Secrets — never exposed in logs or workflow files
