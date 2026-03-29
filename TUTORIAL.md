@@ -831,6 +831,132 @@ That's 50 GB. Or set it to `0` to disable the check entirely.
 
 ---
 
+---
+
+> **You:** Can you combine all my reports into one PDF instead of sending them separately?
+
+**Claude Code:** Yes -- that's what decks are for. A deck bundles multiple reports into a single PDF with a branded cover page, clickable table of contents, and each report on its own page. Let me create one.
+
+First, let me see what reports you have:
+
+```bash
+uc-bq list
+```
+
+```
+Reports for merchant: DEMO
+
+Name                        Last Run    Description
+──────────────────────────────────────────────────────────────────────
+Top 10 Products by Revenue  2026-03-29  Highest-revenue products by total sales
+Revenue by State            2026-03-29  Revenue distribution across US states
+ROAS by Campaign            2026-03-29  Return on ad spend by Google Ads campaign
+```
+
+I'll create a deck that combines all three. I need a few things:
+1. What should the deck title be?
+2. Your company name (for the cover page)
+3. Do you have a logo URL?
+
+---
+
+> **You:** Call it "Weekly Executive Briefing". Company is DEMO Commerce Inc. No logo for now.
+
+**Claude Code:** Got it. I'll create the deck definition:
+
+```yaml
+# reports/DEMO/decks/weekly-executive.yaml
+name: "Weekly Executive Briefing"
+title: "DEMO Weekly Report Deck"
+cover:
+  company: "DEMO Commerce Inc."
+reports:
+  - top-products-by-revenue
+  - revenue-by-state
+  - roas-by-campaign
+landscape: true
+delivery:
+  slack:
+    channels: ["C0123456789"]
+  email:
+    to: ["ceo@example.com", "cfo@example.com"]
+    subject: "Weekly Executive Briefing"
+    provider: "sendgrid"
+```
+
+Now let me generate it:
+
+```bash
+uc-bq deck run weekly-executive
+```
+
+```
+Running deck: Weekly Executive Briefing
+──────────────────────────────────────────────────
+[1/3] Top 10 Products by Revenue ... OK
+[2/3] Revenue by State ............. OK
+[3/3] ROAS by Campaign ............ OK
+
+Generating deck PDF...
+Deck: reports/DEMO/decks/weekly-executive.pdf
+
+Done.
+```
+
+The PDF has a cover page with "DEMO Commerce Inc." and the title, then a table of contents linking to each report, then each report on its own page with the chart and analysis. Want me to open it?
+
+---
+
+> **You:** Yeah, open it
+
+```bash
+open reports/DEMO/decks/weekly-executive.pdf
+```
+
+---
+
+> **You:** That's way better than 3 separate emails. Can it deliver automatically?
+
+**Claude Code:** It already has delivery config in the YAML. Just use `--deliver`:
+
+```bash
+uc-bq deck run weekly-executive --deliver
+```
+
+```
+Running deck: Weekly Executive Briefing
+──────────────────────────────────────────────────
+[1/3] Top 10 Products by Revenue ... OK
+[2/3] Revenue by State ............. OK
+[3/3] ROAS by Campaign ............ OK
+
+Generating deck PDF...
+Deck: reports/DEMO/decks/weekly-executive.pdf
+Delivering to Slack... OK
+Delivering via email (sendgrid)... OK (2 recipients)
+
+Done.
+```
+
+One PDF gets uploaded to Slack and emailed to both recipients. No more 3 separate files cluttering the channel.
+
+For your Monday morning schedule, add it to your cron or GitHub Actions workflow:
+
+```bash
+# Crontab
+0 6 * * 1 cd /path/to/project && uc-bq deck run weekly-executive --deliver --no-analysis
+```
+
+Or in GitHub Actions:
+
+```yaml
+- run: uc-bq deck run weekly-executive --deliver --no-analysis
+```
+
+The individual reports are still independently runnable with `uc-bq run` if anyone needs a specific one on demand.
+
+---
+
 ## What You End Up With
 
 ```
@@ -845,8 +971,11 @@ reports/DEMO/
 │   └── data.json
 ├── revenue-by-state/
 │   └── ...
-└── roas-by-campaign/
-    └── ...
+├── roas-by-campaign/
+│   └── ...
+└── decks/
+    ├── weekly-executive.yaml   # Deck definition (committed to git)
+    └── weekly-executive.pdf    # Generated deck output
 ```
 
-Each report is self-contained. Design it once with Claude Code, replay it forever with `uc-bq run`.
+Each report is self-contained. Design it once with Claude Code, replay it forever with `uc-bq run`. Combine reports into decks for polished executive deliverables.

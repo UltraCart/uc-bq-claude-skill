@@ -236,6 +236,38 @@ uc-bq run-all --force
 uc-bq run-all --max-bytes=53687091200
 ```
 
+### `uc-bq deck run <deck-name>`
+Run all reports in a deck and generate a combined PDF. The deck PDF includes a branded cover page, clickable table of contents, and each report on its own page.
+```bash
+# Generate the deck PDF
+uc-bq deck run weekly-executive
+
+# Generate and deliver the deck (sends ONE PDF, not individual reports)
+uc-bq deck run weekly-executive --deliver
+
+# Skip analysis generation
+uc-bq deck run weekly-executive --no-analysis
+
+# Override date parameters for all reports in the deck
+uc-bq deck run weekly-executive --start_date=2026-01-01 --end_date=2026-03-28
+
+# Run for a specific merchant
+uc-bq deck run weekly-executive -m WIDGETS
+```
+
+### `uc-bq deck list`
+List all defined decks for the current (or specified) merchant.
+```bash
+uc-bq deck list
+uc-bq deck list -m WIDGETS
+```
+
+### `uc-bq deck create <deck-name>`
+Interactive deck creation. Prompts for title, cover details, and which reports to include.
+```bash
+uc-bq deck create weekly-executive
+```
+
 ### `uc-bq list`
 List all saved reports for the current (or specified) merchant with status, last run date, and parameter counts.
 ```bash
@@ -470,6 +502,44 @@ uc-bq config show-delivery <report>
 ```
 
 Once configured, they can deliver with `uc-bq run <name> --deliver`.
+
+### Step 14: Offer Deck Creation
+
+After creating multiple reports for a merchant, suggest combining them into a deck. Decks bundle reports into a single PDF with a branded cover page and table of contents -- ideal for weekly/monthly executive briefings.
+
+Guide the merchant through:
+- **Which reports to include** -- help them choose the right combination for their audience
+- **Cover page details** -- company name, logo URL, deck title
+- **Orientation** -- landscape works best for decks with wide charts (time series, geo maps)
+- **Delivery** -- deck delivery sends ONE PDF instead of N separate files
+
+Create the deck definition at `reports/{merchant_id}/decks/{deck-name}.yaml`:
+
+```yaml
+name: "Weekly Executive Briefing"
+title: "DEMO Weekly Report Deck"
+cover:
+  company: "DEMO Commerce Inc."
+  logo_url: "https://example.com/logo.png"
+reports:
+  - revenue-by-payment-method
+  - ltv-by-monthly-cohort
+  - top-products-by-revenue
+landscape: true
+delivery:
+  slack:
+    channels: ["C0123456789"]
+  email:
+    to: ["ceo@example.com", "cfo@example.com"]
+    subject: "Weekly Executive Briefing"
+    provider: "sendgrid"
+```
+
+Or use the CLI: `uc-bq deck create weekly-executive`
+
+Test the deck: `uc-bq deck run weekly-executive`
+
+Decks don't replace individual report delivery -- they're an additional option. Each report remains independently runnable via `uc-bq run`.
 
 ---
 
@@ -810,16 +880,20 @@ After creating a report, save a `report.yaml` manifest that captures the full de
 ### Report Output Structure
 
 ```
-./reports/<merchant_id>/<report-name>/
-  report.yaml           # Report manifest (replayable definition)
-  query.sql             # Parameterized SQL with @parameter placeholders
-  chart.js              # Battle-hardened formatChartData function
-  chart.png             # Full ECharts visualization (PNG)
-  chart-dashboard.png   # 200x200 dashboard thumbnail (PNG)
-  report.pdf            # Combined PDF with chart + executive analysis (shareable)
-  analysis_prompt.md    # System prompt template for analysis agent
-  report.md             # Executive analysis (regenerated on each run)
-  data.json             # Raw query results (optional)
+./reports/<merchant_id>/
+  <report-name>/
+    report.yaml           # Report manifest (replayable definition)
+    query.sql             # Parameterized SQL with @parameter placeholders
+    chart.js              # Battle-hardened formatChartData function
+    chart.png             # Full ECharts visualization (PNG)
+    chart-dashboard.png   # 200x200 dashboard thumbnail (PNG)
+    report.pdf            # Combined PDF with chart + executive analysis (shareable)
+    analysis_prompt.md    # System prompt template for analysis agent
+    report.md             # Executive analysis (regenerated on each run)
+    data.json             # Raw query results (optional)
+  decks/
+    <deck-name>.yaml      # Deck definition (which reports to combine)
+    <deck-name>.pdf       # Generated deck PDF (cover + TOC + all reports)
 ```
 
 ### Manifest Structure

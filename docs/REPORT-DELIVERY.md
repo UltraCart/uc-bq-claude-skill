@@ -409,6 +409,21 @@ export POSTMARK_API_KEY=xxx           # Used by reports with provider: "postmark
 
 ---
 
+## Decks: Delivering Multiple Reports as One PDF
+
+If you're delivering more than a couple of reports to the same audience, consider using a **deck** instead. Decks combine multiple reports into a single PDF with a branded cover page and clickable table of contents. Instead of 5 separate Slack uploads and 5 separate emails, the audience gets one polished document.
+
+```bash
+# Deliver a deck (one PDF with all reports combined)
+uc-bq deck run weekly-executive --deliver
+```
+
+Deck delivery uses the same infrastructure (Slack bot token, email providers, environment variables) as individual report delivery. The `delivery` section in the deck YAML follows the same format as report manifests.
+
+Decks and individual reports have independent delivery configs -- you can deliver both if different audiences need different things. See [DECKS.md](DECKS.md) for full deck documentation.
+
+---
+
 ## Managing Delivery via CLI
 
 Instead of hand-editing `report.yaml`, use the `uc-bq config` delivery commands to manage Slack channels and email settings for any report.

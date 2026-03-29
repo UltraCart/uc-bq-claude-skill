@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ultracart.com/schemas/deck.schema.json",
+  "title": "UltraCart Report Deck",
+  "description": "A deck definition that combines multiple reports into a single branded PDF with cover page and table of contents.",
+  "type": "object",
+  "required": ["name", "title", "reports"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human-readable deck name",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "title": {
+      "type": "string",
+      "description": "Title displayed on the cover page",
+      "maxLength": 200
+    },
+    "cover": {
+      "type": "object",
+      "description": "Cover page branding options",
+      "properties": {
+        "company": {
+          "type": "string",
+          "description": "Company name displayed on the cover page"
+        },
+        "logo_url": {
+          "type": "string",
+          "description": "URL to a logo image to embed on the cover page"
+        }
+      },
+      "additionalProperties": false
+    },
+    "reports": {
+      "type": "array",
+      "description": "Ordered list of report directory names to include in the deck",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "landscape": {
+      "type": "boolean",
+      "description": "Generate the deck PDF in landscape orientation"
+    },
+    "delivery": {
+      "type": "object",
+      "description": "Deck delivery configuration for Slack and/or email",
+      "properties": {
+        "slack": {
+          "type": "object",
+          "properties": {
+            "channels": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "Slack channel IDs (e.g., C0123456789)"
+            }
+          },
+          "required": ["channels"],
+          "additionalProperties": false
+        },
+        "email": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "array",
+              "items": { "type": "string", "format": "email" },
+              "minItems": 1,
+              "description": "Recipient email addresses"
+            },
+            "subject": {
+              "type": "string",
+              "description": "Email subject line"
+            },
+            "provider": {
+              "type": "string",
+              "enum": ["sendgrid", "ses", "postmark", "mailgun", "resend"],
+              "description": "Email delivery provider"
+            }
+          },
+          "required": ["to", "subject", "provider"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

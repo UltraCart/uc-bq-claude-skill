@@ -11,6 +11,7 @@ import { runAllCommand } from './commands/run-all';
 import { listCommand } from './commands/list';
 import { historyCommand } from './commands/history';
 import { configCommand } from './commands/config';
+import { deckCommand } from './commands/deck';
 
 const pkg = require('../package.json');
 
@@ -34,5 +35,6 @@ program.addCommand(runAllCommand);
 program.addCommand(listCommand);
 program.addCommand(historyCommand);
 program.addCommand(configCommand);
+program.addCommand(deckCommand);
 
 program.parse();

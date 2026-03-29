@@ -294,6 +294,64 @@ jobs:
 
 ---
 
+### Weekly Executive Deck
+
+Instead of delivering individual reports, generate a single deck PDF that combines multiple reports with a cover page and table of contents:
+
+```yaml
+name: Weekly Executive Deck
+
+on:
+  schedule:
+    - cron: '0 11 * * 1'
+  workflow_dispatch:
+
+jobs:
+  generate-deck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm install -g @ultracart/bq-skill
+
+      - uses: google-github-actions/auth@v2
+        with: { credentials_json: '${{ secrets.GCP_SA_KEY }}' }
+
+      - name: Generate and deliver executive deck
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          EMAIL_FROM: ${{ vars.EMAIL_FROM }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        run: uc-bq deck run weekly-executive --deliver --no-analysis
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: executive-deck-${{ github.run_number }}
+          path: reports/DEMO/decks/weekly-executive.pdf
+          retention-days: 30
+```
+
+The deck definition (`reports/DEMO/decks/weekly-executive.yaml`) specifies which reports to include, the cover page branding, and delivery targets. See [DECKS.md](DECKS.md) for the full YAML format.
+
+You can also combine individual report runs with deck generation in the same workflow:
+
+```yaml
+      - name: Run all reports (generates fresh data)
+        run: uc-bq run-all --no-analysis
+
+      - name: Generate and deliver deck (bundles reports into one PDF)
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          EMAIL_FROM: ${{ vars.EMAIL_FROM }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        run: uc-bq deck run weekly-executive --deliver --no-analysis
+```
+
+---
+
 ## Step 4: Test It
 
 You don't have to wait for the cron schedule. Every workflow has `workflow_dispatch` enabled, so you can trigger it manually:

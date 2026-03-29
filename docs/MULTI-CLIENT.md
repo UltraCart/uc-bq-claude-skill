@@ -32,11 +32,15 @@ myconsultingco-reports/
 │   │   ├── revenue-by-channel/
 │   │   │   └── report.yaml         # delivery: slack + email for CLNT1
 │   │   ├── customer-ltv/
-│   │   └── product-performance/
+│   │   ├── product-performance/
+│   │   └── decks/
+│   │       └── weekly-summary.yaml # CLNT1's deck -> their Slack + email
 │   ├── CLNT2/                      # Client 2
 │   │   ├── revenue-by-channel/
 │   │   │   └── report.yaml         # delivery: slack + email for CLNT2
-│   │   └── subscription-churn/
+│   │   ├── subscription-churn/
+│   │   └── decks/
+│   │       └── weekly-summary.yaml # CLNT2's deck -> their Slack + email
 │   ├── CLNT3/
 │   │   ├── revenue-summary/
 │   │   └── geo-sales-map/
@@ -48,7 +52,7 @@ myconsultingco-reports/
 └── .gitignore
 ```
 
-Each report's `report.yaml` contains its own `delivery` section with the target Slack channel and email recipients.
+Each report's `report.yaml` contains its own `delivery` section with the target Slack channel and email recipients. Each client can also have their own decks in `decks/` that bundle their reports into a single branded PDF.
 
 ---
 
@@ -222,6 +226,25 @@ jobs:
 ```
 
 All 5 clients run in parallel. Each gets their reports delivered to their own channel and email recipients, as defined in their manifests.
+
+### Per-Client Deck Delivery
+
+If clients have decks defined, you can deliver those instead of (or in addition to) individual reports. Add a deck step to the matrix workflow:
+
+```yaml
+      - name: Run all reports for ${{ matrix.client.name }}
+        run: uc-bq run-all --merchant=${{ matrix.client.id }} --no-analysis
+
+      - name: Generate and deliver deck for ${{ matrix.client.name }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          EMAIL_FROM: ${{ vars.EMAIL_FROM }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        run: uc-bq deck run weekly-summary --merchant=${{ matrix.client.id }} --deliver --no-analysis
+        continue-on-error: true  # Skip clients that don't have this deck defined
+```
+
+Each client's deck YAML (`reports/CLNT1/decks/weekly-summary.yaml`) has its own delivery config targeting that client's channels and recipients. The deck PDF includes the client's company name and logo on the cover page. See [DECKS.md](DECKS.md) for the full deck YAML format.
 
 ---
 

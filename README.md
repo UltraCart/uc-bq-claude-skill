@@ -290,6 +290,37 @@ uc-bq run-all --force
 uc-bq run-all --max-bytes=53687091200
 ```
 
+### `uc-bq deck run <deck-name>`
+
+Run all reports in a deck and generate a combined PDF.
+
+```bash
+# Generate the deck PDF
+uc-bq deck run weekly-executive
+
+# Generate and deliver the deck
+uc-bq deck run weekly-executive --deliver
+
+# Skip analysis generation
+uc-bq deck run weekly-executive --no-analysis
+```
+
+### `uc-bq deck list`
+
+List all defined decks.
+
+```bash
+uc-bq deck list
+```
+
+### `uc-bq deck create <deck-name>`
+
+Interactive deck creation.
+
+```bash
+uc-bq deck create weekly-executive
+```
+
 ### `uc-bq list`
 
 List all saved reports.
@@ -370,19 +401,25 @@ npm install -g @ultracart/bq-skill
 
 ## Report Structure
 
-Each report is a self-contained directory, scoped by merchant:
+Each report is a self-contained directory, scoped by merchant. Decks live in a `decks/` directory alongside reports:
 
 ```
-./reports/DEMO/revenue-by-category/
-├── report.yaml           # Manifest — parameters, config, metadata
-├── query.sql             # Parameterized SQL template
-├── chart.js              # Battle-hardened ECharts formatChartData() function
-├── chart.png             # Full visualization
-├── chart-dashboard.png   # 200x200 dashboard thumbnail
-├── report.pdf            # Combined PDF with chart + executive analysis
-├── analysis_prompt.md    # System prompt for analysis generation
-├── report.md             # Executive analysis
-└── data.json             # Query results (optional)
+./reports/DEMO/
+├── revenue-by-category/
+│   ├── report.yaml           # Manifest — parameters, config, metadata
+│   ├── query.sql             # Parameterized SQL template
+│   ├── chart.js              # Battle-hardened ECharts formatChartData() function
+│   ├── chart.png             # Full visualization
+│   ├── chart-dashboard.png   # 200x200 dashboard thumbnail
+│   ├── report.pdf            # Combined PDF with chart + executive analysis
+│   ├── analysis_prompt.md    # System prompt for analysis generation
+│   ├── report.md             # Executive analysis
+│   └── data.json             # Query results (optional)
+├── top-products-by-revenue/
+│   └── ...
+└── decks/
+    ├── weekly-executive.yaml # Deck definition (committed to git)
+    └── weekly-executive.pdf  # Generated deck output (not committed)
 ```
 
 The `report.yaml` manifest captures everything needed to replay:
@@ -459,6 +496,48 @@ Supported email providers: SendGrid, Postmark, Mailgun, Resend, AWS SES. All via
 Delivery failures are logged but never crash the run. If Slack is down or an email bounces, the report still generates successfully.
 
 See [docs/REPORT-DELIVERY.md](docs/REPORT-DELIVERY.md) for full setup instructions, provider configuration, environment variables, and multi-client delivery patterns.
+
+## Report Decks
+
+Decks combine multiple reports into a single PDF with a branded cover page, clickable table of contents, and all charts + analyses in one document. Instead of sending N separate files, deliver one polished deck.
+
+### Deck definition
+
+Create a deck YAML file in `reports/{merchant_id}/decks/`:
+
+```yaml
+# reports/DEMO/decks/weekly-executive.yaml
+name: "Weekly Executive Briefing"
+title: "DEMO Weekly Report Deck"
+cover:
+  company: "DEMO Commerce Inc."
+  logo_url: "https://example.com/logo.png"
+reports:
+  - revenue-by-payment-method
+  - ltv-by-monthly-cohort
+  - top-products-by-revenue
+landscape: true
+delivery:
+  slack:
+    channels: ["C0123456789"]
+  email:
+    to: ["ceo@example.com", "cfo@example.com"]
+    subject: "Weekly Executive Briefing"
+    provider: "sendgrid"
+```
+
+### Deck CLI commands
+
+```bash
+uc-bq deck run weekly-executive              # Run all reports and generate combined PDF
+uc-bq deck run weekly-executive --deliver    # Run and deliver the deck PDF
+uc-bq deck list                              # List defined decks
+uc-bq deck create weekly-executive           # Interactive deck creation
+```
+
+Decks don't replace individual report delivery -- they're an additional option. Each report is still independently runnable via `uc-bq run`. When `--deliver` is used on a deck, ONE combined PDF is sent instead of N individual files.
+
+See [docs/DECKS.md](docs/DECKS.md) for full deck documentation including cover page customization, multi-client patterns, and GitHub Actions integration.
 
 ## Scheduling Reports
 
