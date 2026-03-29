@@ -145,6 +145,47 @@
           "default": "report.md"
         }
       }
+    },
+
+    "delivery": {
+      "type": "object",
+      "description": "Report delivery configuration for Slack and/or email",
+      "properties": {
+        "slack": {
+          "type": "object",
+          "properties": {
+            "channel": {
+              "type": "string",
+              "description": "Slack channel ID (e.g., C0123456789)"
+            }
+          },
+          "required": ["channel"],
+          "additionalProperties": false
+        },
+        "email": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "array",
+              "items": { "type": "string", "format": "email" },
+              "minItems": 1,
+              "description": "Recipient email addresses"
+            },
+            "subject": {
+              "type": "string",
+              "description": "Email subject line"
+            },
+            "provider": {
+              "type": "string",
+              "enum": ["sendgrid", "ses", "postmark", "mailgun", "resend"],
+              "description": "Email delivery provider"
+            }
+          },
+          "required": ["to", "subject", "provider"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   },
 

@@ -47,6 +47,10 @@ export interface ReportManifest {
     output_file?: string;
     landscape?: boolean;
   };
+  delivery?: {
+    slack?: { channel: string };
+    email?: { to: string[]; subject: string; provider: string };
+  };
 }
 
 export interface RunHistoryEntry {

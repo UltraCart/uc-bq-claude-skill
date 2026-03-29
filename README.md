@@ -236,6 +236,9 @@ uc-bq run revenue-by-category --no-analysis
 # Generate PDF in landscape orientation (useful for wide charts)
 uc-bq run revenue-by-category --landscape
 
+# Run and deliver to Slack/email (as configured in the report manifest)
+uc-bq run revenue-by-category --deliver
+
 # Bypass the cost safety check
 uc-bq run revenue-by-category --force
 
@@ -256,6 +259,9 @@ uc-bq run-all --no-analysis
 
 # Run all in landscape orientation
 uc-bq run-all --landscape
+
+# Run all and deliver to Slack/email
+uc-bq run-all --deliver --no-analysis
 
 # Bypass the cost safety check for all reports
 uc-bq run-all --force
@@ -328,6 +334,14 @@ parameters:
     required: true
     default: "today"
 
+delivery:                                # Optional: auto-deliver on --deliver
+  slack:
+    channel: "C0123456789"
+  email:
+    to: ["ceo@example.com", "marketing@example.com"]
+    subject: "Weekly: Revenue by Product Category"
+    provider: "sendgrid"
+
 config:
   merchant_id: "DEMO"
   project_id: "ultracart-dw-DEMO"
@@ -346,6 +360,33 @@ chart:
 analysis:
   landscape: true              # Optional: generate PDF in landscape orientation
 ```
+
+## Report Delivery
+
+Reports can be automatically delivered to Slack channels and email recipients after generation. Add a `delivery` section to any report's `report.yaml`:
+
+```yaml
+delivery:
+  slack:
+    channel: "C0123456789"
+  email:
+    to: ["ceo@example.com", "marketing@example.com"]
+    subject: "Weekly: Revenue by Payment Method"
+    provider: "sendgrid"
+```
+
+Then use `--deliver` on `run` or `run-all`:
+
+```bash
+uc-bq run revenue-by-category --deliver
+uc-bq run-all --deliver --no-analysis
+```
+
+Supported email providers: SendGrid, Postmark, Mailgun, Resend, AWS SES. All via REST APIs, no SMTP, no extra npm dependencies (except optional `@aws-sdk/client-sesv2` for SES). Slack delivery uses the Slack API with a bot token.
+
+Delivery failures are logged but never crash the run. If Slack is down or an email bounces, the report still generates successfully.
+
+See [docs/REPORT-DELIVERY.md](docs/REPORT-DELIVERY.md) for full setup instructions, provider configuration, environment variables, and multi-client delivery patterns.
 
 ## Scheduling Reports
 
@@ -372,7 +413,11 @@ jobs:
       - run: npm install -g @ultracart/bq-skill
       - uses: google-github-actions/auth@v2
         with: { credentials_json: '${{ secrets.GCP_SA_KEY }}' }
-      - run: uc-bq run-all --no-analysis
+      - run: uc-bq run-all --deliver --no-analysis
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          EMAIL_FROM: ${{ vars.EMAIL_FROM }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
       - uses: actions/upload-artifact@v4
         with: { name: reports, path: './reports/**/chart.png' }
 ```

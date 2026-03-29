@@ -9,6 +9,7 @@ import { substituteParams } from '../lib/template';
 import { renderChart } from '../lib/renderer';
 import { generateAnalysis } from '../lib/analysis';
 import { generatePdf } from '../lib/pdf';
+import { deliverReport } from '../lib/deliver';
 
 function safePath(baseDir: string, relativePath: string): string {
   const resolved = path.resolve(baseDir, relativePath);
@@ -32,6 +33,8 @@ export const runCommand = new Command('run')
   .option('--no-analysis', 'Skip analysis generation')
   .option('--analysis-api-key <key>', 'API key for headless analysis generation')
   .option('--analysis-model <model>', 'Model for analysis generation', 'claude-sonnet-4-5-20250929')
+  .option('--deliver', 'Deliver report via Slack/email as configured in manifest')
+  .option('--no-deliver', 'Skip delivery even if configured')
   .option('--landscape', 'Generate PDF in landscape orientation')
   .option('--force', 'Skip cost safety check')
   .option('--max-bytes <bytes>', 'Max bytes processed before aborting (default: 10 GB)')
@@ -224,6 +227,15 @@ export const runCommand = new Command('run')
           console.log(`  PDF: ${path.relative(process.cwd(), pdfPath)}`);
         } catch (err: any) {
           console.error(`  PDF generation failed: ${err.message}`);
+        }
+      }
+
+      // Deliver report if --deliver flag is set
+      if (options.deliver) {
+        if (manifest.delivery) {
+          await deliverReport(reportDir, manifest);
+        } else {
+          console.log('  Delivery: No delivery config in manifest, skipping.');
         }
       }
 

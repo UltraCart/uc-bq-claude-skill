@@ -9,6 +9,7 @@ import { substituteParams } from '../lib/template';
 import { renderChart } from '../lib/renderer';
 import { generateAnalysis } from '../lib/analysis';
 import { generatePdf } from '../lib/pdf';
+import { deliverReport } from '../lib/deliver';
 
 function safePath(baseDir: string, relativePath: string): string {
   const resolved = path.resolve(baseDir, relativePath);
@@ -38,6 +39,8 @@ export const runAllCommand = new Command('run-all')
   .option('--no-analysis', 'Skip analysis generation')
   .option('--analysis-api-key <key>', 'API key for headless analysis generation')
   .option('--analysis-model <model>', 'Model for analysis generation', 'claude-sonnet-4-5-20250929')
+  .option('--deliver', 'Deliver report via Slack/email as configured in manifest')
+  .option('--no-deliver', 'Skip delivery even if configured')
   .option('--landscape', 'Generate PDF in landscape orientation')
   .option('--force', 'Skip cost safety check')
   .option('--max-bytes <bytes>', 'Max bytes processed before aborting (default: 10 GB)')
@@ -180,6 +183,11 @@ export const runAllCommand = new Command('run-all')
             bytes_processed: result.bytesProcessed,
           });
           saveManifest(reportDir, manifest);
+
+          // Deliver report if --deliver flag is set
+          if (options.deliver && manifest.delivery) {
+            await deliverReport(reportDir, manifest);
+          }
 
           const cost = (result.bytesProcessed / (1024 * 1024 * 1024 * 1024)) * 6.25;
           totalBytes += result.bytesProcessed;

@@ -190,6 +190,9 @@ uc-bq run revenue-by-category --no-analysis
 # Generate PDF in landscape orientation (useful for wide charts like time series, geo maps)
 uc-bq run revenue-by-category --landscape
 
+# Run and deliver to Slack/email (as configured in the report manifest)
+uc-bq run revenue-by-category --deliver
+
 # Bypass cost safety check
 uc-bq run revenue-by-category --force
 
@@ -204,6 +207,9 @@ uc-bq run-all --start_date=2026-01-01 --end_date=2026-03-28
 uc-bq run-all --no-analysis
 uc-bq run-all --landscape
 uc-bq run-all -m DEMO
+
+# Run all and deliver to Slack/email
+uc-bq run-all --deliver --no-analysis
 
 # Bypass cost safety check for all reports
 uc-bq run-all --force
@@ -405,6 +411,27 @@ Save the `report.yaml` manifest capturing the full report definition (see "Repor
 ```bash
 uc-bq validate --manifest=./reports/<merchant_id>/<name>/report.yaml
 ```
+
+### Step 13: Offer Delivery Setup
+
+After saving the manifest, ask the merchant if they want to set up automatic delivery for this report. If yes, add a `delivery` section to the manifest:
+
+```yaml
+delivery:
+  slack:
+    channel: "C0123456789"
+  email:
+    to: ["ceo@example.com"]
+    subject: "Weekly: Report Name"
+    provider: "sendgrid"
+```
+
+The `delivery` section is optional. Both `slack` and `email` subsections are independently optional. Guide the merchant through:
+- **Slack**: They need a bot token (`SLACK_BOT_TOKEN` env var) and the channel ID from Slack
+- **Email**: They need `EMAIL_FROM` env var plus the provider API key (e.g., `SENDGRID_API_KEY`)
+- **Providers**: SendGrid, Postmark, Mailgun, Resend, or AWS SES — all REST-based, no SMTP
+
+Once configured, they can deliver with `uc-bq run <name> --deliver`.
 
 ---
 
@@ -800,6 +827,14 @@ run_history:
       start_date: "2025-12-28"
       end_date: "2026-03-28"
       category_filter: "All"
+
+delivery:                                  # Optional: auto-deliver on --deliver
+  slack:
+    channel: "C0123456789"               # Slack channel ID
+  email:
+    to: ["ceo@example.com"]              # Recipient list
+    subject: "Weekly: Revenue Report"    # Optional (defaults to report name)
+    provider: "sendgrid"                 # sendgrid | postmark | mailgun | resend | ses
 
 config:
   merchant_id: "DEMO"
