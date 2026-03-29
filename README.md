@@ -29,6 +29,111 @@ npm install -g @ultracart/bq-skill
 
 All LLM provider SDKs (Anthropic, OpenAI, Google Gemini, AWS Bedrock) are bundled — no extra installs needed.
 
+## Authentication
+
+The CLI uses Google Cloud's Application Default Credentials (ADC). You authenticate once, and the BigQuery SDK picks up your credentials automatically — no tokens or keys in your code.
+
+### Option A: gcloud CLI (recommended for development)
+
+This is the simplest path. You sign in with your Google account and the SDK handles the rest.
+
+**1. Install the Google Cloud CLI** (if you don't already have it):
+
+```bash
+# macOS
+brew install google-cloud-sdk
+
+# Linux (Debian/Ubuntu)
+sudo apt-get install google-cloud-cli
+
+# Windows
+# Download from https://cloud.google.com/sdk/docs/install
+```
+
+**2. Log in to your Google account:**
+
+```bash
+gcloud auth login
+```
+
+This opens a browser window. Sign in with the Google account that has access to your UltraCart BigQuery project.
+
+**3. Set application default credentials:**
+
+```bash
+gcloud auth application-default login
+```
+
+This creates a local credential file that the BigQuery SDK finds automatically. You only need to do this once per machine (credentials persist across terminal sessions).
+
+**4. Verify it works:**
+
+```bash
+uc-bq init
+# Or if you already have a config:
+uc-bq schema --list
+```
+
+If you see your tables, you're authenticated.
+
+**Logging out:**
+
+```bash
+# Revoke application default credentials
+gcloud auth application-default revoke
+
+# Revoke your full gcloud login
+gcloud auth revoke
+```
+
+### Option B: Service Account (recommended for CI/CD and scheduled runs)
+
+Use this for automated/headless environments where you can't open a browser.
+
+**1. Create a GCP project** (if you don't have one):
+
+Go to [Google Cloud Console](https://console.cloud.google.com/) and create a project (or use an existing one). This is YOUR project — separate from UltraCart's.
+
+**2. Create a service account:**
+
+```bash
+# Create the service account
+gcloud iam service-accounts create uc-bq-reader \
+  --display-name="UltraCart BQ Reader" \
+  --project=YOUR_PROJECT_ID
+
+# Download the JSON key
+gcloud iam service-accounts keys create ./sa-key.json \
+  --iam-account=uc-bq-reader@YOUR_PROJECT_ID.iam.gserviceaccount.com
+```
+
+**3. Register the service account in UltraCart:**
+
+Go to the UltraCart dashboard and register the service account email (`uc-bq-reader@YOUR_PROJECT_ID.iam.gserviceaccount.com`) so UltraCart can provision BigQuery access for it. Your UltraCart admin assigns the taxonomy level.
+
+**4. Set the environment variable:**
+
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS="/path/to/sa-key.json"
+```
+
+Add this to your `.bashrc`, `.zshrc`, or CI environment variables for persistence.
+
+**5. Verify it works:**
+
+```bash
+uc-bq schema --list
+```
+
+### Troubleshooting Authentication
+
+| Error | Fix |
+|---|---|
+| `Could not load the default credentials` | Run `gcloud auth application-default login` or set `GOOGLE_APPLICATION_CREDENTIALS` |
+| `Permission denied` / `Access Denied` | Your Google account or service account hasn't been granted access in UltraCart. Contact your UltraCart admin. |
+| `Project not found` | The project ID is derived from your merchant ID (`ultracart-dw-{merchantid}`). Check that your merchant IDs in `.ultracart-bq.json` are correct. |
+| `Dataset not found` | Your taxonomy level may not include the dataset you're querying. Standard users can't access `ultracart_dw_medium`. |
+
 ## Quick Start
 
 ### 1. Configure
@@ -605,111 +710,6 @@ with --max-bytes.
 | `max_query_bytes` in config | All commands | Set in `.ultracart-bq.json` (bytes). Set to `0` to disable the check entirely. |
 
 The `--force` and `--max-bytes` flags are available on `query`, `run`, and `run-all`.
-
-## Authentication
-
-The CLI uses Google Cloud's Application Default Credentials (ADC). You authenticate once, and the BigQuery SDK picks up your credentials automatically — no tokens or keys in your code.
-
-### Option A: gcloud CLI (recommended for development)
-
-This is the simplest path. You sign in with your Google account and the SDK handles the rest.
-
-**1. Install the Google Cloud CLI** (if you don't already have it):
-
-```bash
-# macOS
-brew install google-cloud-sdk
-
-# Linux (Debian/Ubuntu)
-sudo apt-get install google-cloud-cli
-
-# Windows
-# Download from https://cloud.google.com/sdk/docs/install
-```
-
-**2. Log in to your Google account:**
-
-```bash
-gcloud auth login
-```
-
-This opens a browser window. Sign in with the Google account that has access to your UltraCart BigQuery project.
-
-**3. Set application default credentials:**
-
-```bash
-gcloud auth application-default login
-```
-
-This creates a local credential file that the BigQuery SDK finds automatically. You only need to do this once per machine (credentials persist across terminal sessions).
-
-**4. Verify it works:**
-
-```bash
-uc-bq init
-# Or if you already have a config:
-uc-bq schema --list
-```
-
-If you see your tables, you're authenticated.
-
-**Logging out:**
-
-```bash
-# Revoke application default credentials
-gcloud auth application-default revoke
-
-# Revoke your full gcloud login
-gcloud auth revoke
-```
-
-### Option B: Service Account (recommended for CI/CD and scheduled runs)
-
-Use this for automated/headless environments where you can't open a browser.
-
-**1. Create a GCP project** (if you don't have one):
-
-Go to [Google Cloud Console](https://console.cloud.google.com/) and create a project (or use an existing one). This is YOUR project — separate from UltraCart's.
-
-**2. Create a service account:**
-
-```bash
-# Create the service account
-gcloud iam service-accounts create uc-bq-reader \
-  --display-name="UltraCart BQ Reader" \
-  --project=YOUR_PROJECT_ID
-
-# Download the JSON key
-gcloud iam service-accounts keys create ./sa-key.json \
-  --iam-account=uc-bq-reader@YOUR_PROJECT_ID.iam.gserviceaccount.com
-```
-
-**3. Register the service account in UltraCart:**
-
-Go to the UltraCart dashboard and register the service account email (`uc-bq-reader@YOUR_PROJECT_ID.iam.gserviceaccount.com`) so UltraCart can provision BigQuery access for it. Your UltraCart admin assigns the taxonomy level.
-
-**4. Set the environment variable:**
-
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS="/path/to/sa-key.json"
-```
-
-Add this to your `.bashrc`, `.zshrc`, or CI environment variables for persistence.
-
-**5. Verify it works:**
-
-```bash
-uc-bq schema --list
-```
-
-### Troubleshooting Authentication
-
-| Error | Fix |
-|---|---|
-| `Could not load the default credentials` | Run `gcloud auth application-default login` or set `GOOGLE_APPLICATION_CREDENTIALS` |
-| `Permission denied` / `Access Denied` | Your Google account or service account hasn't been granted access in UltraCart. Contact your UltraCart admin. |
-| `Project not found` | The project ID is derived from your merchant ID (`ultracart-dw-{merchantid}`). Check that your merchant IDs in `.ultracart-bq.json` are correct. |
-| `Dataset not found` | Your taxonomy level may not include the dataset you're querying. Standard users can't access `ultracart_dw_medium`. |
 
 ## Taxonomy Levels
 
