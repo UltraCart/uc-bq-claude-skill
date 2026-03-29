@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.ultracart-bq.json
+.ultracart-bq-cache/
+.claude/
+reports/
+*.png
+*.pdf
+aireport.java
+ultracart-bigquery-skill-brainstorm.md

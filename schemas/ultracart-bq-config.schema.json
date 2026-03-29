@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ultracart.com/schemas/ultracart-bq-config.schema.json",
+  "title": "UltraCart BigQuery Skill Configuration",
+  "description": "Configuration for the UltraCart BigQuery Claude Code skill. Located at .ultracart-bq.json in the project root or home directory.",
+  "type": "object",
+  "required": ["default_merchant", "merchants"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to this schema for editor validation"
+    },
+    "default_merchant": {
+      "type": "string",
+      "description": "The merchant ID to use when no --merchant flag is provided",
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+    },
+    "merchants": {
+      "type": "object",
+      "description": "Per-merchant configuration. Keys are merchant IDs.",
+      "additionalProperties": {
+        "$ref": "#/$defs/merchant_config"
+      }
+    },
+    "default_output_dir": {
+      "type": "string",
+      "description": "Directory where report output folders are created",
+      "default": "./reports"
+    },
+    "output_format": {
+      "type": "string",
+      "enum": ["png", "pdf", "both"],
+      "description": "Default output format for chart rendering",
+      "default": "png"
+    },
+    "chart_theme": {
+      "type": "string",
+      "description": "ECharts theme name to apply to all visualizations",
+      "default": "default"
+    },
+    "chart_defaults": {
+      "type": "object",
+      "description": "Default chart dimensions and rendering settings",
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 400,
+          "maximum": 3840,
+          "default": 1200
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 300,
+          "maximum": 2160,
+          "default": 600
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "merchant_config": {
+      "type": "object",
+      "required": ["taxonomy_level", "dataset"],
+      "additionalProperties": false,
+      "properties": {
+        "taxonomy_level": {
+          "type": "string",
+          "enum": ["standard", "low", "medium", "high"],
+          "description": "The data access taxonomy level assigned to this user by the UltraCart administrator. Determines which views are available for querying."
+        },
+        "dataset": {
+          "type": "string",
+          "description": "The BigQuery dataset name containing the streaming tables and views",
+          "default": "ultracart_dw"
+        },
+        "external_projects": {
+          "type": "object",
+          "description": "External GCP projects the merchant has access to",
+          "additionalProperties": {
+            "$ref": "#/$defs/external_project"
+          }
+        }
+      }
+    },
+    "external_project": {
+      "type": "object",
+      "required": ["project_id", "datasets"],
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "description": "The actual GCP project ID"
+        },
+        "description": {
+          "type": "string",
+          "description": "What this project contains"
+        },
+        "datasets": {
+          "type": "object",
+          "description": "Map of dataset name to array of table names available to the skill",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

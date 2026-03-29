@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ECharts Render</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100vh; overflow: hidden; background: #fff; }
+  #myChart { width: 100%; height: 100vh; position: relative; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+</head>
+<body>
+<div id="myChart"></div>
+<script>
+(function () {
+  try {
+    var data = window.__CHART_DATA__;
+    var fnSource = window.__CHART_FUNCTION__;
+    var isDashboard = !!window.__IS_DASHBOARD__;
+    var chartWidth = window.__CHART_WIDTH__ || 1200;
+    var chartHeight = window.__CHART_HEIGHT__ || 600;
+
+    if (!data) throw new Error('No chart data provided');
+    if (!fnSource) throw new Error('No chart function provided');
+
+    var container = document.getElementById('myChart');
+    container.style.width = chartWidth + 'px';
+    container.style.height = chartHeight + 'px';
+
+    var chart = echarts.init(container);
+
+    // Load USA map for geo charts
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'https://cdn.jsdelivr.net/npm/echarts@5.4.3/map/json/USA.json', false);
+      xhr.send();
+      if (xhr.status === 200) {
+        echarts.registerMap('USA', JSON.parse(xhr.responseText), {
+          Alaska: { left: -131, top: 25, width: 15 },
+          Hawaii: { left: -110, top: 28, width: 5 },
+          'Puerto Rico': { left: -76, top: 26, width: 2 }
+        });
+      }
+    } catch (e) {
+      console.warn('Failed to load USA map:', e);
+    }
+
+    // Evaluate the function — match the iframe's approach:
+    // Strip the function wrapper and use new Function()
+    var functionBody = fnSource
+      .replace(/function\s+formatChartData\s*\(\s*data\s*(?:,\s*isDashboard\s*(?:=\s*[^)]+)?\s*)?\)\s*\{/, '')
+      .replace(/\}\s*$/, '');
+    var formatChartData = new Function('data', 'isDashboard', functionBody);
+
+    var options = formatChartData(data, isDashboard);
+
+    if (options && typeof options === 'object') {
+      // Disable animation for static rendering (matches iframe's print mode)
+      options.animation = false;
+      chart.setOption(options, true);
+    }
+
+    window.__RENDER_COMPLETE__ = true;
+  } catch (e) {
+    console.error('Render error:', e);
+    window.__RENDER_ERROR__ = e.message || String(e);
+    window.__RENDER_COMPLETE__ = true;
+  }
+})();
+</script>
+</body>
+</html>

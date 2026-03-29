@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ultracart.com/schemas/report-manifest.schema.json",
+  "title": "UltraCart BigQuery Report Manifest",
+  "description": "A replayable report definition that captures the full report pipeline: question, parameters, SQL, chart config, and run history.",
+  "type": "object",
+  "required": ["name", "description", "created", "last_run", "prompt", "config", "sql_file", "chart"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human-readable report name",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of what the report shows",
+      "maxLength": 500
+    },
+    "created": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date when the report was first created"
+    },
+    "last_run": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date when the report was last executed"
+    },
+    "prompt": {
+      "type": "string",
+      "description": "The original natural language question that created this report"
+    },
+    "refinements": {
+      "type": "array",
+      "description": "Ordered list of refinement instructions applied after initial creation",
+      "items": {
+        "type": "string"
+      }
+    },
+
+    "parameters": {
+      "type": "array",
+      "description": "Parameter definitions required to run this report",
+      "items": {
+        "$ref": "#/$defs/parameter"
+      }
+    },
+
+    "run_history": {
+      "type": "array",
+      "description": "Log of past executions with resolved parameter values",
+      "items": {
+        "$ref": "#/$defs/run_history_entry"
+      }
+    },
+
+    "config": {
+      "type": "object",
+      "description": "BigQuery configuration snapshot from when the report was created",
+      "required": ["merchant_id", "project_id", "taxonomy_level", "dataset", "tables_used"],
+      "additionalProperties": false,
+      "properties": {
+        "merchant_id": {
+          "type": "string"
+        },
+        "project_id": {
+          "type": "string"
+        },
+        "taxonomy_level": {
+          "type": "string",
+          "enum": ["standard", "low", "medium", "high"]
+        },
+        "dataset": {
+          "type": "string"
+        },
+        "tables_used": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      }
+    },
+
+    "sql_file": {
+      "type": "string",
+      "description": "Relative path to the SQL template file with {{parameter}} placeholders",
+      "pattern": "\\.sql$"
+    },
+
+    "chart": {
+      "type": "object",
+      "description": "Visualization configuration",
+      "required": ["type", "echarts_file", "output_format", "width", "height"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["bar", "line", "area", "stacked-bar", "stacked-area", "pie", "donut", "scatter", "heatmap", "treemap", "funnel", "gauge", "radar", "candlestick", "boxplot"],
+          "description": "The ECharts visualization type"
+        },
+        "echarts_file": {
+          "type": "string",
+          "description": "Relative path to the battle-hardened ECharts JavaScript file",
+          "pattern": "\\.js$"
+        },
+        "output_format": {
+          "type": "string",
+          "enum": ["png", "pdf", "both"]
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 400,
+          "maximum": 3840
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 300,
+          "maximum": 2160
+        }
+      }
+    },
+
+    "analysis": {
+      "type": "object",
+      "description": "Executive analysis settings",
+      "additionalProperties": false,
+      "properties": {
+        "include": {
+          "type": "boolean",
+          "description": "Whether to generate an executive analysis on each run",
+          "default": true
+        },
+        "prompt_file": {
+          "type": "string",
+          "description": "Relative path to the analysis system prompt template (generated at design time, used at replay time by a separate LLM call to produce fresh analysis)",
+          "pattern": "\\.md$",
+          "default": "analysis_prompt.md"
+        },
+        "output_file": {
+          "type": "string",
+          "description": "Relative path for the analysis markdown file",
+          "pattern": "\\.md$",
+          "default": "report.md"
+        }
+      }
+    }
+  },
+
+  "$defs": {
+    "parameter": {
+      "type": "object",
+      "description": "A single report parameter definition",
+      "required": ["name", "type", "label", "description", "required"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Parameter identifier used in SQL placeholders (e.g., {{name}})",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["date", "string", "number", "boolean", "enum"],
+          "description": "The parameter data type. Determines validation rules and prompt behavior."
+        },
+        "label": {
+          "type": "string",
+          "description": "Human-readable label shown when prompting the user",
+          "maxLength": 50
+        },
+        "description": {
+          "type": "string",
+          "description": "Help text explaining what this parameter controls",
+          "maxLength": 200
+        },
+        "required": {
+          "type": "boolean",
+          "description": "If true, the parameter must be resolved before the report can run"
+        },
+        "default": {
+          "description": "Default value. For date types, supports relative expressions: 'today', '-Nd' (N days ago), '-Nw' (N weeks ago), '-Nm' (N months ago), 'start_of_month', 'start_of_quarter', 'start_of_year'",
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            { "type": "boolean" }
+          ]
+        },
+        "options": {
+          "type": "array",
+          "description": "Valid values for enum-type parameters. Ignored for other types.",
+          "items": { "type": "string" },
+          "minItems": 2
+        },
+        "validation": {
+          "type": "object",
+          "description": "Optional validation constraints beyond type checking",
+          "properties": {
+            "min": {
+              "type": "number",
+              "description": "Minimum value for number-type parameters"
+            },
+            "max": {
+              "type": "number",
+              "description": "Maximum value for number-type parameters"
+            },
+            "pattern": {
+              "type": "string",
+              "description": "Regex pattern for string-type parameters"
+            },
+            "min_date": {
+              "type": "string",
+              "description": "Earliest allowed date (ISO 8601 or relative expression)"
+            },
+            "max_date": {
+              "type": "string",
+              "description": "Latest allowed date (ISO 8601 or relative expression)"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+
+    "run_history_entry": {
+      "type": "object",
+      "description": "A record of a single report execution",
+      "required": ["run_date", "parameters"],
+      "additionalProperties": false,
+      "properties": {
+        "run_date": {
+          "type": "string",
+          "format": "date",
+          "description": "The date this run was executed"
+        },
+        "parameters": {
+          "type": "object",
+          "description": "The resolved parameter values used for this run. Keys are parameter names, values are the resolved (not relative) values.",
+          "additionalProperties": true
+        },
+        "status": {
+          "type": "string",
+          "enum": ["success", "error"],
+          "description": "Whether the run completed successfully"
+        },
+        "error_message": {
+          "type": "string",
+          "description": "Error details if status is 'error'"
+        },
+        "rows_returned": {
+          "type": "integer",
+          "description": "Number of rows returned by the query",
+          "minimum": 0
+        },
+        "bytes_processed": {
+          "type": "integer",
+          "description": "Bytes processed by BigQuery (for cost tracking)",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}
