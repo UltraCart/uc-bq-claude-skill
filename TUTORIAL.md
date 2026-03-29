@@ -860,9 +860,9 @@ I'll create a deck that combines all three. I need a few things:
 
 ---
 
-> **You:** Call it "Weekly Executive Briefing". Company is DEMO Commerce Inc. No logo for now.
+> **You:** Call it "Weekly Executive Briefing". Company is DEMO Commerce Inc. No logo for now. And make sure all reports use year-to-date data.
 
-**Claude Code:** Got it. I'll create the deck definition:
+**Claude Code:** Got it. I'll create the deck definition with `parameters` so all reports share the same YTD date range:
 
 ```yaml
 # reports/DEMO/decks/weekly-executive.yaml
@@ -870,6 +870,9 @@ name: "Weekly Executive Briefing"
 title: "DEMO Weekly Report Deck"
 cover:
   company: "DEMO Commerce Inc."
+parameters:
+  start_date: "start_of_year"
+  end_date: "today"
 reports:
   - top-products-by-revenue
   - revenue-by-state
@@ -882,6 +885,19 @@ delivery:
     to: ["ceo@example.com", "cfo@example.com"]
     subject: "Weekly Executive Briefing"
     provider: "sendgrid"
+```
+
+The `parameters` section overrides the defaults in each report's manifest. So even though the individual reports default to `-90d`, the deck will use `start_of_year` for all of them. If you ever need to override further, CLI flags still take priority:
+
+```bash
+uc-bq deck run weekly-executive --start_date=2026-01-01 --end_date=2026-03-31
+```
+
+You can also manage deck parameters without editing the YAML directly:
+
+```bash
+uc-bq config set-deck-param weekly-executive start_date start_of_year
+uc-bq config show-deck-params weekly-executive
 ```
 
 Now let me generate it:

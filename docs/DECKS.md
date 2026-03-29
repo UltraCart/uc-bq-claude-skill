@@ -50,6 +50,9 @@ title: "DEMO Weekly Report Deck"
 cover:
   company: "DEMO Commerce Inc."
   logo_url: "https://example.com/logo.png"
+parameters:
+  start_date: "start_of_year"
+  end_date: "today"
 reports:
   - revenue-by-payment-method
   - ltv-by-monthly-cohort
@@ -72,6 +75,7 @@ delivery:
 | `title` | Yes | Title displayed on the cover page |
 | `cover.company` | No | Company name on the cover page |
 | `cover.logo_url` | No | URL to a logo image for the cover page |
+| `parameters` | No | Parameter overrides applied to all reports in the deck (see [Parameters](#parameters)) |
 | `reports` | Yes | Ordered list of report names to include (must exist in `reports/{merchant_id}/`) |
 | `landscape` | No | `true` for landscape orientation (default: portrait) |
 | `delivery` | No | Delivery config (same format as individual report delivery) |
@@ -85,6 +89,70 @@ The cover page renders:
 4. Date range (resolved from the report parameters at runtime)
 
 If `cover` is omitted entirely, the cover page shows only the title and date range.
+
+---
+
+## Parameters
+
+Decks support an optional `parameters` section that sets parameter overrides for all reports in the deck. This is useful when every report in a deck should share the same date range or other settings.
+
+### YAML definition
+
+```yaml
+parameters:
+  start_date: "start_of_year"
+  end_date: "today"
+```
+
+Parameters use the same relative date expressions as report defaults (`today`, `-90d`, `start_of_year`, etc.). They resolve at runtime.
+
+### Priority chain
+
+When a deck runs, parameters are resolved in this order (highest priority first):
+
+1. **CLI flags** -- `uc-bq deck run weekly-executive --start_date=2026-01-01`
+2. **Deck parameters** -- the `parameters` section in the deck YAML
+3. **Report defaults** -- each report's own parameter defaults from its `report.yaml`
+
+CLI flags always win. Deck parameters override report defaults but are overridden by CLI flags. If a parameter is not set at any level and is required, the user is prompted.
+
+### CLI overrides on `deck run`
+
+Pass parameters directly on the command line to override both deck and report defaults:
+
+```bash
+uc-bq deck run weekly-executive --start_date=2026-01-01 --end_date=2026-03-31
+```
+
+### Managing deck parameters
+
+Use the `config` commands to manage deck parameters without editing YAML by hand:
+
+```bash
+# Set a parameter override on a deck
+uc-bq config set-deck-param weekly-executive start_date start_of_year
+
+# Remove a parameter override
+uc-bq config remove-deck-param weekly-executive start_date
+
+# Show all parameter overrides for a deck
+uc-bq config show-deck-params weekly-executive
+```
+
+### Managing report parameter defaults
+
+You can also manage individual report parameter defaults via the CLI:
+
+```bash
+# Set a default parameter on a report
+uc-bq config set-param revenue-by-category start_date -90d
+
+# Remove a default parameter
+uc-bq config remove-param revenue-by-category start_date
+
+# Show parameter defaults for a report
+uc-bq config show-params revenue-by-category
+```
 
 ---
 
@@ -132,6 +200,9 @@ Interactive deck creation. Prompts for title, cover details, and which reports t
 
 ```bash
 uc-bq deck create weekly-executive
+
+# Create with inline options including parameters
+uc-bq deck create weekly --title="Weekly" --reports=rev,ltv --params="start_date=start_of_year,end_date=today"
 ```
 
 ---
@@ -304,6 +375,9 @@ title: "DEMO Weekly Report Deck"
 cover:
   company: "DEMO Commerce Inc."
   logo_url: "https://example.com/logo.png"
+parameters:
+  start_date: "start_of_year"
+  end_date: "today"
 reports:
   - revenue-by-payment-method
   - ltv-by-monthly-cohort

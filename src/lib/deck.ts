@@ -9,6 +9,7 @@ export interface DeckConfig {
   title: string;
   cover?: { company?: string; logo_url?: string };
   reports: string[];
+  parameters?: Record<string, string>;
   landscape?: boolean;
   delivery?: {
     slack?: { channels: string[] };
@@ -147,10 +148,12 @@ export function buildDeckMarkdown(deck: DeckConfig, reportsBaseDir: string): str
     sections.push(`## ${reportTitle} {#${reportDirName}}`);
     sections.push('');
 
-    // Chart image — relative path from decks dir up to the report dir
+    // Chart image — embed as base64 data URI so md-to-pdf renders it reliably
     const chartPngPath = path.join(reportDir, 'chart.png');
     if (fs.existsSync(chartPngPath)) {
-      sections.push(`![Chart](../${reportDirName}/chart.png)`);
+      const chartData = fs.readFileSync(chartPngPath);
+      const base64 = chartData.toString('base64');
+      sections.push(`![Chart](data:image/png;base64,${base64})`);
       sections.push('');
     }
 

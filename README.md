@@ -250,6 +250,16 @@ uc-bq config remove-email <report> <email...>                  # Remove email re
 uc-bq config set-email-provider <report> <provider>            # Set email provider
 uc-bq config set-email-subject <report> <subject>              # Set email subject line
 uc-bq config show-delivery <report>                            # Show delivery config for a report
+
+# Report parameter defaults
+uc-bq config set-param <report> <param> <value>                # Set a default parameter on a report
+uc-bq config remove-param <report> <param>                     # Remove a default parameter
+uc-bq config show-params <report>                              # Show parameter defaults for a report
+
+# Deck parameter overrides
+uc-bq config set-deck-param <deck> <param> <value>             # Set a parameter override on a deck
+uc-bq config remove-deck-param <deck> <param>                  # Remove a deck parameter override
+uc-bq config show-deck-params <deck>                           # Show parameter overrides for a deck
 ```
 
 ### `uc-bq schema`
@@ -408,6 +418,9 @@ uc-bq deck run weekly-executive --deliver
 
 # Skip analysis generation
 uc-bq deck run weekly-executive --no-analysis
+
+# Override parameters for all reports in the deck
+uc-bq deck run weekly-executive --start_date=2026-01-01 --end_date=2026-03-31
 ```
 
 ### `uc-bq deck list`
@@ -424,6 +437,9 @@ Interactive deck creation.
 
 ```bash
 uc-bq deck create weekly-executive
+
+# Create with inline options
+uc-bq deck create weekly --title="Weekly" --reports=rev,ltv --params="start_date=start_of_year,end_date=today"
 ```
 
 ### `uc-bq list`
@@ -617,6 +633,9 @@ title: "DEMO Weekly Report Deck"
 cover:
   company: "DEMO Commerce Inc."
   logo_url: "https://example.com/logo.png"
+parameters:                              # Optional: override defaults for all reports
+  start_date: "start_of_year"
+  end_date: "today"
 reports:
   - revenue-by-payment-method
   - ltv-by-monthly-cohort
@@ -630,6 +649,8 @@ delivery:
     subject: "Weekly Executive Briefing"
     provider: "sendgrid"
 ```
+
+Deck parameters flow down to all reports as overrides. Priority: CLI flags > deck parameters > report defaults.
 
 ### Deck CLI commands
 

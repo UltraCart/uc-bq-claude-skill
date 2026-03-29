@@ -7,7 +7,7 @@ import { createProvider } from '../lib/llm';
 import { getDefaultModels } from '../lib/llm/models';
 import { executeQuery, QueryParameter } from '../lib/bigquery';
 import { loadManifest, saveManifest, addRunHistoryEntry, listReports } from '../lib/manifest';
-import { resolveParameters, ReportParameter } from '../lib/params';
+import { resolveParameters, resolveRelativeDate, ReportParameter } from '../lib/params';
 import { substituteParams } from '../lib/template';
 import { renderChart } from '../lib/renderer';
 import { generateAnalysis } from '../lib/analysis';
@@ -56,6 +56,7 @@ const deckRunCommand = new Command('run')
   .option('--analysis-api-key <key>', 'API key for headless analysis generation')
   .option('--analysis-model <model>', 'Model for analysis generation', 'claude-sonnet-4-5-20250929')
   .option('--max-bytes <bytes>', 'Max bytes processed before aborting (default: 10 GB)')
+  .allowUnknownOption(true)
   .action(async (deckName: string, options, command: Command) => {
     try {
       if (deckName.includes('..') || deckName.includes('/') || deckName.includes('\\')) {
@@ -72,8 +73,31 @@ const deckRunCommand = new Command('run')
       const deck = loadDeck(decksDir, deckName);
       const useLandscape = options.landscape ?? deck.landscape ?? false;
 
+      // Extract CLI parameter overrides from process.argv (--param_name=value)
+      const knownFlags = ['deliver', 'no-analysis', 'landscape', 'force', 'analysis-api-key', 'analysis-model', 'max-bytes', 'merchant', 'llm-provider'];
+      const cliOverrides: Record<string, string> = {};
+      for (const arg of process.argv) {
+        const match = arg.match(/^--([a-z][a-z0-9_]*)=(.+)$/);
+        if (match && !knownFlags.includes(match[1])) {
+          cliOverrides[match[1]] = match[2];
+        }
+      }
+
+      // Merge: CLI overrides > deck parameters > (report defaults handled per-report)
+      const deckParams = deck.parameters || {};
+      const deckOverrides: Record<string, string> = { ...deckParams, ...cliOverrides };
+
+      // Resolve relative date expressions in deck overrides
+      for (const key of Object.keys(deckOverrides)) {
+        deckOverrides[key] = resolveRelativeDate(deckOverrides[key]);
+      }
+
       console.log('');
       console.log(`  Deck: ${deck.title}`);
+      if (Object.keys(deckOverrides).length > 0) {
+        const paramStr = Object.entries(deckOverrides).map(([k, v]) => `${k}=${v}`).join(', ');
+        console.log(`  Parameters: ${paramStr}`);
+      }
       console.log(`  Reports: ${deck.reports.length}`);
       console.log('  ' + '='.repeat(50));
 
@@ -96,9 +120,9 @@ const deckRunCommand = new Command('run')
         const label = `[${i + 1}/${deck.reports.length}] ${manifest.name}`;
 
         try {
-          // Resolve parameters (defaults only, no prompting for deck runs)
+          // Resolve parameters: deck overrides flow down to all reports
           const paramDefs: ReportParameter[] = (manifest.parameters || []) as ReportParameter[];
-          const resolved = await resolveParameters(paramDefs, {});
+          const resolved = await resolveParameters(paramDefs, deckOverrides);
 
           // Load and substitute SQL
           const sqlPath = safePath(reportDir, manifest.sql_file);
@@ -317,9 +341,15 @@ const deckListCommand = new Command('list')
 // ---- deck create ----
 
 const deckCreateCommand = new Command('create')
-  .description('Interactively create a new deck definition')
+  .description('Create a new deck definition')
   .argument('<deck-name>', 'Name for the deck file (without .yaml)')
-  .action(async (deckName: string, _options, command: Command) => {
+  .option('--title <title>', 'Deck title')
+  .option('--reports <reports>', 'Comma-separated report directory names')
+  .option('--company <company>', 'Company name for cover page')
+  .option('--logo-url <url>', 'Logo URL for cover page')
+  .option('--landscape', 'Generate deck in landscape orientation')
+  .option('--params <params>', 'Comma-separated param=value pairs (e.g., start_date=start_of_year,end_date=today)')
+  .action(async (deckName: string, options: { title?: string; reports?: string; company?: string; logoUrl?: string; landscape?: boolean; params?: string }, command: Command) => {
     try {
       if (deckName.includes('..') || deckName.includes('/') || deckName.includes('\\')) {
         throw new Error('Invalid deck name');
@@ -334,75 +364,88 @@ const deckCreateCommand = new Command('create')
       // Check if deck already exists
       const deckFilePath = path.join(decksDir, `${deckName}.yaml`);
       if (fs.existsSync(deckFilePath)) {
-        throw new Error(`Deck "${deckName}" already exists at ${deckFilePath}`);
+        throw new Error(`Deck "${deckName}" already exists at ${path.relative(process.cwd(), deckFilePath)}`);
       }
 
-      // List available reports
-      const availableReports = listReports(reportsDir);
-      if (availableReports.length === 0) {
-        console.error('\n  No reports available. Create some reports first with: uc-bq run <report-name>\n');
-        process.exit(1);
-      }
+      // Non-interactive mode: all params via flags
+      if (options.title && options.reports) {
+        const selectedReports = options.reports.split(',').map(s => s.trim());
 
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
-
-      try {
-        console.log('');
-        console.log(`  Creating deck: ${deckName}`);
-        console.log('  ' + '─'.repeat(50));
-
-        const title = await prompt(rl, '  Deck title: ');
-        if (!title) {
-          throw new Error('Title is required');
+        // Validate reports exist
+        for (const r of selectedReports) {
+          const reportDir = path.join(reportsDir, r);
+          if (!fs.existsSync(reportDir)) {
+            throw new Error(`Report "${r}" not found at ${path.relative(process.cwd(), reportDir)}`);
+          }
         }
-
-        const company = await prompt(rl, '  Company name (optional): ');
-        const logoUrl = await prompt(rl, '  Logo URL (optional): ');
-
-        console.log('');
-        console.log('  Available reports:');
-        for (let i = 0; i < availableReports.length; i++) {
-          console.log(`    ${i + 1}. ${availableReports[i].name} (${availableReports[i].dir})`);
-        }
-        console.log('');
-
-        const picksStr = await prompt(rl, '  Select reports (comma-separated numbers, e.g., 1,3,5): ');
-        const picks = picksStr
-          .split(',')
-          .map((s) => parseInt(s.trim(), 10))
-          .filter((n) => !isNaN(n) && n >= 1 && n <= availableReports.length);
-
-        if (picks.length === 0) {
-          throw new Error('At least one report must be selected');
-        }
-
-        const selectedReports = picks.map((n) => availableReports[n - 1].dir);
 
         const deckConfig: DeckConfig = {
-          name: title,
-          title,
+          name: options.title,
+          title: options.title,
           reports: selectedReports,
         };
 
-        if (company || logoUrl) {
+        if (options.company || options.logoUrl) {
           deckConfig.cover = {};
-          if (company) deckConfig.cover.company = company;
-          if (logoUrl) deckConfig.cover.logo_url = logoUrl;
+          if (options.company) deckConfig.cover.company = options.company;
+          if (options.logoUrl) deckConfig.cover.logo_url = options.logoUrl;
+        }
+
+        if (options.landscape) {
+          deckConfig.landscape = true;
+        }
+
+        if (options.params) {
+          const parameters: Record<string, string> = {};
+          for (const pair of options.params.split(',')) {
+            const eqIdx = pair.indexOf('=');
+            if (eqIdx > 0) {
+              const key = pair.substring(0, eqIdx).trim();
+              const value = pair.substring(eqIdx + 1).trim();
+              parameters[key] = value;
+            }
+          }
+          if (Object.keys(parameters).length > 0) {
+            deckConfig.parameters = parameters;
+          }
+        }
+
+        if (!fs.existsSync(decksDir)) {
+          fs.mkdirSync(decksDir, { recursive: true });
         }
 
         saveDeck(decksDir, deckName, deckConfig);
 
         console.log('');
-        console.log(`  Deck saved: ${path.relative(process.cwd(), deckFilePath)}`);
+        console.log(`  Deck created: ${path.relative(process.cwd(), deckFilePath)}`);
+        console.log(`  Title: ${options.title}`);
         console.log(`  Reports: ${selectedReports.join(', ')}`);
+        if (options.company) console.log(`  Company: ${options.company}`);
         console.log('');
         console.log(`  Run it with: uc-bq deck run ${deckName}`);
         console.log('');
-      } finally {
-        rl.close();
+        return;
+      }
+
+      // Interactive mode: prompt for missing fields
+      const availableReports = listReports(reportsDir);
+      if (availableReports.length === 0) {
+        console.error('\n  No reports available. Create some reports first.\n');
+        process.exit(1);
+      }
+
+      if (!options.title || !options.reports) {
+        console.error('Error: --title and --reports are required.');
+        console.error('');
+        console.error('Usage:');
+        console.error(`  uc-bq deck create ${deckName} --title="Weekly Briefing" --reports=report1,report2`);
+        console.error('');
+        console.error('Available reports:');
+        for (const r of availableReports) {
+          console.log(`  ${r.dir} — ${r.name}`);
+        }
+        console.error('');
+        process.exit(1);
       }
     } catch (err: any) {
       console.error(`Error: ${err.message}`);

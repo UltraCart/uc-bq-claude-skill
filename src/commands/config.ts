@@ -5,6 +5,7 @@ import { BigQuery } from '@google-cloud/bigquery';
 import { readRawConfig, writeConfig } from '../lib/config-writer';
 import { loadConfig, resolveMerchant } from '../lib/config';
 import { loadManifest, saveManifest } from '../lib/manifest';
+import { loadDeck, saveDeck } from '../lib/deck';
 
 function getMerchantId(cmd: Command): string {
   const globalOpts = cmd.optsWithGlobals ? cmd.optsWithGlobals() : (cmd.parent?.parent?.opts() || {});
@@ -436,4 +437,136 @@ configCommand
       console.log(`    Email provider: ${manifest.delivery.email.provider}`);
       console.log(`    Email subject: ${manifest.delivery.email.subject}`);
     }
+  });
+
+// ---------------------------------------------------------------------------
+// Deck parameter helpers & subcommands
+// ---------------------------------------------------------------------------
+
+function loadDeckForConfig(cmd: Command, deckName: string) {
+  const config = loadConfig();
+  const globalOpts = cmd.optsWithGlobals ? cmd.optsWithGlobals() : (cmd.parent?.parent?.opts() || {});
+  const merchant = resolveMerchant(config, globalOpts.merchant);
+  const decksDir = path.join(path.resolve(merchant.default_output_dir), 'decks');
+  const deck = loadDeck(decksDir, deckName);
+  return { deck, decksDir, deckName };
+}
+
+// set-deck-param
+configCommand
+  .command('set-deck-param <deck> <param> <value>')
+  .description('Set a parameter default on a deck')
+  .action((deckArg: string, param: string, value: string, _options: any, cmd: Command) => {
+    const { deck, decksDir, deckName } = loadDeckForConfig(cmd, deckArg);
+    if (!deck.parameters) deck.parameters = {};
+    deck.parameters[param] = value;
+    saveDeck(decksDir, deckName, deck);
+    console.log(`  Set deck parameter "${param}" = "${value}" on deck "${deckName}"`);
+  });
+
+// remove-deck-param
+configCommand
+  .command('remove-deck-param <deck> <param>')
+  .description('Remove a parameter default from a deck')
+  .action((deckArg: string, param: string, _options: any, cmd: Command) => {
+    const { deck, decksDir, deckName } = loadDeckForConfig(cmd, deckArg);
+    if (!deck.parameters || deck.parameters[param] === undefined) {
+      console.log(`  Parameter "${param}" not found on deck "${deckName}".`);
+      return;
+    }
+    delete deck.parameters[param];
+    if (Object.keys(deck.parameters).length === 0) {
+      delete deck.parameters;
+    }
+    saveDeck(decksDir, deckName, deck);
+    console.log(`  Removed deck parameter "${param}" from deck "${deckName}"`);
+  });
+
+// show-deck-params
+configCommand
+  .command('show-deck-params <deck>')
+  .description('Display all parameter defaults for a deck')
+  .action((deckArg: string, _options: any, cmd: Command) => {
+    const { deck, deckName } = loadDeckForConfig(cmd, deckArg);
+    const params = deck.parameters || {};
+    const keys = Object.keys(params);
+    if (keys.length === 0) {
+      console.log(`  No parameters configured for deck "${deckName}".`);
+      return;
+    }
+    console.log('');
+    console.log(`  Deck parameters for "${deckName}":`);
+    console.log('  ' + '─'.repeat(50));
+    for (const key of keys) {
+      console.log(`  ${key.padEnd(25)} ${params[key]}`);
+    }
+    console.log('');
+  });
+
+// ---------------------------------------------------------------------------
+// Report parameter helpers & subcommands
+// ---------------------------------------------------------------------------
+
+// set-param
+configCommand
+  .command('set-param <report> <param> <value>')
+  .description('Set the default value for a report parameter')
+  .action((report: string, param: string, value: string, _options: any, cmd: Command) => {
+    const { manifest, reportDir } = loadReportForDelivery(cmd, report);
+    const params = manifest.parameters || [];
+    const paramDef = params.find((p: any) => p.name === param);
+    if (!paramDef) {
+      console.error(`Error: Parameter "${param}" not found in report "${report}". Available: ${params.map((p: any) => p.name).join(', ') || 'none'}`);
+      process.exit(1);
+    }
+    paramDef.default = value;
+    saveManifest(reportDir, manifest);
+    console.log(`  Set parameter "${param}" default = "${value}" on report "${report}"`);
+  });
+
+// remove-param
+configCommand
+  .command('remove-param <report> <param>')
+  .description('Remove the default value for a report parameter (will prompt on run)')
+  .action((report: string, param: string, _options: any, cmd: Command) => {
+    const { manifest, reportDir } = loadReportForDelivery(cmd, report);
+    const params = manifest.parameters || [];
+    const paramDef = params.find((p: any) => p.name === param);
+    if (!paramDef) {
+      console.error(`Error: Parameter "${param}" not found in report "${report}". Available: ${params.map((p: any) => p.name).join(', ') || 'none'}`);
+      process.exit(1);
+    }
+    if (paramDef.default === undefined) {
+      console.log(`  Parameter "${param}" already has no default on report "${report}".`);
+      return;
+    }
+    delete paramDef.default;
+    saveManifest(reportDir, manifest);
+    console.log(`  Removed default for parameter "${param}" on report "${report}"`);
+  });
+
+// show-params
+configCommand
+  .command('show-params <report>')
+  .description('Display all parameters and their defaults for a report')
+  .action((report: string, _options: any, cmd: Command) => {
+    const { manifest } = loadReportForDelivery(cmd, report);
+    const params = manifest.parameters || [];
+    if (params.length === 0) {
+      console.log(`  No parameters defined for report "${report}".`);
+      return;
+    }
+    console.log('');
+    console.log(`  Parameters for "${report}":`);
+    console.log('  ' + '─'.repeat(60));
+    console.log(`  ${'Name'.padEnd(20)} ${'Type'.padEnd(10)} ${'Required'.padEnd(10)} Default`);
+    console.log('  ' + '─'.repeat(60));
+    for (const p of params) {
+      const name = (p as any).name || '';
+      const type = (p as any).type || '';
+      const required = (p as any).required ? 'yes' : 'no';
+      const defaultVal = (p as any).default !== undefined ? String((p as any).default) : '(none)';
+      console.log(`  ${name.padEnd(20)} ${type.padEnd(10)} ${required.padEnd(10)} ${defaultVal}`);
+    }
+    console.log('');
   });

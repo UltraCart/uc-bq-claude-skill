@@ -41,6 +41,11 @@
       },
       "minItems": 1
     },
+    "parameters": {
+      "type": "object",
+      "description": "Shared parameter defaults that flow down to all reports in the deck",
+      "additionalProperties": { "type": "string" }
+    },
     "landscape": {
       "type": "boolean",
       "description": "Generate the deck PDF in landscape orientation"

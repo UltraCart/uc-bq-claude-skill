@@ -113,6 +113,16 @@ uc-bq config remove-email <report> <email...>
 uc-bq config set-email-provider <report> <provider>
 uc-bq config set-email-subject <report> <subject>
 uc-bq config show-delivery <report>
+
+# Report parameter defaults
+uc-bq config set-param <report> <param> <value>
+uc-bq config remove-param <report> <param>
+uc-bq config show-params <report>
+
+# Deck parameter overrides
+uc-bq config set-deck-param <deck> <param> <value>
+uc-bq config remove-deck-param <deck> <param>
+uc-bq config show-deck-params <deck>
 ```
 
 ### `uc-bq schema`
@@ -266,6 +276,9 @@ uc-bq deck list -m WIDGETS
 Interactive deck creation. Prompts for title, cover details, and which reports to include.
 ```bash
 uc-bq deck create weekly-executive
+
+# Create with inline options including parameters
+uc-bq deck create weekly --title="Weekly" --reports=rev,ltv --params="start_date=start_of_year,end_date=today"
 ```
 
 ### `uc-bq list`
@@ -521,6 +534,9 @@ title: "DEMO Weekly Report Deck"
 cover:
   company: "DEMO Commerce Inc."
   logo_url: "https://example.com/logo.png"
+parameters:
+  start_date: "start_of_year"
+  end_date: "today"
 reports:
   - revenue-by-payment-method
   - ltv-by-monthly-cohort
@@ -535,7 +551,11 @@ delivery:
     provider: "sendgrid"
 ```
 
+Deck parameters flow down to all reports as overrides. Priority: CLI flags > deck parameters > report defaults.
+
 Or use the CLI: `uc-bq deck create weekly-executive`
+
+Use `uc-bq config set-deck-param` / `remove-deck-param` / `show-deck-params` to manage deck parameters without editing YAML by hand. Use `uc-bq config set-param` / `remove-param` / `show-params` to manage individual report parameter defaults.
 
 Test the deck: `uc-bq deck run weekly-executive`
 
@@ -992,8 +1012,9 @@ The `analysis.landscape` field persists the orientation preference per-report. P
 ### Parameter Resolution Order (at replay time)
 
 1. CLI flags (highest priority): `--start_date=2026-01-01`
-2. Defaults from manifest: `"-90d"` resolves relative to today
-3. Prompt user for any required params still missing
+2. Deck parameters (for deck runs): values from the deck YAML `parameters` section
+3. Defaults from report manifest: `"-90d"` resolves relative to today
+4. Prompt user for any required params still missing
 
 ### Replay Modes
 
