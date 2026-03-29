@@ -265,6 +265,22 @@ uc-bq deck run weekly-executive --start_date=2026-01-01 --end_date=2026-03-28
 uc-bq deck run weekly-executive -m WIDGETS
 ```
 
+### `uc-bq deck dashboard <deck-name>`
+Generate a self-contained interactive HTML dashboard from a deck definition. Uses ECharts from CDN with all chart data inlined. The output is a single HTML file with responsive layout, interactive tooltips, hover effects, and zoom.
+```bash
+# Generate dashboard HTML
+uc-bq deck dashboard weekly-executive
+
+# Generate and open in browser
+uc-bq deck dashboard weekly-executive --open
+
+# Generate for a specific merchant
+uc-bq deck dashboard weekly-executive -m WIDGETS
+```
+The dashboard reuses existing report data (`data.json`). Run reports first if data doesn't exist yet.
+
+Output: `reports/{merchant_id}/decks/{deck-name}-dashboard.html`
+
 ### `uc-bq deck list`
 List all defined decks for the current (or specified) merchant.
 ```bash
@@ -560,6 +576,18 @@ Use `uc-bq config set-deck-param` / `remove-deck-param` / `show-deck-params` to 
 Test the deck: `uc-bq deck run weekly-executive`
 
 Decks don't replace individual report delivery -- they're an additional option. Each report remains independently runnable via `uc-bq run`.
+
+### When to suggest dashboards
+
+If a merchant asks for interactive charts, live views, or something they can share as a web page, suggest `uc-bq deck dashboard` instead of (or in addition to) the PDF deck. Key differences:
+- **PDF deck** (`deck run`): Static, deliverable via Slack/email, good for executive briefings
+- **Dashboard** (`deck dashboard`): Interactive HTML with tooltips, hover, zoom — good for exploration, internal dashboards, web deployment
+
+The dashboard uses the same deck definition and existing report data. Generate it with:
+```bash
+uc-bq deck dashboard weekly-executive --open
+```
+Output is a single HTML file at `reports/{merchant_id}/decks/{deck-name}-dashboard.html`. The merchant decides where to deploy it (S3, internal server, local file, etc.).
 
 ---
 

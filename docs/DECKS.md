@@ -181,6 +181,23 @@ uc-bq deck run weekly-executive -m DEMO2
 
 When `--deliver` is used, the deck PDF is sent as ONE file to the configured Slack channels and email recipients. Individual report PDFs are NOT delivered separately -- the deck replaces them.
 
+### `uc-bq deck dashboard <deck-name>`
+
+Generate an interactive HTML dashboard from a deck definition.
+
+```bash
+# Generate dashboard HTML
+uc-bq deck dashboard weekly-executive
+
+# Generate and open in browser
+uc-bq deck dashboard weekly-executive --open
+
+# Generate for a specific merchant
+uc-bq deck dashboard weekly-executive -m DEMO2
+```
+
+The dashboard uses existing report data (`data.json`). Run reports first if data doesn't exist yet.
+
 ### `uc-bq deck list`
 
 List all defined decks for the current merchant.
@@ -207,6 +224,59 @@ uc-bq deck create weekly --title="Weekly" --reports=rev,ltv --params="start_date
 
 ---
 
+## Dashboard Mode
+
+In addition to static PDF decks, you can generate an interactive HTML dashboard from any deck definition.
+
+### Command
+
+```bash
+# Generate dashboard HTML
+uc-bq deck dashboard weekly-executive
+
+# Generate and open in browser
+uc-bq deck dashboard weekly-executive --open
+```
+
+### Output
+
+Output file: `reports/{merchant_id}/decks/{deck-name}-dashboard.html`
+
+The dashboard is a single self-contained HTML file that:
+
+- Loads ECharts from CDN (the only external dependency)
+- Inlines all chart functions and data — no server-side processing needed
+- Responsive grid layout (2 columns on wide screens, 1 column on mobile)
+- Interactive charts with tooltips, hover effects, and zoom
+- Professional card-based styling
+
+### How it differs from PDF decks
+
+| | PDF Deck (`deck run`) | Dashboard (`deck dashboard`) |
+|---|---|---|
+| Output | Static PDF | Interactive HTML |
+| Charts | PNG images | Live ECharts with tooltips, zoom |
+| Delivery | Slack, email via `--deliver` | Deploy manually (S3, web server, local file) |
+| Viewing | PDF reader | Any web browser |
+| Interactivity | None | Hover, zoom, responsive layout |
+
+### Data source
+
+The dashboard reuses existing report data (`data.json` from previous runs). If reports haven't been run yet, run them first with `uc-bq deck run` or `uc-bq run-all`.
+
+### Deployment
+
+The generated HTML file is fully self-contained (aside from the ECharts CDN link). You can:
+
+- **Open from disk** — double-click the file or use `--open`
+- **Deploy to S3** — upload as a static file with `Content-Type: text/html`
+- **Serve from any web server** — drop it into nginx, Apache, or any static hosting
+- **Share via Slack/email** — attach the HTML file directly (recipients open in their browser)
+
+The CLI does not handle deployment — that's left to you.
+
+---
+
 ## Deck Output
 
 The generated deck PDF includes:
@@ -219,8 +289,9 @@ Output file location: `reports/{merchant_id}/decks/{deck-name}.pdf`
 
 ```
 reports/DEMO/decks/
-├── weekly-executive.yaml       # Definition (committed to git)
-└── weekly-executive.pdf        # Generated output (not committed)
+├── weekly-executive.yaml           # Definition (committed to git)
+├── weekly-executive.pdf            # Generated PDF (not committed)
+└── weekly-executive-dashboard.html # Generated dashboard (not committed)
 ```
 
 ---
@@ -432,9 +503,10 @@ uc-bq deck run weekly-executive --deliver
 
 ## .gitignore
 
-Deck definitions (YAML) should be committed. Generated deck PDFs should not:
+Deck definitions (YAML) should be committed. Generated outputs should not:
 
 ```
 # In .gitignore
 reports/**/decks/*.pdf
+reports/**/decks/*-dashboard.html
 ```

@@ -423,6 +423,22 @@ uc-bq deck run weekly-executive --no-analysis
 uc-bq deck run weekly-executive --start_date=2026-01-01 --end_date=2026-03-31
 ```
 
+### `uc-bq deck dashboard <deck-name>`
+
+Generate a self-contained interactive HTML dashboard from a deck definition. Uses ECharts loaded from CDN with all chart data inlined — no server required. The output is a single HTML file with responsive layout, interactive tooltips, hover effects, and zoom.
+
+```bash
+# Generate dashboard HTML
+uc-bq deck dashboard weekly-executive
+
+# Generate and open in browser
+uc-bq deck dashboard weekly-executive --open
+```
+
+Output: `reports/DEMO/decks/weekly-executive-dashboard.html`
+
+The dashboard reuses the same deck definition and report data as `deck run`. Deploy the HTML file anywhere — S3, an internal web server, or open it directly from disk.
+
 ### `uc-bq deck list`
 
 List all defined decks.
@@ -539,8 +555,9 @@ Each report is a self-contained directory, scoped by merchant. Decks live in a `
 ├── top-products-by-revenue/
 │   └── ...
 └── decks/
-    ├── weekly-executive.yaml # Deck definition (committed to git)
-    └── weekly-executive.pdf  # Generated deck output (not committed)
+    ├── weekly-executive.yaml           # Deck definition (committed to git)
+    ├── weekly-executive.pdf            # Generated deck PDF (not committed)
+    └── weekly-executive-dashboard.html # Generated interactive dashboard (not committed)
 ```
 
 The `report.yaml` manifest captures everything needed to replay:
@@ -657,11 +674,15 @@ Deck parameters flow down to all reports as overrides. Priority: CLI flags > dec
 ```bash
 uc-bq deck run weekly-executive              # Run all reports and generate combined PDF
 uc-bq deck run weekly-executive --deliver    # Run and deliver the deck PDF
+uc-bq deck dashboard weekly-executive        # Generate interactive HTML dashboard
+uc-bq deck dashboard weekly-executive --open # Generate and open in browser
 uc-bq deck list                              # List defined decks
 uc-bq deck create weekly-executive           # Interactive deck creation
 ```
 
 Decks don't replace individual report delivery -- they're an additional option. Each report is still independently runnable via `uc-bq run`. When `--deliver` is used on a deck, ONE combined PDF is sent instead of N individual files.
+
+Decks also support an interactive HTML dashboard mode via `uc-bq deck dashboard`. This generates a single self-contained HTML file with live ECharts visualizations — tooltips, hover effects, zoom, and responsive layout — that can be opened from disk or deployed to any web server.
 
 See [docs/DECKS.md](docs/DECKS.md) for full deck documentation including cover page customization, multi-client patterns, and GitHub Actions integration.
 

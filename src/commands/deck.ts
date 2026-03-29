@@ -15,6 +15,8 @@ import { generatePdf } from '../lib/pdf';
 import { deliverSlack } from '../lib/deliver-slack';
 import { deliverEmail } from '../lib/deliver-email';
 import { loadDeck, saveDeck, listDecks, buildDeckMarkdown, generateDeckPdf, DeckConfig } from '../lib/deck';
+import { buildDashboardHtml } from '../lib/dashboard';
+import { exec } from 'child_process';
 
 function safePath(baseDir: string, relativePath: string): string {
   const resolved = path.resolve(baseDir, relativePath);
@@ -453,6 +455,68 @@ const deckCreateCommand = new Command('create')
     }
   });
 
+// ---- deck dashboard ----
+
+const deckDashboardCommand = new Command('dashboard')
+  .description('Generate an interactive HTML dashboard from a deck')
+  .argument('<deck-name>', 'Name of the deck definition (without .yaml)')
+  .option('--open', 'Open the dashboard in the default browser')
+  .action(async (deckName: string, options: { open?: boolean }, command: Command) => {
+    try {
+      if (deckName.includes('..') || deckName.includes('/') || deckName.includes('\\')) {
+        throw new Error('Invalid deck name');
+      }
+
+      const config = loadConfig();
+      const globalOpts = command.optsWithGlobals ? command.optsWithGlobals() : (command.parent?.parent?.opts() || {});
+      const merchant = resolveMerchant(config, globalOpts.merchant);
+      const reportsDir = path.resolve(merchant.default_output_dir);
+      const decksDir = path.join(reportsDir, 'decks');
+
+      // Load deck definition
+      const deck = loadDeck(decksDir, deckName);
+
+      // Check which reports have data
+      let missingCount = 0;
+      for (const reportDirName of deck.reports) {
+        const dataPath = path.join(reportsDir, reportDirName, 'data.json');
+        if (!fs.existsSync(dataPath)) {
+          console.warn(`  Warning: ${reportDirName}/data.json not found — run "uc-bq deck run ${deckName}" first`);
+          missingCount++;
+        }
+      }
+
+      if (missingCount === deck.reports.length) {
+        console.error('\n  No report data found. Run the deck first: uc-bq deck run ' + deckName + '\n');
+        process.exit(1);
+      }
+
+      // Build the dashboard HTML
+      const html = buildDashboardHtml(deck, reportsDir);
+
+      // Write to decks directory
+      if (!fs.existsSync(decksDir)) {
+        fs.mkdirSync(decksDir, { recursive: true });
+      }
+      const dashboardPath = path.join(decksDir, `${deckName}-dashboard.html`);
+      fs.writeFileSync(dashboardPath, html, 'utf-8');
+
+      console.log('');
+      console.log(`  Dashboard: ${path.relative(process.cwd(), dashboardPath)}`);
+      console.log(`  Reports:   ${deck.reports.length - missingCount} of ${deck.reports.length} included`);
+      console.log('');
+
+      // Open in browser if requested
+      if (options.open) {
+        const openCmd = process.platform === 'darwin' ? 'open' : 'xdg-open';
+        exec(`${openCmd} "${dashboardPath}"`);
+      }
+    } catch (err: any) {
+      console.error(`Error: ${err.message}`);
+      process.exit(1);
+    }
+  });
+
 // ---- deck command group ----
 
 export const deckCommand = new Command('deck')
@@ -461,3 +525,4 @@ export const deckCommand = new Command('deck')
 deckCommand.addCommand(deckRunCommand);
 deckCommand.addCommand(deckListCommand);
 deckCommand.addCommand(deckCreateCommand);
+deckCommand.addCommand(deckDashboardCommand);

@@ -973,6 +973,53 @@ The individual reports are still independently runnable with `uc-bq run` if anyo
 
 ---
 
+> **You:** The PDF deck is great for email, but can I get an interactive version? Something I can pull up in a browser and hover over the charts?
+
+**Claude Code:** Yes -- you can generate an interactive HTML dashboard from the same deck definition. It uses live ECharts with tooltips, hover effects, and zoom instead of static PNG images.
+
+```bash
+uc-bq deck dashboard weekly-executive --open
+```
+
+```
+Generating dashboard: Weekly Executive Briefing
+──────────────────────────────────────────────────
+[1/3] Top 10 Products by Revenue ... OK
+[2/3] Revenue by State ............. OK
+[3/3] ROAS by Campaign ............ OK
+
+Dashboard: reports/DEMO/decks/weekly-executive-dashboard.html
+Opening in browser...
+
+Done.
+```
+
+The dashboard is a single self-contained HTML file -- it loads ECharts from CDN and inlines all chart data. Responsive layout: 2 columns on a wide screen, stacks to 1 column on mobile. You can hover over any chart to see exact values in a tooltip.
+
+It uses the same deck definition and the same report data as the PDF deck. No extra config needed.
+
+---
+
+> **You:** Can I put this on our internal dashboard server?
+
+**Claude Code:** Yes -- it's just an HTML file. Deploy it anywhere:
+
+- **S3**: Upload with `Content-Type: text/html` and it works as a static page
+- **Internal server**: Drop it into nginx or Apache
+- **Local**: Double-click to open from disk
+
+The CLI doesn't handle deployment -- you just copy the file wherever you want it. If you want to refresh it on a schedule, add a step to your GitHub Actions workflow after the deck run:
+
+```yaml
+      - name: Generate interactive dashboard
+        run: uc-bq deck dashboard weekly-executive
+
+      - name: Deploy to S3
+        run: aws s3 cp reports/DEMO/decks/weekly-executive-dashboard.html s3://my-dashboards/weekly.html --content-type text/html
+```
+
+---
+
 ## What You End Up With
 
 ```
@@ -990,8 +1037,9 @@ reports/DEMO/
 ├── roas-by-campaign/
 │   └── ...
 └── decks/
-    ├── weekly-executive.yaml   # Deck definition (committed to git)
-    └── weekly-executive.pdf    # Generated deck output
+    ├── weekly-executive.yaml           # Deck definition (committed to git)
+    ├── weekly-executive.pdf            # Generated deck PDF
+    └── weekly-executive-dashboard.html # Generated interactive dashboard
 ```
 
 Each report is self-contained. Design it once with Claude Code, replay it forever with `uc-bq run`. Combine reports into decks for polished executive deliverables.
