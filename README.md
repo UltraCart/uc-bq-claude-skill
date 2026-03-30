@@ -913,4 +913,6 @@ node dist/cli.js     # Run locally
 
 ## License
 
-MIT
+Apache 2.0 — see [LICENSE](LICENSE) for full terms.
+
+This software is provided "AS IS", without warranties of any kind. See the license for the complete disclaimer of warranty and limitation of liability.
