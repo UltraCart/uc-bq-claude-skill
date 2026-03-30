@@ -12,6 +12,7 @@ import { listCommand } from './commands/list';
 import { historyCommand } from './commands/history';
 import { configCommand } from './commands/config';
 import { deckCommand } from './commands/deck';
+import { alarmCommand } from './commands/alarm';
 
 const pkg = require('../package.json');
 
@@ -36,5 +37,6 @@ program.addCommand(listCommand);
 program.addCommand(historyCommand);
 program.addCommand(configCommand);
 program.addCommand(deckCommand);
+program.addCommand(alarmCommand);
 
 program.parse();

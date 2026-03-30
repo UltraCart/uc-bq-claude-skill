@@ -302,8 +302,10 @@ Deck delivery works the same as individual report delivery but sends ONE file in
 
 ```yaml
 delivery:
+  mode: "always"                 # "always" (default) or "alarm_only"
   slack:
     channels: ["C0123456789"]
+    mention_on_alarm: "@channel"  # Optional: mention for critical alarms
   email:
     to: ["ceo@example.com", "cfo@example.com"]
     subject: "Weekly Executive Briefing"
@@ -322,6 +324,18 @@ Decks and individual reports have independent delivery configs. You can:
 - Deliver individual reports to one set of channels/recipients
 - Deliver the deck to a different set (e.g., the executive team)
 - Use both -- some stakeholders get the full deck, others get specific reports
+
+### Deck alarms
+
+When a deck runs, alarms from each report are aggregated into a single deck-level notification. If any report in the deck triggers an alarm, a combined alarm message is sent to the deck's delivery channels listing which reports triggered which alarms.
+
+Set the deck to `alarm_only` mode for true management by exception -- the deck PDF only delivers when something's wrong:
+
+```bash
+uc-bq config set-deck-delivery-mode weekly-executive alarm_only
+```
+
+See [ALARMS.md](ALARMS.md) for full alarm documentation including alarm types, severity levels, cooldown, and recipes.
 
 ---
 

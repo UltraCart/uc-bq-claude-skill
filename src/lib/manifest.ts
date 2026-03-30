@@ -2,6 +2,30 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as yaml from 'js-yaml';
 
+export type AlarmType = 'threshold' | 'pct_change' | 'missing_data';
+export type AlarmSeverity = 'low' | 'high' | 'critical';
+export type AlarmOperator = '<' | '>' | '<=' | '>=' | '==' | '!=';
+export type AlarmAggregate = 'sum' | 'avg' | 'min' | 'max' | 'first' | 'last';
+export type DeliveryMode = 'always' | 'alarm_only';
+
+export interface AlarmDefinition {
+  name: string;
+  type: AlarmType;
+  metric?: string;
+  aggregate?: AlarmAggregate;
+  operator?: AlarmOperator;
+  value?: number;
+  compare_to?: 'previous_run';
+  severity: AlarmSeverity;
+  cooldown?: string;
+}
+
+export interface DeliveryConfig {
+  mode?: DeliveryMode;
+  slack?: { channels: string[]; mention_on_alarm?: string };
+  email?: { to: string[]; subject: string; provider: string };
+}
+
 export interface ReportManifest {
   name: string;
   description: string;
@@ -47,10 +71,8 @@ export interface ReportManifest {
     output_file?: string;
     landscape?: boolean;
   };
-  delivery?: {
-    slack?: { channels: string[] };
-    email?: { to: string[]; subject: string; provider: string };
-  };
+  alarms?: AlarmDefinition[];
+  delivery?: DeliveryConfig;
 }
 
 export interface RunHistoryEntry {

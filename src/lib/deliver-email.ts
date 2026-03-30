@@ -288,6 +288,115 @@ async function sendViaSes(
 }
 
 // ---------------------------------------------------------------------------
+// Alarm email delivery (no attachment — just HTML body with custom subject)
+// ---------------------------------------------------------------------------
+
+export async function sendAlarmEmail(
+  htmlBody: string,
+  subject: string,
+  config: { to: string[]; provider: string },
+): Promise<void> {
+  const from = process.env.EMAIL_FROM;
+  if (!from) {
+    throw new Error('EMAIL_FROM environment variable is required for email alarm delivery.');
+  }
+
+  switch (config.provider.toLowerCase()) {
+    case 'sendgrid':
+      await sendAlarmViaSendGrid(config.to, subject, from, htmlBody);
+      break;
+    case 'postmark':
+      await sendAlarmViaPostmark(config.to, subject, from, htmlBody);
+      break;
+    case 'mailgun':
+      await sendAlarmViaMailgun(config.to, subject, from, htmlBody);
+      break;
+    case 'resend':
+      await sendAlarmViaResend(config.to, subject, from, htmlBody);
+      break;
+    case 'ses':
+      await sendAlarmViaSes(config.to, subject, from, htmlBody);
+      break;
+    default:
+      throw new Error(`Unsupported email provider: "${config.provider}".`);
+  }
+}
+
+async function sendAlarmViaSendGrid(to: string[], subject: string, from: string, htmlBody: string): Promise<void> {
+  const apiKey = requireEnv('SENDGRID_API_KEY', 'SendGrid');
+  const body = {
+    personalizations: [{ to: to.map((email) => ({ email })) }],
+    from: { email: from },
+    subject,
+    content: [{ type: 'text/html', value: htmlBody }],
+  };
+  const resp = await fetch('https://api.sendgrid.com/v3/mail/send', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!resp.ok) throw new Error(`SendGrid API error ${resp.status}: ${await resp.text()}`);
+}
+
+async function sendAlarmViaPostmark(to: string[], subject: string, from: string, htmlBody: string): Promise<void> {
+  const apiKey = requireEnv('POSTMARK_API_KEY', 'Postmark');
+  const body = { From: from, To: to.join(', '), Subject: subject, HtmlBody: htmlBody };
+  const resp = await fetch('https://api.postmarkapp.com/email', {
+    method: 'POST',
+    headers: { 'X-Postmark-Server-Token': apiKey, 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!resp.ok) throw new Error(`Postmark API error ${resp.status}: ${await resp.text()}`);
+}
+
+async function sendAlarmViaMailgun(to: string[], subject: string, from: string, htmlBody: string): Promise<void> {
+  const apiKey = requireEnv('MAILGUN_API_KEY', 'Mailgun');
+  const domain = process.env.MAILGUN_DOMAIN;
+  if (!domain) throw new Error('MAILGUN_DOMAIN environment variable is required for Mailgun delivery.');
+  const form = new FormData();
+  form.append('from', from);
+  for (const recipient of to) form.append('to', recipient);
+  form.append('subject', subject);
+  form.append('html', htmlBody);
+  const credentials = Buffer.from(`api:${apiKey}`).toString('base64');
+  const resp = await fetch(`https://api.mailgun.net/v3/${domain}/messages`, {
+    method: 'POST',
+    headers: { Authorization: `Basic ${credentials}` },
+    body: form,
+  });
+  if (!resp.ok) throw new Error(`Mailgun API error ${resp.status}: ${await resp.text()}`);
+}
+
+async function sendAlarmViaResend(to: string[], subject: string, from: string, htmlBody: string): Promise<void> {
+  const apiKey = requireEnv('RESEND_API_KEY', 'Resend');
+  const body = { from, to, subject, html: htmlBody };
+  const resp = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!resp.ok) throw new Error(`Resend API error ${resp.status}: ${await resp.text()}`);
+}
+
+async function sendAlarmViaSes(to: string[], subject: string, from: string, htmlBody: string): Promise<void> {
+  let sesModule: any;
+  try {
+    sesModule = require('@aws-sdk/client-sesv2');
+  } catch {
+    throw new Error('AWS SES requires @aws-sdk/client-sesv2. Install it with: npm install @aws-sdk/client-sesv2');
+  }
+  const { SESv2Client, SendEmailCommand } = sesModule;
+  const boundary = `----boundary-${Date.now()}`;
+  const mimeMessage = [
+    `From: ${from}`, `To: ${to.join(', ')}`, `Subject: ${subject}`,
+    'MIME-Version: 1.0', `Content-Type: text/html; charset=UTF-8`, 'Content-Transfer-Encoding: 7bit', '', htmlBody,
+  ].join('\r\n');
+  const region = process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'us-east-1';
+  const client = new SESv2Client({ region });
+  await client.send(new SendEmailCommand({ Content: { Raw: { Data: Buffer.from(mimeMessage) } } }));
+}
+
+// ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 

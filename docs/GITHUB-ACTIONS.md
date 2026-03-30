@@ -473,6 +473,83 @@ If you're running into issues with Chromium on a specific runner, you can set th
 
 ---
 
+## Alarms in GitHub Actions
+
+Reports with alarms configured work in GitHub Actions with no workflow changes -- alarms evaluate as part of the normal `uc-bq run` pipeline. There are two things to be aware of:
+
+### Persisting alarm state
+
+Alarm state (`alarm_state.json`) needs to persist between workflow runs for percent change comparisons and cooldown tracking. The simplest approach is to commit the state back to the repo:
+
+```yaml
+      - name: Run reports
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: uc-bq run-all --deliver --no-analysis
+
+      - name: Commit alarm state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/**/alarm_state.json
+          git diff --cached --quiet || git commit -m "Update alarm state [skip ci]"
+          git push
+```
+
+Alternatively, you can use GitHub Actions artifact caching to persist the state files without committing them. But committing is simpler and gives you an audit trail.
+
+### alarm_only mode
+
+For a pure "alert me when something's wrong" setup:
+
+1. Set `delivery.mode: alarm_only` on your reports or decks
+2. Configure alarms on each report
+3. Schedule the workflow at your desired frequency
+4. Slack/email stay silent unless an alarm fires
+
+```yaml
+name: Daily Alarm Monitor
+
+on:
+  schedule:
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm install -g @ultracart/bq-skill
+      - uses: google-github-actions/auth@v2
+        with: { credentials_json: '${{ secrets.GCP_SA_KEY }}' }
+
+      - name: Run reports and check alarms
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          EMAIL_FROM: ${{ vars.EMAIL_FROM }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        run: uc-bq run-all --deliver --no-analysis
+
+      - name: Commit alarm state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/**/alarm_state.json
+          git diff --cached --quiet || git commit -m "Update alarm state [skip ci]"
+          git push
+```
+
+No analysis, no PDF overhead -- just query the data, check alarms, and notify if something's wrong.
+
+See [ALARMS.md](ALARMS.md) for full alarm documentation including alarm types, severity, cooldown, and recipes.
+
+---
+
 ## Security Notes
 
 - **GCP credentials** are stored as GitHub Secrets — never exposed in logs or workflow files

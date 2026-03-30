@@ -12,6 +12,9 @@ import { renderChart } from '../lib/renderer';
 import { generateAnalysis } from '../lib/analysis';
 import { generatePdf } from '../lib/pdf';
 import { deliverReport } from '../lib/deliver';
+import { evaluateAlarms, extractAlarmMetrics, AlarmResult } from '../lib/alarm';
+import { loadAlarmState, saveAlarmState, recordAlarmRun } from '../lib/alarm-state';
+import { deliverAlarmNotifications } from '../lib/alarm-notify';
 
 function safePath(baseDir: string, relativePath: string): string {
   const resolved = path.resolve(baseDir, relativePath);
@@ -37,6 +40,7 @@ export const runCommand = new Command('run')
   .option('--analysis-model <model>', 'Model for analysis generation', 'claude-sonnet-4-5-20250929')
   .option('--deliver', 'Deliver report via Slack/email as configured in manifest')
   .option('--no-deliver', 'Skip delivery even if configured')
+  .option('--skip-alarms', 'Skip alarm evaluation')
   .option('--landscape', 'Generate PDF in landscape orientation')
   .option('--force', 'Skip cost safety check')
   .option('--max-bytes <bytes>', 'Max bytes processed before aborting (default: 10 GB)')
@@ -179,6 +183,49 @@ export const runCommand = new Command('run')
       });
       saveManifest(reportDir, manifest);
 
+      // Alarm evaluation
+      let hasTriggeredAlarms = false;
+      if (manifest.alarms && manifest.alarms.length > 0 && !options.skipAlarms) {
+        console.log('  Evaluating alarms...');
+        const alarmState = loadAlarmState(reportDir);
+        const alarmResults = evaluateAlarms(manifest.alarms, result.rows, alarmState);
+
+        const triggered = alarmResults.filter(r => r.triggered);
+        const fired = triggered.filter(r => !r.suppressed);
+        const suppressed = triggered.filter(r => r.suppressed);
+        hasTriggeredAlarms = fired.length > 0;
+
+        // Record metrics and alarm state
+        const metrics = extractAlarmMetrics(manifest.alarms, result.rows);
+        recordAlarmRun(
+          alarmState,
+          resolved,
+          metrics,
+          triggered.map(r => r.alarm.name),
+          suppressed.map(r => r.alarm.name),
+        );
+        saveAlarmState(reportDir, alarmState);
+
+        // Log alarm results
+        for (const ar of alarmResults) {
+          if (ar.triggered && !ar.suppressed) {
+            const icon = ar.alarm.severity === 'critical' ? 'CRITICAL' : ar.alarm.severity === 'high' ? 'HIGH' : 'LOW';
+            console.log(`  \u26a0 ALARM [${icon}] ${ar.alarm.name}: ${ar.reason}`);
+          } else if (ar.triggered && ar.suppressed) {
+            console.log(`  \u23f8 Suppressed: ${ar.alarm.name} (cooldown active)`);
+          }
+        }
+
+        if (triggered.length === 0) {
+          console.log('  Alarms: all clear');
+        }
+
+        // Deliver alarm notifications
+        if (fired.length > 0 && manifest.delivery && options.deliver) {
+          await deliverAlarmNotifications(manifest.name, alarmResults, manifest.delivery);
+        }
+      }
+
       // Analysis generation
       if (options.analysis !== false) {
         const analysisConfig = manifest.analysis || { include: true, prompt_file: 'analysis_prompt.md', output_file: 'report.md' };
@@ -244,7 +291,7 @@ export const runCommand = new Command('run')
       // Deliver report if --deliver flag is set
       if (options.deliver) {
         if (manifest.delivery) {
-          await deliverReport(reportDir, manifest);
+          await deliverReport(reportDir, manifest, { hasTriggeredAlarms });
         } else {
           console.log('  Delivery: No delivery config in manifest, skipping.');
         }

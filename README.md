@@ -635,6 +635,54 @@ Delivery failures are logged but never crash the run. If Slack is down or an ema
 
 See [docs/REPORT-DELIVERY.md](docs/REPORT-DELIVERY.md) for full setup instructions, provider configuration, environment variables, and multi-client delivery patterns.
 
+## Report Alarms
+
+Alarms let you define conditions on your report data that trigger notifications when something needs attention -- management by exception. Alarms evaluate automatically as part of the normal `uc-bq run` pipeline.
+
+### Alarm types
+
+- **Threshold** -- alert when a metric crosses a static value (e.g., revenue < $10K)
+- **Percent change** -- alert when a metric changes by more than X% vs the previous run
+- **Missing data** -- alert when a query returns zero rows
+
+### Quick example
+
+```yaml
+# In report.yaml
+alarms:
+  - name: "Revenue Drop"
+    type: pct_change
+    metric: "total_revenue"
+    aggregate: "sum"
+    operator: "<"
+    value: -20
+    compare_to: "previous_run"
+    severity: high
+    cooldown: "24h"
+
+delivery:
+  mode: "alarm_only"              # Only deliver when alarms fire
+  slack:
+    channels: ["C0123456789"]
+    mention_on_alarm: "@channel"   # Ping for critical alarms
+```
+
+### Alarm CLI commands
+
+```bash
+uc-bq config add-alarm <report> --name "..." --type threshold --metric "..." \
+  --aggregate sum --operator "<" --value 10000 --severity high --cooldown 24h
+uc-bq config show-alarms <report>
+uc-bq config remove-alarm <report> "Alarm Name"
+uc-bq config set-delivery-mode <report> alarm_only
+uc-bq alarm test <report>                    # Test against current data.json
+uc-bq alarm history <report>                 # View alarm_state.json history
+```
+
+Alarm state is tracked in `alarm_state.json` per report (separate from `report.yaml` for clean diffs). Severity controls notification behavior: `low` is inline, `high` gets a distinct notification, `critical` adds Slack mentions. Cooldown prevents repeated notifications for persistent conditions.
+
+See [docs/ALARMS.md](docs/ALARMS.md) for full alarm documentation including severity levels, cooldown, delivery modes, deck alarm aggregation, GitHub Actions integration, and recipes.
+
 ## Report Decks
 
 Decks combine multiple reports into a single PDF with a branded cover page, clickable table of contents, and all charts + analyses in one document. Instead of sending N separate files, deliver one polished deck.

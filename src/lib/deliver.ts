@@ -6,10 +6,22 @@ import { deliverEmail } from './deliver-email';
 
 /**
  * Deliver a completed report via Slack and/or email based on manifest config.
+ * Respects delivery mode: 'always' (default) delivers normally, 'alarm_only' skips delivery.
  * Never throws — delivery failures are logged but don't crash the run.
  */
-export async function deliverReport(reportDir: string, manifest: ReportManifest): Promise<void> {
+export async function deliverReport(
+  reportDir: string,
+  manifest: ReportManifest,
+  options?: { hasTriggeredAlarms?: boolean },
+): Promise<void> {
   if (!manifest.delivery) {
+    return;
+  }
+
+  // Check delivery mode
+  const mode = manifest.delivery.mode || 'always';
+  if (mode === 'alarm_only' && !options?.hasTriggeredAlarms) {
+    console.log('  Delivery: mode is alarm_only and no alarms triggered, skipping.');
     return;
   }
 

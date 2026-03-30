@@ -440,6 +440,210 @@ configCommand
   });
 
 // ---------------------------------------------------------------------------
+// Alarm config subcommands
+// ---------------------------------------------------------------------------
+
+const VALID_ALARM_TYPES = ['threshold', 'pct_change', 'missing_data'] as const;
+const VALID_SEVERITIES = ['low', 'high', 'critical'] as const;
+const VALID_OPERATORS = ['<', '>', '<=', '>=', '==', '!='] as const;
+const VALID_AGGREGATES = ['sum', 'avg', 'min', 'max', 'first', 'last'] as const;
+const VALID_DELIVERY_MODES = ['always', 'alarm_only'] as const;
+
+// add-alarm
+configCommand
+  .command('add-alarm <report>')
+  .description('Add an alarm to a report')
+  .requiredOption('--name <name>', 'Alarm name')
+  .requiredOption('--type <type>', 'Alarm type: threshold, pct_change, missing_data')
+  .option('--metric <metric>', 'Column name in data.json to evaluate')
+  .option('--aggregate <agg>', 'Aggregation: sum, avg, min, max, first, last', 'sum')
+  .option('--operator <op>', 'Comparison operator: <, >, <=, >=, ==, !=')
+  .option('--value <value>', 'Threshold value or percent')
+  .option('--severity <severity>', 'Severity: low, high, critical', 'high')
+  .option('--cooldown <cooldown>', 'Cooldown duration (e.g. 24h, 7d, 1h)', '24h')
+  .action((report: string, options: any, cmd: Command) => {
+    const { manifest, reportDir } = loadReportForDelivery(cmd, report);
+
+    if (!VALID_ALARM_TYPES.includes(options.type)) {
+      console.error(`Error: type must be one of: ${VALID_ALARM_TYPES.join(', ')}`);
+      process.exit(1);
+    }
+    if (options.severity && !VALID_SEVERITIES.includes(options.severity)) {
+      console.error(`Error: severity must be one of: ${VALID_SEVERITIES.join(', ')}`);
+      process.exit(1);
+    }
+    if (options.operator && !VALID_OPERATORS.includes(options.operator)) {
+      console.error(`Error: operator must be one of: ${VALID_OPERATORS.join(', ')}`);
+      process.exit(1);
+    }
+    if (options.aggregate && !VALID_AGGREGATES.includes(options.aggregate)) {
+      console.error(`Error: aggregate must be one of: ${VALID_AGGREGATES.join(', ')}`);
+      process.exit(1);
+    }
+
+    // Validate required fields per type
+    if (options.type !== 'missing_data') {
+      if (!options.metric) {
+        console.error('Error: --metric is required for threshold and pct_change alarms.');
+        process.exit(1);
+      }
+      if (!options.operator) {
+        console.error('Error: --operator is required for threshold and pct_change alarms.');
+        process.exit(1);
+      }
+      if (options.value === undefined) {
+        console.error('Error: --value is required for threshold and pct_change alarms.');
+        process.exit(1);
+      }
+    }
+
+    if (!manifest.alarms) manifest.alarms = [];
+
+    // Check for duplicate name
+    if (manifest.alarms.some(a => a.name === options.name)) {
+      console.error(`Error: Alarm "${options.name}" already exists on report "${report}".`);
+      process.exit(1);
+    }
+
+    const alarm: any = {
+      name: options.name,
+      type: options.type,
+      severity: options.severity || 'high',
+      cooldown: options.cooldown || '24h',
+    };
+
+    if (options.type !== 'missing_data') {
+      alarm.metric = options.metric;
+      alarm.aggregate = options.aggregate || 'sum';
+      alarm.operator = options.operator;
+      alarm.value = parseFloat(options.value);
+      if (options.type === 'pct_change') {
+        alarm.compare_to = 'previous_run';
+      }
+    }
+
+    manifest.alarms.push(alarm);
+    saveManifest(reportDir, manifest);
+
+    console.log(`  Added alarm "${options.name}" to report "${report}"`);
+    console.log(`    Type: ${options.type}`);
+    if (alarm.metric) console.log(`    Metric: ${alarm.metric} (${alarm.aggregate})`);
+    if (alarm.operator) console.log(`    Condition: ${alarm.operator} ${alarm.value}`);
+    console.log(`    Severity: ${alarm.severity}`);
+    console.log(`    Cooldown: ${alarm.cooldown}`);
+  });
+
+// show-alarms
+configCommand
+  .command('show-alarms <report>')
+  .description('Display all alarms configured on a report')
+  .action((report: string, _options: any, cmd: Command) => {
+    const { manifest } = loadReportForDelivery(cmd, report);
+
+    if (!manifest.alarms || manifest.alarms.length === 0) {
+      console.log(`  No alarms configured for "${report}".`);
+      return;
+    }
+
+    console.log('');
+    console.log(`  Alarms for "${report}":`);
+    console.log('  ' + '─'.repeat(60));
+
+    for (const alarm of manifest.alarms) {
+      console.log(`  ${alarm.name}`);
+      console.log(`    Type:     ${alarm.type}`);
+      if (alarm.metric) console.log(`    Metric:   ${alarm.metric} (${alarm.aggregate || 'sum'})`);
+      if (alarm.operator) console.log(`    Condition: ${alarm.operator} ${alarm.value}`);
+      console.log(`    Severity: ${alarm.severity}`);
+      console.log(`    Cooldown: ${alarm.cooldown || '24h'}`);
+      console.log('');
+    }
+  });
+
+// remove-alarm
+configCommand
+  .command('remove-alarm <report> <alarm-name>')
+  .description('Remove an alarm from a report')
+  .action((report: string, alarmName: string, _options: any, cmd: Command) => {
+    const { manifest, reportDir } = loadReportForDelivery(cmd, report);
+
+    if (!manifest.alarms || manifest.alarms.length === 0) {
+      console.log(`  No alarms configured for "${report}".`);
+      return;
+    }
+
+    const before = manifest.alarms.length;
+    manifest.alarms = manifest.alarms.filter(a => a.name !== alarmName);
+
+    if (manifest.alarms.length === before) {
+      console.error(`Error: Alarm "${alarmName}" not found on report "${report}".`);
+      console.error(`  Available: ${manifest.alarms.map(a => a.name).join(', ')}`);
+      process.exit(1);
+    }
+
+    if (manifest.alarms.length === 0) {
+      delete manifest.alarms;
+    }
+
+    saveManifest(reportDir, manifest);
+    console.log(`  Removed alarm "${alarmName}" from report "${report}".`);
+  });
+
+// set-delivery-mode
+configCommand
+  .command('set-delivery-mode <report> <mode>')
+  .description('Set delivery mode for a report (always or alarm_only)')
+  .action((report: string, mode: string, _options: any, cmd: Command) => {
+    if (!VALID_DELIVERY_MODES.includes(mode as any)) {
+      console.error(`Error: mode must be one of: ${VALID_DELIVERY_MODES.join(', ')}`);
+      process.exit(1);
+    }
+
+    const { manifest, reportDir } = loadReportForDelivery(cmd, report);
+    if (!manifest.delivery) manifest.delivery = {};
+    manifest.delivery.mode = mode as 'always' | 'alarm_only';
+    saveManifest(reportDir, manifest);
+    console.log(`  Delivery mode for "${report}" set to: ${mode}`);
+  });
+
+// set-mention-on-alarm
+configCommand
+  .command('set-mention-on-alarm <report> <mention>')
+  .description('Set the Slack mention for critical alarms (e.g., @channel, @here)')
+  .action((report: string, mention: string, _options: any, cmd: Command) => {
+    const { manifest, reportDir } = loadReportForDelivery(cmd, report);
+    if (!manifest.delivery) manifest.delivery = {};
+    if (!manifest.delivery.slack) {
+      console.error('Error: No Slack delivery configured. Use "add-slack" first.');
+      process.exit(1);
+    }
+    manifest.delivery.slack.mention_on_alarm = mention;
+    saveManifest(reportDir, manifest);
+    console.log(`  Slack mention_on_alarm for "${report}" set to: ${mention}`);
+  });
+
+// ---------------------------------------------------------------------------
+// Deck delivery mode
+// ---------------------------------------------------------------------------
+
+// set-deck-delivery-mode
+configCommand
+  .command('set-deck-delivery-mode <deck> <mode>')
+  .description('Set delivery mode for a deck (always or alarm_only)')
+  .action((deckArg: string, mode: string, _options: any, cmd: Command) => {
+    if (!VALID_DELIVERY_MODES.includes(mode as any)) {
+      console.error(`Error: mode must be one of: ${VALID_DELIVERY_MODES.join(', ')}`);
+      process.exit(1);
+    }
+
+    const { deck, decksDir, deckName } = loadDeckForConfig(cmd, deckArg);
+    if (!deck.delivery) deck.delivery = {};
+    (deck.delivery as any).mode = mode;
+    saveDeck(decksDir, deckName, deck);
+    console.log(`  Delivery mode for deck "${deckName}" set to: ${mode}`);
+  });
+
+// ---------------------------------------------------------------------------
 // Deck parameter helpers & subcommands
 // ---------------------------------------------------------------------------
 

@@ -65,6 +65,31 @@ analysis:
 
 The `delivery` section is optional. Reports without it are unaffected by `--deliver`.
 
+### Delivery mode
+
+```yaml
+delivery:
+  mode: "always"                 # "always" (default) or "alarm_only"
+  slack:
+    channels: ["C0123456789"]
+    mention_on_alarm: "@channel"  # Optional: Slack mention for critical alarms
+```
+
+The `mode` field controls when report delivery happens:
+
+- **`always`** (default) -- deliver the report on every run, regardless of alarm state
+- **`alarm_only`** -- only deliver when alarms fire. Silence means everything is fine.
+
+The `mention_on_alarm` field is Slack-specific. When a `critical` severity alarm fires, this mention is included in the alarm notification. See [ALARMS.md](ALARMS.md) for full alarm documentation.
+
+```bash
+# Set delivery mode via CLI
+uc-bq config set-delivery-mode revenue-by-payment alarm_only
+
+# Set Slack mention for critical alarms
+uc-bq config set-mention-on-alarm revenue-by-payment "@channel"
+```
+
 ### Slack delivery
 
 ```yaml
@@ -478,6 +503,14 @@ Delivery config for "revenue-by-payment":
     Provider: sendgrid
     Subject: Weekly: Revenue by Payment Method
 ```
+
+---
+
+## Alarms
+
+Reports support configurable alarms that evaluate data after each run and trigger distinct notifications when thresholds are breached. Alarm notifications use the same delivery channels as normal report delivery but with a visually distinct format (red Slack attachments, `[ALARM]` email subjects) so recipients don't go report-blind.
+
+See [ALARMS.md](ALARMS.md) for comprehensive alarm documentation including alarm types, severity levels, cooldown, delivery modes, and recipes.
 
 ---
 

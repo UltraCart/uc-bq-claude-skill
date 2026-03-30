@@ -17,6 +17,9 @@ import { deliverEmail } from '../lib/deliver-email';
 import { loadDeck, saveDeck, listDecks, buildDeckMarkdown, generateDeckPdf, DeckConfig } from '../lib/deck';
 import { buildDashboardHtml } from '../lib/dashboard';
 import { exec } from 'child_process';
+import { evaluateAlarms, extractAlarmMetrics, AlarmResult } from '../lib/alarm';
+import { loadAlarmState, saveAlarmState, recordAlarmRun } from '../lib/alarm-state';
+import { deliverAlarmNotifications, deliverDeckAlarmNotifications } from '../lib/alarm-notify';
 
 function safePath(baseDir: string, relativePath: string): string {
   const resolved = path.resolve(baseDir, relativePath);
@@ -58,6 +61,7 @@ const deckRunCommand = new Command('run')
   .option('--analysis-api-key <key>', 'API key for headless analysis generation')
   .option('--analysis-model <model>', 'Model for analysis generation', 'claude-sonnet-4-5-20250929')
   .option('--max-bytes <bytes>', 'Max bytes processed before aborting (default: 10 GB)')
+  .option('--skip-alarms', 'Skip alarm evaluation')
   .allowUnknownOption(true)
   .action(async (deckName: string, options, command: Command) => {
     try {
@@ -106,6 +110,7 @@ const deckRunCommand = new Command('run')
       let totalBytes = 0;
       let successCount = 0;
       let failCount = 0;
+      const deckAlarmResults: Array<{ reportName: string; results: AlarmResult[] }> = [];
 
       // Run each report in the deck
       for (let i = 0; i < deck.reports.length; i++) {
@@ -184,6 +189,31 @@ const deckRunCommand = new Command('run')
             bytes_processed: result.bytesProcessed,
           });
           saveManifest(reportDir, manifest);
+
+          // Alarm evaluation
+          if (manifest.alarms && manifest.alarms.length > 0 && !options.skipAlarms) {
+            const alarmState = loadAlarmState(reportDir);
+            const alarmResults = evaluateAlarms(manifest.alarms, result.rows, alarmState);
+            const triggered = alarmResults.filter(r => r.triggered);
+            const fired = triggered.filter(r => !r.suppressed);
+            const suppressed = triggered.filter(r => r.suppressed);
+
+            const metrics = extractAlarmMetrics(manifest.alarms, result.rows);
+            recordAlarmRun(
+              alarmState, resolved, metrics,
+              triggered.map(r => r.alarm.name),
+              suppressed.map(r => r.alarm.name),
+            );
+            saveAlarmState(reportDir, alarmState);
+
+            if (fired.length > 0) {
+              deckAlarmResults.push({ reportName: manifest.name, results: alarmResults });
+              for (const ar of fired) {
+                const icon = ar.alarm.severity === 'critical' ? 'CRITICAL' : ar.alarm.severity === 'high' ? 'HIGH' : 'LOW';
+                console.log(`    \u26a0 ALARM [${icon}] ${ar.alarm.name}: ${ar.reason}`);
+              }
+            }
+          }
 
           // Analysis generation
           if (options.analysis !== false) {
@@ -264,27 +294,39 @@ const deckRunCommand = new Command('run')
       await generateDeckPdf(deckMarkdown, deckPdfPath, decksDir, useLandscape);
       console.log(`  Deck PDF: ${path.relative(process.cwd(), deckPdfPath)}`);
 
+      // Deliver deck alarm notifications (aggregated across reports)
+      const hasDeckAlarms = deckAlarmResults.length > 0;
+      if (hasDeckAlarms && options.deliver && deck.delivery) {
+        console.log(`  Delivering alarm notifications (${deckAlarmResults.reduce((n, r) => n + r.results.filter(a => a.triggered && !a.suppressed).length, 0)} alarm(s) across ${deckAlarmResults.length} report(s))...`);
+        await deliverDeckAlarmNotifications(deck.title, deckAlarmResults, deck.delivery as any);
+      }
+
       // Deliver the deck PDF if --deliver is set
+      const deckMode = (deck.delivery as any)?.mode || 'always';
       if (options.deliver && deck.delivery) {
-        const dateStr = new Date().toISOString().split('T')[0];
-        const comment = `${deck.title} — ${dateStr}`;
-        const fileName = `${deckName}.pdf`;
+        if (deckMode === 'alarm_only' && !hasDeckAlarms) {
+          console.log('  Delivery: mode is alarm_only and no alarms triggered, skipping deck PDF delivery.');
+        } else {
+          const dateStr = new Date().toISOString().split('T')[0];
+          const comment = `${deck.title} — ${dateStr}`;
+          const fileName = `${deckName}.pdf`;
 
-        if (deck.delivery.slack) {
-          try {
-            await deliverSlack(deckPdfPath, fileName, deck.delivery.slack.channels, comment);
-            console.log(`  Delivered to Slack channels: ${deck.delivery.slack.channels.join(', ')}`);
-          } catch (err: any) {
-            console.error(`  Slack delivery failed: ${err.message}`);
+          if (deck.delivery.slack) {
+            try {
+              await deliverSlack(deckPdfPath, fileName, deck.delivery.slack.channels, comment);
+              console.log(`  Delivered to Slack channels: ${deck.delivery.slack.channels.join(', ')}`);
+            } catch (err: any) {
+              console.error(`  Slack delivery failed: ${err.message}`);
+            }
           }
-        }
 
-        if (deck.delivery.email) {
-          try {
-            await deliverEmail(deckPdfPath, fileName, deck.delivery.email);
-            console.log(`  Delivered via email (${deck.delivery.email.provider}) to: ${deck.delivery.email.to.join(', ')}`);
-          } catch (err: any) {
-            console.error(`  Email delivery failed: ${err.message}`);
+          if (deck.delivery.email) {
+            try {
+              await deliverEmail(deckPdfPath, fileName, deck.delivery.email);
+              console.log(`  Delivered via email (${deck.delivery.email.provider}) to: ${deck.delivery.email.to.join(', ')}`);
+            } catch (err: any) {
+              console.error(`  Email delivery failed: ${err.message}`);
+            }
           }
         }
       } else if (options.deliver && !deck.delivery) {
