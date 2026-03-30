@@ -128,6 +128,20 @@ export function resolveRelativeDate(expr: string): string {
   return expr;
 }
 
+/**
+ * Returns true if the expression is a relative date constant that resolveRelativeDate
+ * would transform (e.g., "today", "-90d", "start_of_year"). Returns false for static
+ * date strings like "2025-06-15".
+ */
+export function isRelativeDateExpression(expr: string): boolean {
+  if (!expr || typeof expr !== 'string') return false;
+  const s = expr.trim();
+  if (/^(today|yesterday)$/.test(s)) return true;
+  if (/^-\d+[dwmy]$/.test(s)) return true;
+  if (/^(start_of_|end_of_)/.test(s)) return true;
+  return false;
+}
+
 export async function promptForParameter(param: ReportParameter): Promise<string> {
   const rl = readline.createInterface({
     input: process.stdin,

@@ -25,15 +25,15 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",
     "@aws-sdk/client-bedrock-runtime": "^3.0.0",
-    "@google-cloud/bigquery": "^7.9.0",
-    "@google/generative-ai": "^0.1.0",
+    "@google-cloud/bigquery": "^8.0.0",
+    "@google/generative-ai": "^0.24.0",
     "ajv": "^8.17.0",
     "ajv-formats": "^3.0.0",
-    "commander": "^12.1.0",
+    "commander": "^14.0.0",
     "js-yaml": "^4.1.0",
     "md-to-pdf": "^5.2.5",
-    "openai": "^4.0.0",
-    "puppeteer": "^23.0.0"
+    "openai": "^6.0.0",
+    "puppeteer": "^24.0.0"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
@@ -41,12 +41,15 @@
     "typescript": "^5.6.0"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "files": [
     "dist/",
     "schemas/",
     "templates/",
     "skill/"
-  ]
+  ],
+  "volta": {
+    "node": "22.22.2"
+  }
 }

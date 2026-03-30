@@ -89,7 +89,7 @@ const MANIFEST_FILENAME = 'report.yaml';
 export function loadManifest(reportDir: string): ReportManifest {
   const filePath = path.join(reportDir, MANIFEST_FILENAME);
   const content = fs.readFileSync(filePath, 'utf-8');
-  return yaml.load(content) as ReportManifest;
+  return yaml.load(content, { schema: yaml.JSON_SCHEMA }) as ReportManifest;
 }
 
 export function saveManifest(reportDir: string, manifest: ReportManifest): void {

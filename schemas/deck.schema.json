@@ -35,15 +35,39 @@
     },
     "reports": {
       "type": "array",
-      "description": "Ordered list of report directory names to include in the deck",
+      "description": "Ordered list of reports to include. Each entry is either a report directory name (string) or an object with name and optional per-report parameter overrides.",
       "items": {
-        "type": "string"
+        "oneOf": [
+          { "type": "string" },
+          {
+            "type": "object",
+            "required": ["name"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Report directory name"
+              },
+              "parameters": {
+                "type": "object",
+                "description": "Per-report parameter overrides (always win over deck-level parameters)",
+                "additionalProperties": { "type": "string" }
+              }
+            }
+          }
+        ]
       },
       "minItems": 1
     },
+    "parameter_mode": {
+      "type": "string",
+      "enum": ["smart", "override"],
+      "description": "How deck-level parameters push down to reports. 'smart' (default): only override static date defaults, leave relative date expressions (today, -90d, start_of_year, etc.) alone. 'override': deck parameters always win over report defaults.",
+      "default": "smart"
+    },
     "parameters": {
       "type": "object",
-      "description": "Shared parameter defaults that flow down to all reports in the deck",
+      "description": "Shared parameter defaults that flow down to all reports in the deck (subject to parameter_mode)",
       "additionalProperties": { "type": "string" }
     },
     "landscape": {

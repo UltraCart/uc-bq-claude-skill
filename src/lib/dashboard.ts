@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { DeckConfig } from './deck';
+import { DeckConfig, getReportName } from './deck';
 import { loadManifest } from './manifest';
 
 interface ChartEntry {
@@ -25,7 +25,8 @@ export function buildDashboardHtml(deck: DeckConfig, reportsBaseDir: string): st
   // Collect chart data for each report
   const charts: ChartEntry[] = [];
 
-  for (const reportDirName of deck.reports) {
+  for (const reportEntry of deck.reports) {
+    const reportDirName = getReportName(reportEntry);
     const reportDir = path.join(reportsBaseDir, reportDirName);
 
     let reportName = reportDirName;

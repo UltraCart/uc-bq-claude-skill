@@ -77,9 +77,14 @@ All commands accept these flags:
 - `--llm-provider=PROVIDER` -- Override the configured LLM provider for this command (one of: `anthropic`, `openai`, `grok`, `bedrock`, `gemini`)
 
 ### `uc-bq init`
-Interactive setup. Creates `.ultracart-bq.json` in the project root.
+Setup. Creates `.ultracart-bq.json` in the project root. Runs interactively when no flags are provided, or non-interactively with `--merchant-id`.
 ```bash
+# Interactive
 uc-bq init
+
+# Non-interactive
+uc-bq init --merchant-id=CEF --taxonomy=medium
+uc-bq init --merchant-id=DEMO --taxonomy=high --dataset=ultracart_dw --output-dir=./reports --output-format=png
 ```
 
 ### `uc-bq config`
@@ -351,11 +356,11 @@ Use `uc-bq schema` to explore the merchant's data:
 1. Run `uc-bq schema --list` to see available tables at the configured taxonomy level
 2. Identify the relevant tables for the user's question
 3. If the question involves external data (marketing, advertising, etc.), check the merchant's `external_projects` config for available tables
-4. Run `uc-bq schema --tables=<relevant_tables> --filter="<keywords>" --format=json` to get filtered column schemas
+4. Run `uc-bq schema --tables=<relevant_tables> --format=json` to get column schemas
 5. For external project tables, use the `alias.dataset.table` format: `uc-bq schema --tables=marketing.google_ads_data.funnel_data`
 6. Review the returned schema, noting date/datetime columns, partition columns, and key business fields
 
-The `--filter` flag does keyword matching to pre-filter columns before you see them. This keeps your context lean.
+**Important: When running inside Claude Code, NEVER use the `--filter` CLI flag.** Claude Code is the LLM — fetch the full schema with `--format=json` and do the filtering yourself. You have the full context window and can make better, more nuanced filtering decisions than keyword matching. The `--filter` flag exists only for headless/automated scenarios where no LLM is available to analyze the full schema.
 
 ### Step 2: Mandatory Schema Analysis
 
@@ -385,8 +390,8 @@ Required Parameters:
 === MANDATORY DATETIME CONVERSION PLAN ===
 Column: [DATETIME_COLUMN_NAME]
 - In SELECT clause: DATETIME(TIMESTAMP([COLUMN_NAME]), 'America/New_York') AS [COLUMN_NAME]
-- In WHERE clause: Use original UTC values (no conversion)
-- Reasoning: DATETIME columns stored in UTC, convert only in SELECT for display
+- In WHERE clause: Convert Eastern @parameters to UTC: DATETIME(TIMESTAMP(CAST(@param AS DATETIME), 'America/New_York'))
+- Reasoning: DATETIME columns stored in UTC, parameters are in Eastern time. Convert parameters to UTC for accurate boundary comparison, convert columns to Eastern in SELECT for display.
 
 [Repeat for each DATETIME column. If none: "No DATETIME columns found in schema"]
 === END CONVERSION PLAN ===
@@ -403,13 +408,13 @@ Query Type: [COHORT/LTV/STANDARD]
 - Partition strategy: CLOSED RANGE (standard analysis)
 - Start partition filter: partition_date >= DATE_TRUNC(DATE_SUB(@start_date, INTERVAL 1 MONTH), WEEK(SUNDAY))
 - End partition filter: partition_date <= DATE_TRUNC(DATE_ADD(@end_date, INTERVAL 1 MONTH), WEEK(SUNDAY))
-- Combined with creation_dts: WHERE creation_dts BETWEEN @start_date AND @end_date AND [partition filters]
+- Combined with creation_dts: WHERE creation_dts BETWEEN DATETIME(TIMESTAMP(CAST(@start_date AS DATETIME), 'America/New_York')) AND DATETIME(TIMESTAMP(CAST(@end_date AS DATETIME), 'America/New_York')) AND [partition filters]
 
 [IF YES AND COHORT/LTV TYPE:]
 - Partition strategy: OPEN-ENDED (cohort/LTV analysis)
 - Start partition filter: partition_date >= DATE_TRUNC(DATE_SUB(@start_date, INTERVAL 1 MONTH), WEEK(SUNDAY))
 - End partition filter: NO END FILTER (tracks future behavior)
-- Combined with creation_dts: WHERE creation_dts >= @start_date AND [start partition filter]
+- Combined with creation_dts: WHERE creation_dts >= DATETIME(TIMESTAMP(CAST(@start_date AS DATETIME), 'America/New_York')) AND [start partition filter]
 
 [IF NO:]
 - Reason partition_date not used: No partition_date column found in schema
@@ -426,7 +431,8 @@ Analyze the user's query for cohort/LTV keywords: "cohort", "lifetime value", "L
 - DATETIME conversion plan completed above: [YES — reference your section]
 - Partition optimization plan completed above: [YES — reference your section]
 - Will use @parameters instead of hardcoded dates: [YES — list parameters]
-- Will convert DATETIME in SELECT only: [YES — list conversions]
+- Will convert DATETIME to Eastern in SELECT: [YES — list conversions]
+- Will convert Eastern @parameters to UTC in WHERE: [YES — list conversions]
 - Will use partition_date with creation_dts (never alone): [YES/NO/N/A — explain]
 
 READY TO WRITE SQL: [Must be YES to proceed]
@@ -453,8 +459,8 @@ uc-bq query --file=query.sql --params='{"start_date":"...","end_date":"..."}' --
 
 ```
 === MANDATORY POST-SQL VERIFICATION ===
-- All DATETIME columns converted in SELECT: [YES/NO — list each conversion]
-- No DATETIME conversions in WHERE clauses: [YES/NO — verify each WHERE condition]
+- All DATETIME columns converted to Eastern in SELECT: [YES/NO — list each conversion]
+- All Eastern @parameters converted to UTC in WHERE: [YES/NO — verify each WHERE condition uses DATETIME(TIMESTAMP(CAST(@param AS DATETIME), 'America/New_York'))]
 - Used @parameters instead of hardcoded dates: [YES/NO — list parameters]
 - partition_date combined properly with creation_dts: [YES/NO/N/A — show WHERE clause]
 - Query passed without errors: [YES/NO — show result]
@@ -550,12 +556,16 @@ title: "DEMO Weekly Report Deck"
 cover:
   company: "DEMO Commerce Inc."
   logo_url: "https://example.com/logo.png"
+parameter_mode: smart  # smart (default) or override
 parameters:
-  start_date: "start_of_year"
-  end_date: "today"
+  start_date: start_of_year
+  end_date: today
 reports:
   - revenue-by-payment-method
-  - ltv-by-monthly-cohort
+  # Per-report overrides always win, regardless of parameter_mode
+  - name: ltv-by-monthly-cohort
+    parameters:
+      start_date: start_of_last_year
   - top-products-by-revenue
 landscape: true
 delivery:
@@ -567,7 +577,15 @@ delivery:
     provider: "sendgrid"
 ```
 
-Deck parameters flow down to all reports as overrides. Priority: CLI flags > deck parameters > report defaults.
+#### Deck Parameter Resolution
+
+Priority: CLI flags > per-report overrides > deck parameters > report defaults.
+
+The `parameter_mode` field controls how deck-level parameters interact with report defaults:
+- **`smart`** (default): Deck parameters only override report defaults that are static dates (e.g., `2025-06-15`). If a report's default is a relative expression (`start_of_last_year`, `-90d`, `today`, etc.), the report keeps its own default. This preserves intentional date range choices.
+- **`override`**: Deck parameters always override report defaults (original behavior).
+
+Per-report overrides (in the `reports:` list) always win over deck-level parameters regardless of mode. CLI flags always win over everything.
 
 Or use the CLI: `uc-bq deck create weekly-executive`
 
@@ -597,14 +615,19 @@ These rules are non-negotiable. Violating any of them produces incorrect results
 
 ### DateTime Handling
 
-DATETIME columns in UltraCart BigQuery tables are stored in UTC.
+DATETIME columns in UltraCart BigQuery tables are stored in UTC. Date parameters (`@start_date`, `@end_date`) are always in America/New_York (Eastern) time -- this matches the Java monolith's behavior.
 
-- **SELECT / HAVING / GROUP BY**: Convert to Eastern time:
+- **SELECT / HAVING / GROUP BY**: Convert UTC columns to Eastern for display:
   ```sql
   DATETIME(TIMESTAMP(column), 'America/New_York') AS column
   ```
-- **WHERE / JOIN clauses**: Use original UTC values. NEVER convert DATETIME in WHERE clauses.
-- **Date functions in SELECT**: Convert first, then apply function:
+- **WHERE / JOIN clauses**: Convert Eastern @parameters to UTC for accurate comparison against UTC DATETIME columns. NEVER compare Eastern parameters directly against UTC columns -- the 4-5 hour offset causes boundary errors.
+  ```sql
+  -- Convert Eastern parameter to UTC datetime for comparison
+  DATETIME(TIMESTAMP(CAST(@start_date AS DATETIME), 'America/New_York'))
+  ```
+  This works by: (1) casting the date string to DATETIME, (2) `TIMESTAMP(..., 'America/New_York')` interprets it as Eastern and returns a UTC timestamp, (3) `DATETIME(...)` converts back to a timezone-naive UTC datetime for comparison against the UTC column.
+- **Date functions in SELECT**: Convert to Eastern first, then apply function:
   ```sql
   DATE_TRUNC(DATE(DATETIME(TIMESTAMP(creation_dts), 'America/New_York')), MONTH)
   ```
@@ -615,14 +638,16 @@ The `partition_date` column is a partition key. It must NEVER be used alone -- a
 
 **Standard queries (closed range):**
 ```sql
-WHERE creation_dts BETWEEN @start_date AND @end_date
+WHERE creation_dts BETWEEN
+    DATETIME(TIMESTAMP(CAST(@start_date AS DATETIME), 'America/New_York'))
+    AND DATETIME(TIMESTAMP(CAST(@end_date AS DATETIME), 'America/New_York'))
   AND partition_date >= DATE_TRUNC(DATE_SUB(@start_date, INTERVAL 1 MONTH), WEEK(SUNDAY))
   AND partition_date <= DATE_TRUNC(DATE_ADD(@end_date, INTERVAL 1 MONTH), WEEK(SUNDAY))
 ```
 
 **Cohort/LTV queries (open-ended):**
 ```sql
-WHERE creation_dts >= @start_date
+WHERE creation_dts >= DATETIME(TIMESTAMP(CAST(@start_date AS DATETIME), 'America/New_York'))
   AND partition_date >= DATE_TRUNC(DATE_SUB(@start_date, INTERVAL 1 MONTH), WEEK(SUNDAY))
   -- No end partition filter -- tracks future behavior
 ```
@@ -638,9 +663,12 @@ WHERE creation_dts >= @start_date
 
 **Never hardcode dates** like `'2024-01-01'`. Always use `@parameters`.
 
+**Parameter timezone convention:**
+All date parameters are in America/New_York (Eastern) time. This matches the Java monolith's behavior. The SQL must convert these Eastern parameters to UTC before comparing against UTC DATETIME columns (see DateTime Handling above).
+
 **Parameter type coercion at runtime:**
-- `end_date` parameters get lastSecondOfDay() (e.g., `2026-03-28 23:59:59`)
-- `start_date` parameters get firstSecondOfDay() (e.g., `2026-01-01 00:00:00`)
+- `end_date` parameters get lastSecondOfDay() (e.g., `2026-03-28 23:59:59` Eastern)
+- `start_date` parameters get firstSecondOfDay() (e.g., `2026-01-01 00:00:00` Eastern)
 
 **Allowed parameter types:** DATE, DATETIME, INT64, FLOAT64, BOOL, STRING. Never use TIMESTAMP.
 
@@ -1185,7 +1213,9 @@ FROM `ultracart-dw-demo.ultracart_dw.uc_orders` o
 JOIN `my-marketing-warehouse.google_ads_data.funnel_data` f
   ON DATE(DATETIME(TIMESTAMP(o.creation_dts), 'America/New_York')) = f.date
   AND o.utm_campaign = f.campaign_id
-WHERE o.creation_dts BETWEEN @start_date AND @end_date
+WHERE o.creation_dts BETWEEN
+    DATETIME(TIMESTAMP(CAST(@start_date AS DATETIME), 'America/New_York'))
+    AND DATETIME(TIMESTAMP(CAST(@end_date AS DATETIME), 'America/New_York'))
   AND o.partition_date >= DATE_TRUNC(DATE_SUB(@start_date, INTERVAL 1 MONTH), WEEK(SUNDAY))
   AND o.partition_date <= DATE_TRUNC(DATE_ADD(@end_date, INTERVAL 1 MONTH), WEEK(SUNDAY))
 ```

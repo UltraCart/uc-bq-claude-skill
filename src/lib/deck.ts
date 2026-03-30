@@ -4,17 +4,30 @@ import * as yaml from 'js-yaml';
 import { mdToPdf } from 'md-to-pdf';
 import { loadManifest } from './manifest';
 
+export type DeckReportEntry = string | { name: string; parameters?: Record<string, string> };
+
 export interface DeckConfig {
   name: string;
   title: string;
   cover?: { company?: string; logo_url?: string };
-  reports: string[];
+  reports: DeckReportEntry[];
+  parameter_mode?: 'smart' | 'override';  // default: 'smart'
   parameters?: Record<string, string>;
   landscape?: boolean;
   delivery?: {
     slack?: { channels: string[] };
     email?: { to: string[]; subject: string; provider: string };
   };
+}
+
+/** Get the report directory name from a deck report entry. */
+export function getReportName(entry: DeckReportEntry): string {
+  return typeof entry === 'string' ? entry : entry.name;
+}
+
+/** Get per-report parameter overrides from a deck report entry. */
+export function getReportOverrides(entry: DeckReportEntry): Record<string, string> {
+  return typeof entry === 'string' ? {} : (entry.parameters || {});
 }
 
 /**
@@ -26,7 +39,7 @@ export function loadDeck(decksDir: string, deckName: string): DeckConfig {
     throw new Error(`Deck file not found: ${filePath}`);
   }
   const content = fs.readFileSync(filePath, 'utf-8');
-  return yaml.load(content) as DeckConfig;
+  return yaml.load(content, { schema: yaml.JSON_SCHEMA }) as DeckConfig;
 }
 
 /**
@@ -59,7 +72,7 @@ export function listDecks(decksDir: string): Array<{ name: string; title: string
   for (const file of files) {
     try {
       const content = fs.readFileSync(path.join(decksDir, file), 'utf-8');
-      const config = yaml.load(content) as DeckConfig;
+      const config = yaml.load(content, { schema: yaml.JSON_SCHEMA }) as DeckConfig;
       decks.push({
         name: config.name,
         title: config.title,
@@ -112,7 +125,7 @@ export function buildDeckMarkdown(deck: DeckConfig, reportsBaseDir: string): str
   sections.push('');
 
   for (let i = 0; i < deck.reports.length; i++) {
-    const reportDirName = deck.reports[i];
+    const reportDirName = getReportName(deck.reports[i]);
     const reportDir = path.join(reportsBaseDir, reportDirName);
     let reportTitle = reportDirName;
 
@@ -131,7 +144,8 @@ export function buildDeckMarkdown(deck: DeckConfig, reportsBaseDir: string): str
   sections.push('---');
 
   // --- Report sections ---
-  for (const reportDirName of deck.reports) {
+  for (const reportEntry of deck.reports) {
+    const reportDirName = getReportName(reportEntry);
     const reportDir = path.join(reportsBaseDir, reportDirName);
     let reportTitle = reportDirName;
 

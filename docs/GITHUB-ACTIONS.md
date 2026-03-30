@@ -99,30 +99,49 @@ git push -u origin main
 
 ## Step 2: Set Up Secrets
 
-Go to your repo -> Settings -> Secrets and variables -> Actions, and add:
+Go to your repo → **Settings → Secrets and variables → Actions**.
 
-| Secret | Value | Purpose |
-|--------|-------|---------|
-| `GCP_SA_KEY` | Your service account JSON key (entire file contents) | BigQuery authentication |
-| `SLACK_BOT_TOKEN` | `xoxb-...` | Slack delivery (if using Slack) |
-| LLM provider API key | See below | AI-generated analysis (optional) |
-| Email provider key | e.g., `SENDGRID_API_KEY` | Email delivery (if using email) |
+### Required Secret
 
-**LLM provider API key** -- set the secret matching the provider in your `.ultracart-bq.json` `llm.provider` config:
+| Secret Name | Value | Purpose |
+|-------------|-------|---------|
+| `GCP_SA_KEY` | Service account JSON key (entire file contents) | BigQuery authentication |
 
-| Provider | Secret Name | Value |
-|----------|-------------|-------|
-| `anthropic` (default) | `ANTHROPIC_API_KEY` | `sk-ant-...` |
-| `openai` | `OPENAI_API_KEY` | `sk-...` |
-| `grok` | `XAI_API_KEY` | `xai-...` |
-| `bedrock` | (uses AWS credential chain -- configure via `GCP_SA_KEY` or AWS-specific auth) | AWS credentials |
-| `gemini` | `GOOGLE_API_KEY` | `AIza...` |
+### Delivery Secrets (add the ones you use)
 
-| Variable | Value | Purpose |
-|----------|-------|---------|
+| Secret Name | Value | When to add |
+|-------------|-------|-------------|
+| `SLACK_BOT_TOKEN` | `xoxb-...` | If any report delivers to Slack |
+| `SENDGRID_API_KEY` | SendGrid API key | If using SendGrid for email |
+| `POSTMARK_SERVER_TOKEN` | Postmark server token | If using Postmark for email |
+| `MAILGUN_API_KEY` | Mailgun API key | If using Mailgun for email |
+| `RESEND_API_KEY` | Resend API key | If using Resend for email |
+
+### LLM Secret (for AI-generated analysis)
+
+Only needed if you run reports with analysis enabled (i.e., without `--no-analysis`). Add **one** secret matching the `llm.provider` in your `.ultracart-bq.json` (defaults to `anthropic`):
+
+| Secret Name | Provider | Example Value |
+|-------------|----------|---------------|
+| `ANTHROPIC_API_KEY` | `anthropic` (default) | `sk-ant-...` |
+| `OPENAI_API_KEY` | `openai` | `sk-...` |
+| `XAI_API_KEY` | `grok` | `xai-...` |
+| `GOOGLE_API_KEY` | `gemini` | `AIza...` |
+| _(none — uses AWS credential chain)_ | `bedrock` | Configure via AWS-specific auth |
+
+### Variables (not secrets)
+
+Under the **Variables** tab (not Secrets):
+
+| Variable Name | Value | Purpose |
+|---------------|-------|---------|
 | `EMAIL_FROM` | `reports@example.com` | Sender address for email delivery |
 
-Note: The Slack channel ID and email recipients are in each report's `report.yaml` manifest, not in GitHub variables. The merchant ID and taxonomy level are in `.ultracart-bq.json`.
+### What lives where
+
+- **GitHub Secrets/Variables**: API keys, tokens, sender address — anything sensitive or environment-specific
+- **`.ultracart-bq.json`**: Merchant IDs, taxonomy levels, LLM provider name — committed to the repo, no secrets
+- **`report.yaml` manifests**: Slack channel IDs, email recipients, delivery config — committed to the repo, no secrets
 
 ---
 
@@ -153,7 +172,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install uc-bq CLI
         run: npm install -g @ultracart/bq-skill
@@ -235,7 +254,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+        with: { node-version: '22' }
 
       - run: npm install -g @ultracart/bq-skill
 
@@ -270,7 +289,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+        with: { node-version: '22' }
       - run: npm install -g @ultracart/bq-skill
       - uses: google-github-actions/auth@v2
         with: { credentials_json: '${{ secrets.GCP_SA_KEY }}' }
@@ -314,7 +333,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+        with: { node-version: '22' }
       - run: npm install -g @ultracart/bq-skill
 
       - uses: google-github-actions/auth@v2
@@ -418,7 +437,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+        with: { node-version: '22' }
       - run: npm install -g @ultracart/bq-skill
       - uses: google-github-actions/auth@v2
         with: { credentials_json: '${{ secrets.GCP_SA_KEY }}' }
@@ -445,7 +464,7 @@ The only downside: Puppeteer downloads ~400MB of Chromium on each run via `npm i
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+        with: { node-version: '22' }
 
       # Cache Puppeteer's Chromium download
       - name: Cache Puppeteer browsers
@@ -523,7 +542,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+        with: { node-version: '22' }
       - run: npm install -g @ultracart/bq-skill
       - uses: google-github-actions/auth@v2
         with: { credentials_json: '${{ secrets.GCP_SA_KEY }}' }

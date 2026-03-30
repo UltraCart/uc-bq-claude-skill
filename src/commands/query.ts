@@ -4,6 +4,7 @@ import * as path from 'path';
 import { loadConfig, resolveMerchant } from '../lib/config';
 import { executeQuery, QueryParameter } from '../lib/bigquery';
 import { substituteParams } from '../lib/template';
+import { resolveRelativeDate } from '../lib/params';
 
 export const queryCommand = new Command('query')
   .description('Execute SQL against BigQuery and return results')
@@ -37,8 +38,12 @@ export const queryCommand = new Command('query')
         sql = options.sql;
       }
 
-      // Parse and substitute parameters
-      const params: Record<string, string> = options.params ? JSON.parse(options.params) : {};
+      // Parse and substitute parameters, resolving any relative date expressions
+      const rawParams: Record<string, string> = options.params ? JSON.parse(options.params) : {};
+      const params: Record<string, string> = {};
+      for (const [name, value] of Object.entries(rawParams)) {
+        params[name] = resolveRelativeDate(value);
+      }
       sql = substituteParams(sql, params);
 
       // Build query parameters array
@@ -102,14 +107,9 @@ export const queryCommand = new Command('query')
       }
       console.log('');
 
-      // Save full results if requested
+      // Save full results if requested (plain array, matching `run` command format)
       if (options.output) {
-        const outputData = {
-          rows: result.rows,
-          totalRows: result.totalRows,
-          bytesProcessed: result.bytesProcessed,
-        };
-        fs.writeFileSync(options.output, JSON.stringify(outputData, null, 2));
+        fs.writeFileSync(options.output, JSON.stringify(result.rows, null, 2));
         console.log(`  Results saved to ${path.relative(process.cwd(), options.output)}`);
         console.log('');
       }

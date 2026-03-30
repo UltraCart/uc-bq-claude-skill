@@ -43,13 +43,28 @@ uc-bq install-skill --uninstall
 
 ## uc-bq init
 
-Interactive setup. Creates `.ultracart-bq.json` and tests BigQuery connectivity.
+Setup. Creates `.ultracart-bq.json` and tests BigQuery connectivity. Runs interactively when no flags are provided, or non-interactively when `--merchant-id` is given.
+
+| Option | Description |
+|--------|-------------|
+| `--merchant-id <id>` | Merchant ID (enables non-interactive mode) |
+| `--taxonomy <level>` | Taxonomy level: `standard`, `low`, `medium`, `high` (default: `standard`) |
+| `--dataset <dataset>` | BigQuery dataset name (default: `ultracart_dw`) |
+| `--output-dir <dir>` | Output directory for reports (default: `./reports`) |
+| `--output-format <format>` | Output format: `png`, `pdf`, `both` (default: `png`) |
+
+**Examples:**
 
 ```bash
+# Interactive setup
 uc-bq init
-```
 
-No arguments or options.
+# Non-interactive setup
+uc-bq init --merchant-id=CEF --taxonomy=medium
+
+# Full non-interactive with all options
+uc-bq init --merchant-id=DEMO --taxonomy=high --dataset=ultracart_dw --output-dir=./reports --output-format=png
+```
 
 ---
 
@@ -760,6 +775,30 @@ uc-bq deck create weekly-executive \
   --landscape \
   --params="start_date=start_of_year,end_date=today"
 ```
+
+### Deck YAML Format
+
+Deck definitions support `parameter_mode` and per-report parameter overrides:
+
+```yaml
+name: "Weekly Executive Briefing"
+title: "Weekly Report Deck"
+parameter_mode: smart  # smart (default) | override
+parameters:
+  start_date: start_of_year
+  end_date: today
+reports:
+  - revenue-by-payment-method           # simple string entry
+  - name: ltv-by-monthly-cohort         # object entry with per-report overrides
+    parameters:
+      start_date: start_of_last_year
+```
+
+**`parameter_mode`** controls how deck-level parameters interact with report defaults:
+- **`smart`** (default): Only overrides static date defaults (e.g., `2025-06-15`). Reports with relative date expressions (`start_of_year`, `-90d`, `today`, etc.) keep their own defaults.
+- **`override`**: Deck parameters always override report defaults.
+
+Per-report `parameters` always win over deck-level, regardless of mode. CLI flags always win over everything.
 
 ---
 

@@ -53,7 +53,7 @@ export const validateCommand = new Command('validate')
         }
 
         const manifestContent = fs.readFileSync(options.manifest, 'utf-8');
-        const manifestData = yaml.load(manifestContent);
+        const manifestData = yaml.load(manifestContent, { schema: yaml.JSON_SCHEMA });
         const result = validateManifest(manifestData);
 
         if (result.valid) {

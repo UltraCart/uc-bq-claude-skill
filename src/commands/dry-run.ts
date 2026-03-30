@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import { loadConfig, resolveMerchant } from '../lib/config';
 import { executeQuery, QueryParameter } from '../lib/bigquery';
 import { substituteParams } from '../lib/template';
+import { resolveRelativeDate } from '../lib/params';
 
 export const dryRunCommand = new Command('dry-run')
   .description('Estimate query cost without executing')
@@ -32,8 +33,12 @@ export const dryRunCommand = new Command('dry-run')
         sql = options.sql;
       }
 
-      // Parse and substitute parameters
-      const params: Record<string, string> = options.params ? JSON.parse(options.params) : {};
+      // Parse and substitute parameters, resolving any relative date expressions
+      const rawParams: Record<string, string> = options.params ? JSON.parse(options.params) : {};
+      const params: Record<string, string> = {};
+      for (const [name, value] of Object.entries(rawParams)) {
+        params[name] = resolveRelativeDate(value);
+      }
       sql = substituteParams(sql, params);
 
       // Build query parameters array

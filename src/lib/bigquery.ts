@@ -217,13 +217,13 @@ export async function executeQuery(
   }
 
   if (options.dryRun) {
-    const [job] = await bq.createQueryJob(queryOptions);
-    const metadata = await job.getMetadata();
+    const [job, apiResponse] = await bq.createQueryJob(queryOptions);
+    const stats = (apiResponse as any)?.statistics;
     return {
       rows: [],
       totalRows: 0,
       schema: [],
-      bytesProcessed: parseInt(metadata[0].statistics.totalBytesProcessed, 10),
+      bytesProcessed: parseInt(stats?.totalBytesProcessed ?? '0', 10),
     };
   }
 
@@ -232,9 +232,9 @@ export async function executeQuery(
 
   if (!options.force) {
     const dryRunOptions = { ...queryOptions, dryRun: true };
-    const [dryRunJob] = await bq.createQueryJob(dryRunOptions);
-    const dryRunMeta = await dryRunJob.getMetadata();
-    const estimatedBytes = parseInt(dryRunMeta[0].statistics.totalBytesProcessed, 10);
+    const [, dryRunApiResponse] = await bq.createQueryJob(dryRunOptions);
+    const dryRunStats = (dryRunApiResponse as any)?.statistics;
+    const estimatedBytes = parseInt(dryRunStats?.totalBytesProcessed ?? '0', 10);
     const estimatedGB = estimatedBytes / (1024 * 1024 * 1024);
     const estimatedCost = (estimatedBytes / (1024 * 1024 * 1024 * 1024)) * 6.25;
 

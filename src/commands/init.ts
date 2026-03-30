@@ -21,8 +21,89 @@ interface MerchantEntry {
 }
 
 export const initCommand = new Command('init')
-  .description('Interactive setup — creates .ultracart-bq.json')
-  .action(async () => {
+  .description('Setup — creates .ultracart-bq.json (interactive or via flags)')
+  .option('--merchant-id <id>', 'Merchant ID (skips interactive mode when provided)')
+  .option('--taxonomy <level>', 'Taxonomy level: standard, low, medium, high', 'standard')
+  .option('--dataset <dataset>', 'BigQuery dataset name', 'ultracart_dw')
+  .option('--output-dir <dir>', 'Output directory for reports', './reports')
+  .option('--output-format <format>', 'Output format: png, pdf, both', 'png')
+  .action(async (opts) => {
+    const taxonomyLevels = ['standard', 'low', 'medium', 'high'] as const;
+    const formatOptions = ['png', 'pdf', 'both'] as const;
+
+    // Also check global -m/--merchant from parent command
+    const merchantId = opts.merchantId || opts.parent?.merchant;
+
+    // Non-interactive mode when merchant ID is provided
+    if (merchantId) {
+      if (!taxonomyLevels.includes(opts.taxonomy as any)) {
+        console.error(`Error: Invalid taxonomy level "${opts.taxonomy}". Must be one of: ${taxonomyLevels.join(', ')}`);
+        process.exit(1);
+      }
+      if (!formatOptions.includes(opts.outputFormat as any)) {
+        console.error(`Error: Invalid output format "${opts.outputFormat}". Must be one of: ${formatOptions.join(', ')}`);
+        process.exit(1);
+      }
+
+      console.log('');
+      console.log('  UltraCart BigQuery Skill Setup');
+      console.log('  ──────────────────────────────');
+      console.log('');
+
+      const config = {
+        default_merchant: merchantId,
+        merchants: {
+          [merchantId]: {
+            taxonomy_level: opts.taxonomy,
+            dataset: opts.dataset,
+          },
+        },
+        default_output_dir: opts.outputDir,
+        output_format: opts.outputFormat,
+        chart_theme: 'default',
+        chart_defaults: { width: 1200, height: 600 },
+      } as UcBqConfig;
+
+      const validation = validateConfig(config);
+      if (!validation.valid) {
+        console.error('  Config validation failed:');
+        for (const err of validation.errors) {
+          console.error(`    - ${err}`);
+        }
+        process.exit(1);
+      }
+
+      const configPath = path.join(process.cwd(), CONFIG_FILENAME);
+      const configWithSchema = {
+        $schema: 'https://ultracart.com/schemas/ultracart-bq-config.schema.json',
+        ...config,
+      };
+      fs.writeFileSync(configPath, JSON.stringify(configWithSchema, null, 2) + '\n');
+
+      console.log(`  + Created ${CONFIG_FILENAME}`);
+      console.log(`  + Merchant "${merchantId}" configured (taxonomy: ${opts.taxonomy})`);
+      console.log('  + Validated against schema');
+
+      console.log('  + Testing BigQuery connection...');
+      try {
+        const merchant = resolveMerchant(config);
+        const tables = getTables(merchant, merchant.dataset);
+        console.log(`  + Connected to ${merchant.project_id}`);
+        console.log(`  + Found ${tables.length} tables/views at taxonomy level '${merchant.taxonomy_level}'`);
+      } catch (err: any) {
+        console.error(`  x BigQuery connection failed: ${err.message}`);
+        console.error('');
+        console.error('  Config file was written, but BigQuery connection could not be verified.');
+        console.error('  Make sure you have authenticated via:');
+        console.error('    gcloud auth application-default login');
+        process.exit(1);
+      }
+
+      console.log('');
+      return;
+    }
+
+    // Interactive mode (original behavior)
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -34,7 +115,6 @@ export const initCommand = new Command('init')
       console.log('  ──────────────────────────────');
       console.log('');
 
-      const taxonomyLevels = ['standard', 'low', 'medium', 'high'] as const;
       const merchants: MerchantEntry[] = [];
 
       // Prompt for merchants in a loop
@@ -144,7 +224,6 @@ export const initCommand = new Command('init')
       const outputDirInput = await prompt(rl, '  Output Directory [./reports]: ');
       const outputDir = outputDirInput || './reports';
 
-      const formatOptions = ['png', 'pdf', 'both'] as const;
       const formatInput = await prompt(rl, '  Output Format [png / pdf / both]: ');
       const outputFormat = formatInput || 'png';
       if (!formatOptions.includes(outputFormat as any)) {

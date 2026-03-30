@@ -7,14 +7,14 @@ import { createProvider } from '../lib/llm';
 import { getDefaultModels } from '../lib/llm/models';
 import { executeQuery, QueryParameter } from '../lib/bigquery';
 import { loadManifest, saveManifest, addRunHistoryEntry, listReports } from '../lib/manifest';
-import { resolveParameters, resolveRelativeDate, ReportParameter } from '../lib/params';
+import { resolveParameters, resolveRelativeDate, isRelativeDateExpression, ReportParameter } from '../lib/params';
 import { substituteParams } from '../lib/template';
 import { renderChart } from '../lib/renderer';
 import { generateAnalysis } from '../lib/analysis';
 import { generatePdf } from '../lib/pdf';
 import { deliverSlack } from '../lib/deliver-slack';
 import { deliverEmail } from '../lib/deliver-email';
-import { loadDeck, saveDeck, listDecks, buildDeckMarkdown, generateDeckPdf, DeckConfig } from '../lib/deck';
+import { loadDeck, saveDeck, listDecks, buildDeckMarkdown, generateDeckPdf, DeckConfig, getReportName, getReportOverrides } from '../lib/deck';
 import { buildDashboardHtml } from '../lib/dashboard';
 import { exec } from 'child_process';
 import { evaluateAlarms, extractAlarmMetrics, AlarmResult } from '../lib/alarm';
@@ -89,20 +89,22 @@ const deckRunCommand = new Command('run')
         }
       }
 
-      // Merge: CLI overrides > deck parameters > (report defaults handled per-report)
+      // Deck-level parameters and mode
       const deckParams = deck.parameters || {};
-      const deckOverrides: Record<string, string> = { ...deckParams, ...cliOverrides };
+      const parameterMode = deck.parameter_mode || 'smart';
 
-      // Resolve relative date expressions in deck overrides
-      for (const key of Object.keys(deckOverrides)) {
-        deckOverrides[key] = resolveRelativeDate(deckOverrides[key]);
+      // Resolve relative date expressions in CLI overrides
+      const resolvedCliOverrides: Record<string, string> = {};
+      for (const [key, value] of Object.entries(cliOverrides)) {
+        resolvedCliOverrides[key] = resolveRelativeDate(value);
       }
 
       console.log('');
       console.log(`  Deck: ${deck.title}`);
-      if (Object.keys(deckOverrides).length > 0) {
-        const paramStr = Object.entries(deckOverrides).map(([k, v]) => `${k}=${v}`).join(', ');
-        console.log(`  Parameters: ${paramStr}`);
+      if (Object.keys(deckParams).length > 0 || Object.keys(resolvedCliOverrides).length > 0) {
+        const allParams = { ...deckParams, ...resolvedCliOverrides };
+        const paramStr = Object.entries(allParams).map(([k, v]) => `${k}=${v}`).join(', ');
+        console.log(`  Parameters: ${paramStr} (mode: ${parameterMode})`);
       }
       console.log(`  Reports: ${deck.reports.length}`);
       console.log('  ' + '='.repeat(50));
@@ -114,7 +116,9 @@ const deckRunCommand = new Command('run')
 
       // Run each report in the deck
       for (let i = 0; i < deck.reports.length; i++) {
-        const reportDirName = deck.reports[i];
+        const reportEntry = deck.reports[i];
+        const reportDirName = getReportName(reportEntry);
+        const perReportOverrides = getReportOverrides(reportEntry);
         const reportDir = path.join(reportsDir, reportDirName);
 
         if (!fs.existsSync(reportDir)) {
@@ -127,9 +131,33 @@ const deckRunCommand = new Command('run')
         const label = `[${i + 1}/${deck.reports.length}] ${manifest.name}`;
 
         try {
-          // Resolve parameters: deck overrides flow down to all reports
+          // Build effective overrides based on parameter_mode
           const paramDefs: ReportParameter[] = (manifest.parameters || []) as ReportParameter[];
-          const resolved = await resolveParameters(paramDefs, deckOverrides);
+          let effectiveDeckParams: Record<string, string> = {};
+
+          if (parameterMode === 'override') {
+            // Override mode: deck params always win over report defaults
+            effectiveDeckParams = { ...deckParams };
+          } else {
+            // Smart mode: deck params only override static date defaults
+            for (const [key, value] of Object.entries(deckParams)) {
+              const paramDef = paramDefs.find(p => p.name === key);
+              const reportDefault = paramDef?.default !== undefined ? String(paramDef.default) : undefined;
+              if (!reportDefault || !isRelativeDateExpression(reportDefault)) {
+                effectiveDeckParams[key] = value;
+              }
+            }
+          }
+
+          // Per-report overrides always win over deck-level, CLI always wins over everything
+          const finalOverrides: Record<string, string> = { ...effectiveDeckParams, ...perReportOverrides, ...resolvedCliOverrides };
+
+          // Resolve relative date expressions in the final overrides
+          for (const key of Object.keys(finalOverrides)) {
+            finalOverrides[key] = resolveRelativeDate(finalOverrides[key]);
+          }
+
+          const resolved = await resolveParameters(paramDefs, finalOverrides);
 
           // Load and substitute SQL
           const sqlPath = safePath(reportDir, manifest.sql_file);
@@ -520,7 +548,8 @@ const deckDashboardCommand = new Command('dashboard')
 
       // Check which reports have data
       let missingCount = 0;
-      for (const reportDirName of deck.reports) {
+      for (const reportEntry of deck.reports) {
+        const reportDirName = getReportName(reportEntry);
         const dataPath = path.join(reportsDir, reportDirName, 'data.json');
         if (!fs.existsSync(dataPath)) {
           console.warn(`  Warning: ${reportDirName}/data.json not found — run "uc-bq deck run ${deckName}" first`);
