@@ -13,6 +13,7 @@ import { historyCommand } from './commands/history';
 import { configCommand } from './commands/config';
 import { deckCommand } from './commands/deck';
 import { alarmCommand } from './commands/alarm';
+import { installSkillCommand } from './commands/install-skill';
 
 const pkg = require('../package.json');
 
@@ -38,5 +39,6 @@ program.addCommand(historyCommand);
 program.addCommand(configCommand);
 program.addCommand(deckCommand);
 program.addCommand(alarmCommand);
+program.addCommand(installSkillCommand);
 
 program.parse();

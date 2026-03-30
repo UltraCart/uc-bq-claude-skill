@@ -136,7 +136,17 @@ uc-bq schema --list
 
 ## Quick Start
 
-### 1. Configure
+### 1. Install the Claude Code Skill
+
+```bash
+uc-bq install-skill
+```
+
+This copies the skill prompt to `~/.claude/skills/uc-bq/SKILL.md`. The skill teaches Claude Code how to work with UltraCart's BigQuery schema, write optimized SQL, create ECharts visualizations, and use the `uc-bq` CLI. You can preview the file with `uc-bq install-skill --dry-run` or read it directly at `skill/skill.md` in the package.
+
+To remove the skill: `uc-bq install-skill --uninstall`
+
+### 2. Configure
 
 ```bash
 uc-bq init
@@ -187,7 +197,7 @@ uc-bq schema --list -m DEMO2
 uc-bq run revenue-by-category -m DEMO2
 ```
 
-### 2. Create a Report (with Claude Code)
+### 3. Create a Report (with Claude Code)
 
 In Claude Code, use the skill to ask a question:
 
@@ -205,7 +215,7 @@ Claude Code will:
 
 **Result:** A report directory under `./reports/{merchant_id}/{report-name}/` with `report.yaml`, `query.sql`, `chart.js`, `chart.png`, `report.pdf`, and `report.md`.
 
-### 3. Replay a Report (no Claude Code needed)
+### 4. Replay a Report (no Claude Code needed)
 
 ```bash
 # Replay with default date parameters

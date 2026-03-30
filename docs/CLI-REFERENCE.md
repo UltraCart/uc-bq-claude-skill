@@ -15,6 +15,32 @@ These flags are available on all commands.
 
 ---
 
+## uc-bq install-skill
+
+Install (or uninstall) the Claude Code skill prompt to `~/.claude/skills/uc-bq/SKILL.md`.
+
+| Option | Description |
+|--------|-------------|
+| `--dry-run` | Show what would be installed without writing anything |
+| `--uninstall` | Remove the installed skill |
+
+The skill teaches Claude Code how to work with UltraCart's BigQuery schema conventions, SQL patterns, ECharts best practices, and the full CLI API. It is a markdown file, not executable code.
+
+**Examples:**
+
+```bash
+# Preview before installing
+uc-bq install-skill --dry-run
+
+# Install the skill
+uc-bq install-skill
+
+# Remove the skill
+uc-bq install-skill --uninstall
+```
+
+---
+
 ## uc-bq init
 
 Interactive setup. Creates `.ultracart-bq.json` and tests BigQuery connectivity.

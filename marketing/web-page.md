@@ -28,12 +28,15 @@ The tool is a **Claude Code skill** — a prompt that teaches Claude Code how to
 
 ```
 npm install -g @ultracart/bq-skill
+uc-bq install-skill
 uc-bq init
 ```
 
+`install-skill` copies the skill prompt to `~/.claude/skills/uc-bq/SKILL.md` so Claude Code knows how to work with UltraCart's BigQuery schema. You can inspect the file before and after — it's a markdown prompt, not executable code.
+
 **2. Design a report in Claude Code**
 
-Open Claude Code in your project directory. The skill activates automatically. Describe what you want:
+Open Claude Code in your project directory. The skill is available automatically after installation. Describe what you want:
 
 *"Build a report showing revenue by product category for the last 90 days with a stacked area chart"*
 
@@ -242,10 +245,10 @@ Or skip analysis entirely with `--no-analysis` for zero-cost replay.
 ## Get Started
 
 1. **Install** — `npm install -g @ultracart/bq-skill`
-2. **Authenticate** — `gcloud auth application-default login`
-3. **Configure** — `uc-bq init`
-4. **Open Claude Code** in your project directory — the skill activates automatically
-5. **Ask for a report** — describe what you want in plain English
+2. **Register the skill** — `uc-bq install-skill`
+3. **Authenticate** — `gcloud auth application-default login`
+4. **Configure** — `uc-bq init`
+5. **Open Claude Code** and describe the report you want in plain English
 
 Your UltraCart data warehouse must be enabled. If it's not, contact your UltraCart account manager.
 

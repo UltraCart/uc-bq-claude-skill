@@ -13,6 +13,9 @@ gcloud auth application-default login
 # Install the uc-bq CLI
 npm install -g @ultracart/bq-skill
 
+# Register the Claude Code skill
+uc-bq install-skill
+
 # Set up your config
 uc-bq init
 ```

@@ -49,6 +49,9 @@ Report design happens in Claude Code — covered by your existing subscription, 
 # Install
 npm install -g @ultracart/bq-skill
 
+# Register the Claude Code skill
+uc-bq install-skill
+
 # Configure
 uc-bq init
 
@@ -120,9 +123,10 @@ They're complementary tools for different workflows. Use the dashboard for quick
 ## Get Started
 
 1. **Install** — `npm install -g @ultracart/bq-skill`
-2. **Authenticate** — `gcloud auth application-default login`
-3. **Configure** — `uc-bq init`
-4. **Open Claude Code** — the skill activates automatically in your project directory
+2. **Register the skill** — `uc-bq install-skill`
+3. **Authenticate** — `gcloud auth application-default login`
+4. **Configure** — `uc-bq init`
+5. **Open Claude Code** and describe the report you want
 
 [Install from npm](https://www.npmjs.com/package/@ultracart/bq-skill) | [View on GitHub](https://github.com/UltraCart/bq-skill) | [Read the Tutorial](https://github.com/UltraCart/bq-skill/blob/main/TUTORIAL.md)
 
