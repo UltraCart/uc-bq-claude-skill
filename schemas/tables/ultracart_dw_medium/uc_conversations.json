@@ -1,0 +1,415 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "conversation_arn",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "conversation_uuid",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "participants",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "conversation_participant_uuid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "conversation_participant_arn",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "status",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "joined_dts",
+        "description": "Joined conversation date/time",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "left_dts",
+        "description": "Left conversation date/time",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "last_message_dts",
+        "description": "Last message date/time",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "conversation_participant_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "unread_messages",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "profile_image_url",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "timezone",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "language_iso_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "email",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "sms_phone_number",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "conversation_participant_name_hash",
+        "description": "Conversation Participant Name Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "profile_image_url_hash",
+        "description": "Profile Image URL Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "email_hash",
+        "description": "Email Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "sms_phone_number_hash",
+        "description": "SMS Phone Number Hash SHA-256 Base64",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "messages",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "conversation_message_uuid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "message_dts",
+        "description": "Message date/time",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "message_epoch",
+        "description": "Message epoch milliseconds",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "author_conversation_participant_arn",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "author_conversation_participant_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "body",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "media_urls",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "transport_statuses",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "conversation_participant_arn",
+            "type": "STRING"
+          },
+          {
+            "allowed_values": [
+              "accepted",
+              "scheduled",
+              "queued",
+              "sending",
+              "sent",
+              "read",
+              "TWILIO_CREDENTIALS_MISSING",
+              "SENT_TO_TWILIO",
+              "TWILIO_ERROR",
+              "SENT_TO_PINPOINT",
+              "PINPOINT_ERROR"
+            ],
+            "mode": "NULLABLE",
+            "name": "status",
+            "description": "The status of the message transport",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "translations",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "language_iso_code",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "body",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "client_message_id",
+        "type": "STRING"
+      },
+      {
+        "allowed_values": [
+          "message",
+          "notice",
+          "engagement prompt"
+        ],
+        "mode": "NULLABLE",
+        "name": "type",
+        "description": "Message type",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "merchant_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "delay_until_dts",
+        "description": "Delay message transmission until date/time",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "language_iso_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "author_conversation_participant_name_hash",
+        "description": "Author Conversation Participant Name Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "body_hash",
+        "description": "Message Body Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "message_type",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "closed",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_conversation_message_body",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_conversation_participant_arn",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_conversation_participant_name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_message_dts",
+    "description": "Last message date/time",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_interactive_message_dts",
+    "description": "Last interactive message date/time",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "message_count",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "unread_messages",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "start_dts",
+    "description": "Start of the conversation date/time",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "visible",
+    "type": "BOOLEAN"
+  },
+  {
+    "allowed_values": [
+      "sms",
+      "websocket"
+    ],
+    "mode": "NULLABLE",
+    "name": "medium",
+    "description": "The communication medium of the customer.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "base_language_iso_code",
+    "description": "The base language iso code for the StoreFront that everything is translated into",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "customer_first_message_unresponded_to_dts",
+    "description": "Date/time of the first customer message that is unresponded to.",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_conversation_message_body_hash",
+    "description": "Last Conversation Message Body Hash SHA-256 Base64",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_conversation_participant_name_hash",
+    "description": "Last Conversation Participant Name Hash SHA-256 Base64",
+    "type": "STRING"
+  },
+  {
+    "name": "sentiment",
+    "description": "The AWS Comprehend Sentiment score for the customers text.",
+    "type": "RECORD",
+    "fields": [
+      {
+        "allowed_values": [
+          "POSITIVE",
+          "NEUTRAL",
+          "NEGATIVE",
+          "MIXED"
+        ],
+        "mode": "NULLABLE",
+        "name": "sentiment",
+        "description": "The overall sentiment",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "positive",
+        "description": "The positive score",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "negative",
+        "description": "The negative score",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "neutral",
+        "description": "The neutral score",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "mixed",
+        "description": "The mixed score",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "last_detect_sentiment",
+        "description": "The last time the detect sentiment was run on this conversation",
+        "type": "DATETIME"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "virtual_agent",
+    "description": "True if a virtual agent answered the conversation",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "virtual_agent_cost",
+    "description": "The cost of this conversation performed by the virtual agent",
+    "type": "NUMERIC"
+  }
+]

@@ -1,0 +1,261 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email_hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "esp_customer_uuid",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "emails",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "sent_dts",
+        "description": "Email sent date/time",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "opened_dts",
+        "description": "Email opened date/time",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "clicked_dts",
+        "description": "Email clicked date/time",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "flow_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "campaign_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "commseq_uuid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "email_uuid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "subject",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "opened",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "clicked",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "converted",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "spam_complaint",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "spam_complaint_dts",
+        "description": "Spam complaint date/time",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "order_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "transport",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "global_unsubscribed",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "consecutive_emails_unopened",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "consecutive_emails_unclicked",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "lists",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "list_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "list_uuid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "add_dts",
+        "description": "List add date/time",
+        "type": "DATETIME"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "segments",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "segment_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "segment_uuid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "add_dts",
+        "description": "Segment add date/time",
+        "type": "DATETIME"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "sessions",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "start_dts",
+        "description": "Session start date/time",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "end_dts",
+        "description": "Session end date/time",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "page_views",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "url",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "start_dts",
+            "description": "Page view start date/time",
+            "type": "DATETIME"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "bounce",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "time_on_page_second",
+            "type": "NUMERIC"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "order_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "screen_recording_uuid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_source",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_medium",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_campaign",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_term",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_content",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_id",
+        "type": "STRING"
+      }
+    ]
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "storefront_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "host_name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "host_alias1",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "host_alias2",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "host_alias3",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "host_alias4",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "host_alias5",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "redirect_aliases",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "unlock_password",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "locked",
+    "type": "BOOLEAN"
+  }
+]

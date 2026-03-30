@@ -1,0 +1,238 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "survey_uuid",
+    "description": "Survey UUID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "Merchant ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "survey_name",
+    "description": "Survey Name",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "Marketing",
+      "PII"
+    ],
+    "mode": "NULLABLE",
+    "name": "survey_type",
+    "description": "Survey Type",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "survey_dts",
+    "description": "Date/time that the survey was submitted",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "expiration_dts",
+    "description": "Date/time that the survey expires and is deleted",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "add_coupon_code",
+    "description": "Coupon code added to the cart",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "add_item_id",
+    "description": "Item ID added to the cart",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "uri",
+    "description": "URI that hosted the survey",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "widget_id",
+    "description": "SFVB element id for the survey",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email",
+    "description": "Email collected during the survey",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "ucacid",
+    "description": "UC Analytics Identifier",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email_hash",
+    "description": "Email Hash SHA-256 Base64",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "questions",
+    "description": "Questions",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "question_name",
+        "description": "Question Name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "question_type",
+        "description": "Question Type",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "visible_choices",
+        "description": "The choices the customer could select from",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "text",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "single_answer",
+        "description": "Single Answer",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "answer_hash",
+            "description": "Answer Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "important",
+            "description": "True if this answer should be considered important (MDIntegrations)",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "critical",
+            "description": "True if this answer should be considered critical (MDIntegrations)",
+            "type": "BOOLEAN"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "multiple_choice_answers",
+        "description": "Multiple Choice Answers",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "answer_hash",
+            "description": "Answer Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "important",
+            "description": "True if this answer should be considered important (MDIntegrations)",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "critical",
+            "description": "True if this answer should be considered critical (MDIntegrations)",
+            "type": "BOOLEAN"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "file_answers",
+        "description": "File answers",
+        "type": "RECORD",
+        "fields": []
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "correct",
+        "description": "True if the question was answered correctly.  Null if this question did not have a correct answer defined.",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "question",
+        "description": "The question asked to the customer",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "questionPosition",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "page_name",
+        "description": "The name of the page this question was on",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "page_number",
+        "description": "The number of the page this question was on",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "incorrect_answer_count",
+    "description": "The number of questions incorrectly answered.  Null if this is not a quiz.",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "correct_answer_count",
+    "description": "The number of questions correctly answered.  Null if this is not a quiz.",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "order_id",
+    "description": "The order id associated with the survey (if post order completion collection)",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "order_item_id",
+    "description": "The order item ID associated with the survey (if post order completion collection)",
+    "type": "STRING"
+  }
+]

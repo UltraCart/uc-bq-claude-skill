@@ -1,0 +1,4245 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "cart_abandon_uuid",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "cart_abandon_dts",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "Merchant ID this cart is associated with",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "cart_id",
+    "description": "Unique identifier for this cart",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "currency_code",
+    "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "base_currency_code",
+    "description": "The ISO-4217 three letter base currency code of the account",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "exchange_rate",
+    "description": "The exchange rate if the customer is viewing a different currency than the base",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "language_iso_code",
+    "description": "The ISO-631 three letter code the customer would like to checkout with",
+    "type": "STRING"
+  },
+  {
+    "name": "billing",
+    "description": "Billing",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "first_name",
+        "description": "First name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "last_name",
+        "description": "Last name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "title",
+        "description": "Title",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "company",
+        "description": "Company",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "address1",
+        "description": "Address line 1",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "address2",
+        "description": "Address line 2",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "city",
+        "description": "City",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_region",
+        "description": "State for United States otherwise region or province for other countries",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "postal_code",
+        "description": "Postal code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "country_code",
+        "description": "ISO-3166 two letter country code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "day_phone",
+        "description": "Day phone",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "evening_phone",
+        "description": "Evening phone",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "email",
+        "description": "Email",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "email_confirm",
+        "description": "Email entered for confirmation",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "cc_emails",
+        "description": "CC emails.  Multiple allowed, but total length of all emails can not exceed 100 characters.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cell_phone",
+        "description": "Cell phone",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cell_phone_e164",
+        "description": "Cell phone (E164 format)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "company_hash",
+        "description": "Company Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "title_hash",
+        "description": "Title Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "first_name_hash",
+        "description": "First name Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "last_name_hash",
+        "description": "Last name Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "address1_hash",
+        "description": "Address line 1 Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "address2_hash",
+        "description": "Address line 2 Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "day_phone_hash",
+        "description": "Day time phone Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "evening_phone_hash",
+        "description": "Evening phone Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cell_phone_hash",
+        "description": "Cell phone Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cell_phone_e164_hash",
+        "description": "Cell phone (E164 format) Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "email_hash",
+        "description": "Email Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "cc_emails_hashes",
+        "description": "CC emails Hash SHA-256 Base64",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "shipping",
+    "description": "Shipping",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "first_name",
+        "description": "First name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "last_name",
+        "description": "Last name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "title",
+        "description": "Title",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "company",
+        "description": "Company",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "address1",
+        "description": "Address line 1",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "address2",
+        "description": "Address line 2",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "city",
+        "description": "City",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "state_region",
+        "description": "State/Region",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "postal_code",
+        "description": "Postal code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "country_code",
+        "description": "ISO-3166 two letter country code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "day_phone",
+        "description": "Day time phone",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "evening_phone",
+        "description": "Evening phone",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "shipping_method",
+        "description": "Shipping method",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "delivery_date",
+        "description": "Date the customer is requesting delivery on. Typically used for perishable product delivery.",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ship_on_date",
+        "description": "Date the customer is requesting that the order ship on.  Typically used for perishable product delivery.",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ship_to_residential",
+        "description": "True if the shipping adress is residential.  Effects the methods that are available to the customer as well as the price of the shipping method.",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "special_instructions",
+        "description": "Special instructions from the customer regarding shipping",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "lift_gate",
+        "description": "Lift gate requested (LTL shipping methods only)",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "shipping_3rd_party_account_number",
+        "description": "3rd party account number to ship against for UPS or FedEx",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "company_hash",
+        "description": "Company Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "title_hash",
+        "description": "Title Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "first_name_hash",
+        "description": "First name Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "last_name_hash",
+        "description": "Last name Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "address1_hash",
+        "description": "Address line 1 Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "address2_hash",
+        "description": "Address line 2 Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "day_phone_hash",
+        "description": "Day time phone Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "evening_phone_hash",
+        "description": "Evening phone Hash SHA-256 Base64",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "checkout",
+    "description": "Checkout",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "comments",
+        "description": "Comments from the customer.  Rarely used on the single page checkout.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_field1",
+        "description": "Custom field 1",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_field2",
+        "description": "Custom field 2",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_field3",
+        "description": "Custom field 3",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_field4",
+        "description": "Custom field 4",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_field5",
+        "description": "Custom field 5",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_field6",
+        "description": "Custom field 6",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_field7",
+        "description": "Custom field 7",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_field8",
+        "description": "Custom field 8",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_field9",
+        "description": "Custom field 9",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_field10",
+        "description": "Custom field 10",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ip_address",
+        "description": "IP Address (read only unless non-browser key authenticated)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "screen_branding_theme_code",
+        "description": "Screen branding theme code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "storefront_host_name",
+        "description": "StoreFront Host Name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "return_code",
+        "description": "Return code assigned for send return email operation",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "user_agent",
+        "description": "User agent of the browser",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "return_url",
+        "description": "The URL to redirect the customer to when they return from an abandon cart email.  Must be https protocol.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "abandon_return_url",
+        "description": "This is the URL you can use in a custom abandon marketing to return the customer to their cart",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "current_step",
+        "description": "Current step of the checkout (read only)",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "upsell_after",
+    "description": "Upsell After",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "upsell_path_code",
+        "description": "Upsell path code (this is for legacy upsells only)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "finalize_after_dts",
+        "description": "The date/time after which the cart will finalize into an order.",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "finalize_after_minutes",
+        "description": "The amount of inactivity in minutes after which the cart should be finalized into an order.  This will calculate the finalize_after_dts field.",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "name": "gift",
+    "description": "Gift",
+    "type": "RECORD",
+    "fields": [
+      {
+        "name": "gift_charge",
+        "description": "Additional charge for making this order a gift",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "gift_wrap_cost",
+        "description": "Cost of the gift wrap selected",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "gift",
+        "description": "True if this order is a gift",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "gift_email",
+        "description": "Email address of the gift recipient",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "gift_message",
+        "description": "Message to the gift recipient",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "gift_wrap_title",
+        "description": "Title of the selected gift wrap",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "gift_email_hash",
+        "description": "Gift Email Hash SHA-256 Base64",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "gift_certificate",
+    "description": "Gift certificate",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "gift_certificate_code",
+        "description": "Gift certificate code",
+        "type": "STRING"
+      },
+      {
+        "name": "gift_certificate_amount",
+        "description": "The amount used on the gift certificate",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "gift_certificate_remaining_balance_after_order",
+        "description": "The amount of money left on the gift certificate after this order is completed",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "marketing",
+    "description": "Marketing",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "mailing_list_opt_in",
+        "description": "True if the customer agrees to receiving marketing emails",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "advertising_source",
+        "description": "The advertising source the customer indicated",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cell_phone_opt_in",
+        "description": "True if the customer agrees to receiving marketing SMS messages",
+        "type": "BOOLEAN"
+      }
+    ]
+  },
+  {
+    "name": "payment",
+    "description": "Payment",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "payment_method",
+        "description": "Payment method",
+        "type": "STRING"
+      },
+      {
+        "name": "check",
+        "description": "Check",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "check_number",
+          "description": "Check number they are paying with",
+          "type": "INTEGER"
+        }]
+      },
+      {
+        "name": "credit_card",
+        "description": "Credit card",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "card_type",
+            "description": "Card type",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "card_expiration_month",
+            "description": "Card expiration month (1-12)",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "card_expiration_year",
+            "description": "Card expiration year (four digit year)",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "customer_profile_credit_card_id",
+            "description": "ID of the stored credit card to use",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "store_credit_card",
+            "description": "True if the customer wants to store the card on their profile for future re-use",
+            "type": "BOOLEAN"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "rtg_code",
+        "description": "Rotating transaction gateway code",
+        "type": "STRING"
+      },
+      {
+        "name": "purchase_order",
+        "description": "Purchase order",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "purchase_order_number",
+          "description": "Purchase order number",
+          "type": "STRING"
+        }]
+      },
+      {
+        "name": "amazon",
+        "description": "Amazon",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "amazon_order_reference_id",
+          "description": "Amazon order reference id",
+          "type": "STRING"
+        }]
+      },
+      {
+        "name": "affirm",
+        "description": "Affirm",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "affirm_checkout_token",
+          "description": "Affirm checkout token",
+          "type": "STRING"
+        }]
+      },
+      {
+        "name": "health_benefit_card",
+        "description": "Health benefit card",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "health_benefit_card_expiration_month",
+            "description": "Health benefit expiration month (1-12)",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "health_benefit_card_expiration_year",
+            "description": "Health benefit card expiration year (four digit year)",
+            "type": "INTEGER"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "summary",
+    "description": "Summary",
+    "type": "RECORD",
+    "fields": [
+      {
+        "name": "subtotal",
+        "description": "Subtotal",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "subtotal_discount",
+        "description": "Subtotal discount",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "subtotal_with_discount",
+        "description": "Subtotal with discount",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "tax",
+        "description": "Tax",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "taxable_subtotal",
+        "description": "Taxable subtotal",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "taxable_subtotal_discount",
+        "description": "Taxable subttotal discount",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "taxable_subtotal_with_discount",
+        "description": "Taxable subtotal with discount",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "shipping_handling",
+        "description": "Shipping/handling",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "shipping_handling_discount",
+        "description": "Shipping/handling discount",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "shipping_handling_with_discount",
+        "description": "Shipping/handling with discount",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "total",
+        "description": "Total",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "arbitrary_tax",
+        "description": "Arbitrary tax",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "arbitrary_taxable_subtotal",
+        "description": "Arbitrary taxable subtotal",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "arbitrary_tax_rate",
+        "description": "Arbitrary tax rate",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "arbitrary_shipping_handling_total",
+        "description": "Arbitrary shipping/handling total",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "surcharge",
+        "description": "Surcharge associated with the payment method",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "internal_gift_certificate_amount",
+        "description": "Internal gift certificate amount used (store credit)",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "health_benefit_card_amount",
+        "description": "Health benefit card amount used",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "coupons",
+    "description": "Coupons",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "coupon_code",
+      "description": "Coupon code",
+      "type": "STRING"
+    }]
+  },
+  {
+    "name": "taxes",
+    "description": "Taxes",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "rate",
+        "description": "Tax rate",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "exempt",
+        "description": "True if tax exempt",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "county",
+        "description": "Tax county if the state requires it.",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "customer_profile",
+    "description": "Customer profile if logged in",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "customer_profile_oid",
+        "description": "Unique identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "email",
+        "description": "Email",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "tax_exempt",
+        "description": "True if this profile is exempt from sales tax",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "allow_purchase_order",
+        "description": "True if this profile is allowed to use a purchase order",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "allow_cod",
+        "description": "True if this profile is allowed to use a COD",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "free_shipping",
+        "description": "True if this profile always qualifies for free shipping",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "free_shipping_minimum",
+        "description": "The minimum amount that this profile has to purchase to qualify for free shipping",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_subtotal",
+        "description": "Minimum subtotal this profile must purchase",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_item_count",
+        "description": "Minimum item count this profile must purchase",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "maximum_item_count",
+        "description": "Maximum item count this profile can purchase",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "no_realtime_charge",
+        "description": "True if this customers orders are not charged in real-time",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "no_free_shipping",
+        "description": "True if this profile is never given free shipping",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "allow_3rd_party_billing",
+        "description": "True if profile is allowed to bill to their 3rd party shipping account",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "no_coupons",
+        "description": "True if this profile is prevented from using coupons",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ups_account_number",
+        "description": "UPS account number on file",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "fedex_account_number",
+        "description": "FedEx account number on file",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "dhl_account_number",
+        "description": "DHL account number on file",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "dhl_duty_account_number",
+        "description": "DHL duty account number on file",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "pricing_tiers",
+        "description": "Pricing tier names this profile qualifies for",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "billing_addresses",
+        "description": "Billing addresses on file for this profile",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "tax_county",
+            "description": "Tax county if a billing address",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "first_name",
+            "description": "First name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "last_name",
+            "description": "Last name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "company",
+            "description": "Company",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "address1",
+            "description": "Address 1",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "address2",
+            "description": "Address 2",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "city",
+            "description": "City",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "state_region",
+            "description": "State for United States otherwise region or province for other countries",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "postal_code",
+            "description": "Postal code",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "country_code",
+            "description": "ISO-3166 Country code",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "day_phone",
+            "description": "Day phone",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "evening_phone",
+            "description": "Evening phone",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "title",
+            "description": "Title",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "oid",
+            "description": "Unique identifier for this address",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "company_hash",
+            "description": "Company Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "title_hash",
+            "description": "Title Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "first_name_hash",
+            "description": "First name Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "last_name_hash",
+            "description": "Last name Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "address1_hash",
+            "description": "Address line 1 Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "address2_hash",
+            "description": "Address line 2 Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "day_phone_hash",
+            "description": "Day time phone Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "evening_phone_hash",
+            "description": "Evening phone Hash SHA-256 Base64",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "shipping_addresses",
+        "description": "Shipping addresses on file for this profile",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "tax_county",
+            "description": "Tax county if a billing address",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "first_name",
+            "description": "First name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "last_name",
+            "description": "Last name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "company",
+            "description": "Company",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "address1",
+            "description": "Address 1",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "address2",
+            "description": "Address 2",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "city",
+            "description": "City",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "state_region",
+            "description": "State for United States otherwise region or province for other countries",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "postal_code",
+            "description": "Postal code",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "country_code",
+            "description": "ISO-3166 Country code",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "day_phone",
+            "description": "Day phone",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "evening_phone",
+            "description": "Evening phone",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "title",
+            "description": "Title",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "oid",
+            "description": "Unique identifier for this address",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "company_hash",
+            "description": "Company Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "title_hash",
+            "description": "Title Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "first_name_hash",
+            "description": "First name Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "last_name_hash",
+            "description": "Last name Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "address1_hash",
+            "description": "Address line 1 Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "address2_hash",
+            "description": "Address line 2 Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "day_phone_hash",
+            "description": "Day time phone Hash SHA-256 Base64",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "evening_phone_hash",
+            "description": "Evening phone Hash SHA-256 Base64",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "credit_cards",
+        "description": "Credit cards on file for this profile (masked)",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "customer_profile_credit_card_id",
+            "description": "Unique identifier for this stored card",
+            "type": "INTEGER"
+          },
+          {
+            "allowed_values": [
+              "AMEX",
+              "Diners Club",
+              "Discover",
+              "MasterCard",
+              "JCB",
+              "VISA"
+            ],
+            "mode": "NULLABLE",
+            "name": "card_type",
+            "description": "Card type",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "card_expiration_month",
+            "description": "Card expiration month (1-12)",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "card_expiration_year",
+            "description": "Card expiration year (four digit)",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "card_number",
+            "description": "Card number (masked last 4 digits)",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "last_used_date",
+            "description": "Last used",
+            "type": "DATETIME"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "card_number_hash",
+            "description": "Card nmumber (masked last 4 digits) Hash SHA-256 Base64",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "signup_dts",
+        "description": "Signup date",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "email_hash",
+        "description": "Email Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ups_account_number_hash",
+        "description": "UPS Account Number Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "fedex_account_number_hash",
+        "description": "FedEx Account Number Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "dhl_account_number_hash",
+        "description": "DHL Account Number Hash SHA-256 Base64",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "dhl_duty_account_number_hash",
+        "description": "DHL Duty Account Number Hash SHA-256 Base64",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "settings",
+    "description": "Settings for options that should be available during the checkout",
+    "type": "RECORD",
+    "fields": [
+      {
+        "name": "billing",
+        "description": "Billing settings for this cart",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "REPEATED",
+          "name": "provinces",
+          "description": "Provinces",
+          "type": "RECORD",
+          "fields": [
+            {
+              "mode": "NULLABLE",
+              "name": "province",
+              "type": "STRING"
+            },
+            {
+              "mode": "NULLABLE",
+              "name": "code",
+              "type": "STRING"
+            }
+          ]
+        }]
+      },
+      {
+        "name": "gift",
+        "description": "Gift giving settings",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "allow_gifts",
+            "description": "True if this checkout supports gift giving",
+            "type": "BOOLEAN"
+          },
+          {
+            "name": "gift_charge",
+            "description": "The cost associated with sending a gift",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "Value in base currency",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized",
+                "description": "Value localized to the customer",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized_formatted",
+                "description": "Value localized and formatted for the customer",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "exchange_rate",
+                "description": "Exchange rate used to localize",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "currency_code",
+                "description": "Currency code of the localized value",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "max_message_length",
+            "description": "The maximum length of the gift message the giver can enter",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "gift_wraps",
+            "description": "The gift wraps available for the customer to select from",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "title",
+                "description": "Title of the gift wrap",
+                "type": "STRING"
+              },
+              {
+                "name": "cost",
+                "description": "Cost if this gift wrap is selected",
+                "type": "RECORD",
+                "fields": [
+                  {
+                    "mode": "NULLABLE",
+                    "name": "value",
+                    "description": "Value in base currency",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized",
+                    "description": "Value localized to the customer",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized_formatted",
+                    "description": "Value localized and formatted for the customer",
+                    "type": "STRING"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "exchange_rate",
+                    "description": "Exchange rate used to localize",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "currency_code",
+                    "description": "Currency code of the localized value",
+                    "type": "STRING"
+                  }
+                ]
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "url",
+                "description": "URL for the sample of the gift wrap",
+                "type": "STRING"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "terms",
+        "description": "Terms of the checkout the customer must agree to",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "text",
+            "description": "Text version of the terms.",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "html",
+            "description": "HTML version of the terms",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "payment",
+        "description": "Payment settings for this cart",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "supports_check",
+            "description": "True if check payments are available on this order",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "supports_credit_card",
+            "description": "True if credit card payments are available on this order",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "supports_paypal",
+            "description": "True if PayPal payments are available on this order",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "supports_purchase_order",
+            "description": "True if purchase order payments are available on this order",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "supports_money_order",
+            "description": "True if money order payments are available on this order",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "supports_wire_transfer",
+            "description": "True if wire transfer payments are available on this order",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "supports_cod",
+            "description": "True if COD payments are available on this order",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "supports_quote_request",
+            "description": "True if quote requests payments are available on this order",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "supports_amazon",
+            "description": "True if Amazon payments are available on this order",
+            "type": "BOOLEAN"
+          },
+          {
+            "name": "amazon",
+            "description": "Amazon Payments information",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "amazon_merchant_id",
+                "description": "Amazon merchant ID",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "amazon_widget_url",
+                "description": "Amazon widget URL",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "amazon_button_url",
+                "description": "Amazon button URL",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "name": "credit_card",
+            "description": "Credit card payment information",
+            "type": "RECORD",
+            "fields": [
+              {
+                "allowed_values": [
+                  "AMEX",
+                  "Diners Club",
+                  "Discover",
+                  "MasterCard",
+                  "JCB",
+                  "VISA"
+                ],
+                "mode": "REPEATED",
+                "name": "credit_card_types",
+                "description": "Available credit card types",
+                "type": "RECORD",
+                "fields": [{
+                  "mode": "NULLABLE",
+                  "name": "value",
+                  "type": "STRING"
+                }]
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "collect_credit_card_verification_number",
+                "description": "True if the credit card verification number should be collected",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "collect_credit_card_verification_number_minimum",
+                "description": "If this field is null or the total is greater than or equal to this value then collect the CVV2.",
+                "type": "NUMERIC"
+              }
+            ]
+          },
+          {
+            "name": "paypal",
+            "description": "PayPal information",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "paypal_button_url",
+                "description": "PayPal button URL",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "paypal_button_alt_text",
+                "description": "PayPal button alt text",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "paypal_credit_button_url",
+                "description": "PayPal Credit button URL",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "paypal_credit_legal_url",
+                "description": "PayPal Credit legal URL",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "paypal_credit_legal_image_url",
+                "description": "PayPal Credit legal image URL",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "need_payment",
+            "description": "True if this card requires a payment from the customer",
+            "type": "BOOLEAN"
+          }
+        ]
+      },
+      {
+        "name": "shipping",
+        "description": "Shipping settings for this cart",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "need_shipping",
+            "description": "True if this order needs shipping",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "estimates",
+            "description": "Estimates for this cart",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "comment",
+                "description": "Comment to display to the customer about this method",
+                "type": "STRING"
+              },
+              {
+                "name": "cost",
+                "description": "Cost of this method",
+                "type": "RECORD",
+                "fields": [
+                  {
+                    "mode": "NULLABLE",
+                    "name": "value",
+                    "description": "Value in base currency",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized",
+                    "description": "Value localized to the customer",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized_formatted",
+                    "description": "Value localized and formatted for the customer",
+                    "type": "STRING"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "exchange_rate",
+                    "description": "Exchange rate used to localize",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "currency_code",
+                    "description": "Currency code of the localized value",
+                    "type": "STRING"
+                  }
+                ]
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "discounted",
+                "description": "True if this method is discounted because of a coupon",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "display_name",
+                "description": "The name to display to the customer",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "estimated_delivery",
+                "description": "Date of the estimated delivery (or range)",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "name",
+                "description": "Shipping method name",
+                "type": "STRING"
+              },
+              {
+                "name": "cost_before_discount",
+                "description": "Cost before discount by coupon",
+                "type": "RECORD",
+                "fields": [
+                  {
+                    "mode": "NULLABLE",
+                    "name": "value",
+                    "description": "Value in base currency",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized",
+                    "description": "Value localized to the customer",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized_formatted",
+                    "description": "Value localized and formatted for the customer",
+                    "type": "STRING"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "exchange_rate",
+                    "description": "Exchange rate used to localize",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "currency_code",
+                    "description": "Currency code of the localized value",
+                    "type": "STRING"
+                  }
+                ]
+              },
+              {
+                "name": "discount",
+                "description": "Amount discounted by a coupon",
+                "type": "RECORD",
+                "fields": [
+                  {
+                    "mode": "NULLABLE",
+                    "name": "value",
+                    "description": "Value in base currency",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized",
+                    "description": "Value localized to the customer",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized_formatted",
+                    "description": "Value localized and formatted for the customer",
+                    "type": "STRING"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "exchange_rate",
+                    "description": "Exchange rate used to localize",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "currency_code",
+                    "description": "Currency code of the localized value",
+                    "type": "STRING"
+                  }
+                ]
+              },
+              {
+                "name": "tax",
+                "description": "Tax applied to this method if selected",
+                "type": "RECORD",
+                "fields": [
+                  {
+                    "mode": "NULLABLE",
+                    "name": "value",
+                    "description": "Value in base currency",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized",
+                    "description": "Value localized to the customer",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized_formatted",
+                    "description": "Value localized and formatted for the customer",
+                    "type": "STRING"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "exchange_rate",
+                    "description": "Exchange rate used to localize",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "currency_code",
+                    "description": "Currency code of the localized value",
+                    "type": "STRING"
+                  }
+                ]
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "default_method",
+                "description": "True if this is the default method",
+                "type": "BOOLEAN"
+              },
+              {
+                "name": "total_tax",
+                "description": "Total amount of tax on the order if this method is selected",
+                "type": "RECORD",
+                "fields": [
+                  {
+                    "mode": "NULLABLE",
+                    "name": "value",
+                    "description": "Value in base currency",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized",
+                    "description": "Value localized to the customer",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized_formatted",
+                    "description": "Value localized and formatted for the customer",
+                    "type": "STRING"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "exchange_rate",
+                    "description": "Exchange rate used to localize",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "currency_code",
+                    "description": "Currency code of the localized value",
+                    "type": "STRING"
+                  }
+                ]
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "allow_3rd_party_billing",
+                "description": "True if this method allows the customer to use their own shipper account number",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "lift_gate_option",
+                "description": "True if a lift gate option for this method should be offered to the customer",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "pickup",
+                "description": "True if this shipping method requires customers to physically pickup product themselves",
+                "type": "BOOLEAN"
+              }
+            ]
+          },
+          {
+            "mode": "REPEATED",
+            "name": "provinces",
+            "description": "Provinces",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "province",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "code",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "name": "ship_on_date",
+            "description": "Ship on date calendar information",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "show",
+                "description": "True if this calendar should be shown to the customer",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "require",
+                "description": "True if the customer is required to select a date",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "REPEATED",
+                "name": "days_of_week",
+                "description": "Days of week that should be enabled on the calendar (0 - Sunday through 6 - Saturday)",
+                "type": "RECORD",
+                "fields": [{
+                  "mode": "NULLABLE",
+                  "name": "value",
+                  "type": "BOOLEAN"
+                }]
+              },
+              {
+                "mode": "REPEATED",
+                "name": "blackouts",
+                "description": "Specified dates that are blacked out on the calendar in ISO8601 format",
+                "type": "RECORD",
+                "fields": [{
+                  "mode": "NULLABLE",
+                  "name": "value",
+                  "type": "STRING"
+                }]
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "earliest",
+                "description": "The earliest date that can be selected on the calendar",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "name": "deliver_on_date",
+            "description": "Deliver on date calendar information",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "show",
+                "description": "True if this calendar should be shown to the customer",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "require",
+                "description": "True if the customer is required to select a date",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "REPEATED",
+                "name": "days_of_week",
+                "description": "Days of week that should be enabled on the calendar (0 - Sunday through 6 - Saturday)",
+                "type": "RECORD",
+                "fields": [{
+                  "mode": "NULLABLE",
+                  "name": "value",
+                  "type": "BOOLEAN"
+                }]
+              },
+              {
+                "mode": "REPEATED",
+                "name": "blackouts",
+                "description": "Specified dates that are blacked out on the calendar in ISO8601 format",
+                "type": "RECORD",
+                "fields": [{
+                  "mode": "NULLABLE",
+                  "name": "value",
+                  "type": "STRING"
+                }]
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "earliest",
+                "description": "The earliest date that can be selected on the calendar",
+                "type": "STRING"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "taxes",
+        "description": "Information on taxes for this cart",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "REPEATED",
+          "name": "counties",
+          "type": "RECORD",
+          "fields": [{
+            "mode": "NULLABLE",
+            "name": "value",
+            "type": "STRING"
+          }]
+        }]
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "items",
+    "description": "Items",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "position",
+        "description": "Position of the item in the cart",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "default_image_url",
+        "description": "URL to the default multimedia image",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "default_thumbnail_url",
+        "description": "URL to the default multimedia thumbnail",
+        "type": "STRING"
+      },
+      {
+        "name": "discount",
+        "description": "The discount on this item provided by a coupon",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "total_cost",
+        "description": "Total cost of item before discount",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "total_cost_with_discount",
+        "description": "Total cost of this item after discount",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "schedules",
+        "description": "Customer selectable auto order schedules",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "item_oid",
+        "description": "Item object identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "item_id",
+        "description": "Item ID",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "description",
+        "description": "Description of the item",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "extended_description",
+        "description": "Extended description of the item",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "quantity",
+        "description": "quantity",
+        "type": "NUMERIC"
+      },
+      {
+        "name": "unit_cost",
+        "description": "Unit cost of the item",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "unit_cost_with_discount",
+        "description": "Unit cost of the item after discounts",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "arbitrary_unit_cost",
+        "description": "Arbitrary unit cost",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "phsyical",
+        "description": "Physical characteristcs",
+        "type": "RECORD",
+        "fields": [
+          {
+            "name": "weight",
+            "description": "Weight",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "Weight",
+                "type": "NUMERIC"
+              },
+              {
+                "allowed_values": [
+                  "KG",
+                  "G",
+                  "LB",
+                  "OZ"
+                ],
+                "mode": "NULLABLE",
+                "name": "uom",
+                "description": "Unit of measure",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "name": "length",
+            "description": "Length",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "The distance measured in UOM",
+                "type": "NUMERIC"
+              },
+              {
+                "allowed_values": [
+                  "IN",
+                  "CM"
+                ],
+                "mode": "NULLABLE",
+                "name": "uom",
+                "description": "Unit of measure",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "name": "width",
+            "description": "Width",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "The distance measured in UOM",
+                "type": "NUMERIC"
+              },
+              {
+                "allowed_values": [
+                  "IN",
+                  "CM"
+                ],
+                "mode": "NULLABLE",
+                "name": "uom",
+                "description": "Unit of measure",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "name": "height",
+            "description": "Height",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "The distance measured in UOM",
+                "type": "NUMERIC"
+              },
+              {
+                "allowed_values": [
+                  "IN",
+                  "CM"
+                ],
+                "mode": "NULLABLE",
+                "name": "uom",
+                "description": "Unit of measure",
+                "type": "STRING"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "kit",
+        "description": "True if this item is a kit",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_schedule",
+        "description": "Auto order schedule the customer selected",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "options",
+        "description": "Options",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "option_oid",
+            "description": "Unique identifier for the option",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "description": "Name of the option",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "label",
+            "description": "Display label for the option",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "required",
+            "description": "True if the customer is required to select a value",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "ignore_if_default",
+            "description": "True if the default answer is ignored",
+            "type": "BOOLEAN"
+          },
+          {
+            "allowed_values": [
+              "single",
+              "multiline",
+              "dropdown",
+              "hidden",
+              "radio",
+              "fixed"
+            ],
+            "mode": "NULLABLE",
+            "name": "type",
+            "description": "Type of option",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "one_time_fee",
+            "description": "Charge the fee a single time instead of multiplying by the quantity",
+            "type": "BOOLEAN"
+          },
+          {
+            "name": "cost_per_line",
+            "description": "Cost per line of text (multiline options)",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "Value in base currency",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized",
+                "description": "Value localized to the customer",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized_formatted",
+                "description": "Value localized and formatted for the customer",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "exchange_rate",
+                "description": "Exchange rate used to localize",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "currency_code",
+                "description": "Currency code of the localized value",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "name": "cost_per_letter",
+            "description": "Cost per letter of text (single or multiline options)",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "Value in base currency",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized",
+                "description": "Value localized to the customer",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized_formatted",
+                "description": "Value localized and formatted for the customer",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "exchange_rate",
+                "description": "Exchange rate used to localize",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "currency_code",
+                "description": "Currency code of the localized value",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "name": "cost_if_specified",
+            "description": "Cost if the option is specified",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "Value in base currency",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized",
+                "description": "Value localized to the customer",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized_formatted",
+                "description": "Value localized and formatted for the customer",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "exchange_rate",
+                "description": "Exchange rate used to localize",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "currency_code",
+                "description": "Currency code of the localized value",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "selected_value",
+            "description": "The value of the option specified by the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "values",
+            "description": "Values that the customer can select from for radio or select type options",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "Value of the option the customer can select",
+                "type": "STRING"
+              },
+              {
+                "name": "additional_cost",
+                "description": "Additional cost of the item if this option value is selected",
+                "type": "RECORD",
+                "fields": [
+                  {
+                    "mode": "NULLABLE",
+                    "name": "value",
+                    "description": "Value in base currency",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized",
+                    "description": "Value localized to the customer",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized_formatted",
+                    "description": "Value localized and formatted for the customer",
+                    "type": "STRING"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "exchange_rate",
+                    "description": "Exchange rate used to localize",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "currency_code",
+                    "description": "Currency code of the localized value",
+                    "type": "STRING"
+                  }
+                ]
+              },
+              {
+                "name": "additional_weight",
+                "description": "Additional weight of the item if this option is selected",
+                "type": "RECORD",
+                "fields": [
+                  {
+                    "mode": "NULLABLE",
+                    "name": "value",
+                    "description": "Weight",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "allowed_values": [
+                      "KG",
+                      "G",
+                      "LB",
+                      "OZ"
+                    ],
+                    "mode": "NULLABLE",
+                    "name": "uom",
+                    "description": "Unit of measure",
+                    "type": "STRING"
+                  }
+                ]
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "default_value",
+                "description": "True if this is the default value",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "display_order",
+                "description": "Display order of the option value",
+                "type": "INTEGER"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "kit_component_options",
+        "description": "Options associated with the kit components",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "item_id",
+            "description": "Kit component item id",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "item_oid",
+            "description": "Unique identifier for the kit component item",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "option_oid",
+            "description": "Unique identifier for the option",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "description": "Name of the option",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "label",
+            "description": "Display label for the option",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "required",
+            "description": "True if the customer is required to select a value",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "ignore_if_default",
+            "description": "True if the default answer is ignored",
+            "type": "BOOLEAN"
+          },
+          {
+            "allowed_values": [
+              "single",
+              "multiline",
+              "dropdown",
+              "hidden",
+              "radio",
+              "fixed"
+            ],
+            "mode": "NULLABLE",
+            "name": "type",
+            "description": "Type of option",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "one_time_fee",
+            "description": "Charge the fee a single time instead of multiplying by the quantity",
+            "type": "BOOLEAN"
+          },
+          {
+            "name": "cost_per_line",
+            "description": "Cost per line of text (multiline options)",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "Value in base currency",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized",
+                "description": "Value localized to the customer",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized_formatted",
+                "description": "Value localized and formatted for the customer",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "exchange_rate",
+                "description": "Exchange rate used to localize",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "currency_code",
+                "description": "Currency code of the localized value",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "name": "cost_per_letter",
+            "description": "Cost per letter of text (single or multi-line options)",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "Value in base currency",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized",
+                "description": "Value localized to the customer",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized_formatted",
+                "description": "Value localized and formatted for the customer",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "exchange_rate",
+                "description": "Exchange rate used to localize",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "currency_code",
+                "description": "Currency code of the localized value",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "name": "cost_if_specified",
+            "description": "Cost if the option is specified",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "Value in base currency",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized",
+                "description": "Value localized to the customer",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "localized_formatted",
+                "description": "Value localized and formatted for the customer",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "exchange_rate",
+                "description": "Exchange rate used to localize",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "currency_code",
+                "description": "Currency code of the localized value",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "selected_value",
+            "description": "The value of the option specified by the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "values",
+            "description": "Values that the customer can select from for radio or select type options",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "Value of the option the customer can select",
+                "type": "STRING"
+              },
+              {
+                "name": "additional_cost",
+                "description": "Additional cost of the item if this option value is selected",
+                "type": "RECORD",
+                "fields": [
+                  {
+                    "mode": "NULLABLE",
+                    "name": "value",
+                    "description": "Value in base currency",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized",
+                    "description": "Value localized to the customer",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "localized_formatted",
+                    "description": "Value localized and formatted for the customer",
+                    "type": "STRING"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "exchange_rate",
+                    "description": "Exchange rate used to localize",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "mode": "NULLABLE",
+                    "name": "currency_code",
+                    "description": "Currency code of the localized value",
+                    "type": "STRING"
+                  }
+                ]
+              },
+              {
+                "name": "additional_weight",
+                "description": "Additional weight of the item if this option is selected",
+                "type": "RECORD",
+                "fields": [
+                  {
+                    "mode": "NULLABLE",
+                    "name": "value",
+                    "description": "Weight",
+                    "type": "NUMERIC"
+                  },
+                  {
+                    "allowed_values": [
+                      "KG",
+                      "G",
+                      "LB",
+                      "OZ"
+                    ],
+                    "mode": "NULLABLE",
+                    "name": "uom",
+                    "description": "Unit of measure",
+                    "type": "STRING"
+                  }
+                ]
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "default_value",
+                "description": "True if this is the default value",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "display_order",
+                "description": "Display order of the option value",
+                "type": "INTEGER"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "attributes",
+        "description": "Attributes",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "description": "Name of the attribute",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value of the attribute",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "type",
+            "description": "Type of attribute",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "upsell",
+        "description": "True if this item was added to the cart as part of an upsell",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "manufacturer_suggested_retail_price",
+        "description": "Manufacture suggested retail price",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value in base currency",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized",
+            "description": "Value localized to the customer",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "localized_formatted",
+            "description": "Value localized and formatted for the customer",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exchange_rate",
+            "description": "Exchange rate used to localize",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "currency_code",
+            "description": "Currency code of the localized value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "multimedia",
+        "description": "Multimedia",
+        "type": "RECORD",
+        "fields": [
+          {
+            "allowed_values": [
+              "Image",
+              "PDF",
+              "Text",
+              "Unknown",
+              "Video"
+            ],
+            "mode": "NULLABLE",
+            "name": "type",
+            "description": "Type of multimedia",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "is_default",
+            "description": "True if the multimedia is the default for this type",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "image_width",
+            "description": "Image width",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "image_height",
+            "description": "Image height",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "url",
+            "description": "URL to view multimedia at",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "description",
+            "description": "Description",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "code",
+            "description": "Code assigned to the multimedia",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exclude_from_gallery",
+            "description": "True if the image should be excluded from galleries",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "thumbnails",
+            "description": "Thumbnails of the images",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "height",
+                "description": "Height in pixels",
+                "type": "INTEGER"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "width",
+                "description": "Width in pixels",
+                "type": "INTEGER"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "url",
+                "description": "URL for the thumbnail",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "png",
+                "description": "True if thumbnail is a PNG, otherwise its a JPEG",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "square",
+                "description": "True if the thumbnail is square",
+                "type": "BOOLEAN"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "variations",
+        "description": "Variations",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "variation_name",
+            "description": "Variation name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "variation_value",
+            "description": "Variation value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_quantity",
+        "description": "Minimum quantity the customer can purchase",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "maximum_quantity",
+        "description": "Maximum quantity the customer can purchase",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "view_url",
+        "description": "URL to view the product on the site",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "preorder",
+        "description": "True if this item is on pre-order",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "properties",
+        "description": "Properties associated with the item",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "description": "Name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "display",
+            "description": "True if this property is displayed to the customer",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "expiration_dts",
+            "description": "The date/time that the property expires and is deleted",
+            "type": "DATETIME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "affiliate",
+    "description": "Affiliate",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_id",
+        "description": "Affiliate id associated with the cart",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_sub_id",
+        "description": "Affiliate sub id associated with the cart",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "logged_in",
+    "description": "True if the customer is logged into their profile",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "properties",
+    "description": "Properties associated with the cart",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "description": "Name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "description": "Value",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "display",
+        "description": "True if this property is displayed to the customer",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "expiration_dts",
+        "description": "The date/time that the property expires and is deleted",
+        "type": "DATETIME"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_network_pixel_oid",
+    "description": "The affiliate network pixel identifier associated with the cart",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "utms",
+    "description": "UTM clicks.  The zero index is the most recent (last) UTM click.  Only available in BigQuery and on an abandon webhook.",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "click_dts",
+        "description": "Date/time that the click happened",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_source",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_medium",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_campaign",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_term",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_content",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "facebook_ad_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "uc_message_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "glcid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "wbraid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "gbraid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "msclkid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "fbclid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ttclid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "vmcid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_first_click_total",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_first_click_subtotal",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_last_click_total",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_last_click_subtotal",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_linear_total",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_linear_subtotal",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_position_based_total",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_position_based_subtotal",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "itm_source",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "itm_medium",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "itm_campaign",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "itm_term",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "itm_content",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "itm_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "short_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "short_code_backup",
+        "type": "BOOLEAN"
+      }
+    ]
+  }
+]

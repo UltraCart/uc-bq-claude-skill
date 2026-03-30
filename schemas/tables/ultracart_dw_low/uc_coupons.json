@@ -1,0 +1,1893 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "coupon_oid",
+    "description": "Coupon oid.",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "coupon_type",
+    "description": "Coupon type.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_code",
+    "description": "Merchant code of coupon up to 20 characters.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "start_dts",
+    "description": "Date/time when coupon is valid",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "expiration_dts",
+    "description": "Date/time when coupon expires",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "description",
+    "description": "Description of the coupon up to 50 characters.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_notes",
+    "description": "Internal notes about this coupon.  These are not visible to customer.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "calculated_description",
+    "description": "Calculated description displayed to the customer if no description is specified.",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "Anyone",
+      "UniqueCode",
+      "OncePerCustomer",
+      "OncePerNewCustomer",
+      "OncePerNewCustomerForItem"
+    ],
+    "mode": "NULLABLE",
+    "name": "usable_by",
+    "description": "Who may use this coupon.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "can_be_used_with_other_coupons",
+    "description": "True if this coupon can be used with other coupons in a single order.",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "allow_multiple_one_time_codes",
+    "description": "True if multiple one time codes for this coupon can be used on a cart at the same time.",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "super_coupon",
+    "description": "If true, this coupon can be used with ANY other coupon regardless of the other coupons configuration",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "quickbooks_code",
+    "description": "Quickbooks accounting code.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_oid",
+    "description": "Associates an order with an affiliate when this value is set.",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "restrict_by_postal_codes",
+    "description": "Optional list of postal codes which restrict a coupon to within these postal codes.",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "restrict_by_screen_branding_theme_codes",
+    "description": "Optional list of legacy screen branding theme codes to limit coupon use to only those themes.",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "invalidForThis",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "validForThis",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "validOnlyForThis",
+        "type": "BOOLEAN"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "restrict_by_storefronts",
+    "description": "Optional list of storefronts to limit coupon use to only those storefronts.",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "invalidForThis",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "validForThis",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "validOnlyForThis",
+        "type": "BOOLEAN"
+      }
+    ]
+  },
+  {
+    "name": "amount_off_subtotal",
+    "description": "Amount off subtotal",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_amount",
+        "description": "The amount of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "amount_off_shipping_with_items_purchase",
+    "description": "Amount off shipping with items purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_amount",
+        "description": "The amount of shipping discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "shipping_methods",
+        "description": "One or more shipping methods that may receive this discount",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of items of which at least one must be purchased for coupon to be valid.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "free_items_with_item_purchase",
+    "description": "Free items with item purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "free_quantity",
+        "description": "The quantity of free item that will be received.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "free_item",
+        "description": "The item id of the free item that will be received when the required mix and match group quantity is purchased.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "required_purchase_quantity",
+        "description": "Required quantity of mix and match group items that must be purchased for coupon to be valid",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "required_purchase_item",
+        "description": "Required item that must be purchased for coupon to be valid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The limit of free items that may be received when purchasing multiple items",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "name": "free_items_with_mixmatch_purchase",
+    "description": "Free items with Mix and Match purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "free_quantity",
+        "description": "The quantity of free item that will be received.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "free_item",
+        "description": "The item id of the free item that will be received when the required mix and match group quantity is purchased.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "required_purchase_quantity",
+        "description": "Required quantity of mix and match group items that must be purchased for coupon to be valid",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "required_purchase_mix_and_match_group",
+        "description": "Required mix and match group that must be purchased for coupon to be valid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The limit of free items that may be received when purchasing multiple mix and match group items",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "name": "amount_off_subtotal_and_shipping",
+    "description": "Amount off subtotal and shipping",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_amount",
+        "description": "The amount of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "amount_off_subtotal_and_free_shipping",
+    "description": "Amount off subtotal and free shipping with purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_amount",
+        "description": "The amount of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "shipping_methods",
+        "description": "One or more shipping methods that may be free",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "purchase_amount",
+        "description": "The purchase amount to qualify for subtotal discount and free shipping",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "name": "amount_off_subtotal_with_purchase",
+    "description": "Amount off subtotal with purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_amount",
+        "description": "The amount of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "purchase_amount",
+        "description": "The purchase amount to qualify for subtotal discount and free shipping",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "name": "amount_off_subtotal_with_block_purchase",
+    "description": "Amount off subtotal with block purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_amount",
+        "description": "The amount of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "required_purchase_quantity",
+        "description": "Discount amount is multiplied by the number of blocks.  A block is this many quantity of the required item.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "required_purchase_item",
+        "description": "Required item that must be purchased for coupon to be valid",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "percent_off_subtotal_with_subtotal",
+    "description": "Percent off subtotal with subtotal",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_percent",
+        "description": "The percentage of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "subtotal_amount",
+        "description": "The amount of subtotal required to receive the discount percent",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "percent_off_subtotal_with_items_purchase",
+    "description": "Percent off subtotal with items purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_percent",
+        "description": "The percentage of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of items of which at least one must be purchased for coupon to be valid.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "amount_off_subtotal_with_items_purchase",
+    "description": "Amount off subtotal with items purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_amount",
+        "description": "The amount of shipping discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "required_purchase_quantity",
+        "description": "The quantity of items that must be purchased for the discount to be applied.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of items of which a quantity of one or many must be purchased for coupon to be valid.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "percent_off_subtotal",
+    "description": "Percent off subtotal",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "discount_percent",
+      "description": "The percentage of subtotal discount",
+      "type": "NUMERIC"
+    }]
+  },
+  {
+    "name": "percent_off_subtotal_limit",
+    "description": "Percent off subtotal with limit",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_percent",
+        "description": "The percentage of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The maximum amount of subtotal used to determine discount.",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "tiered_amount_off_subtotal",
+    "description": "Tiered amount off subtotal",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "An optional list of items of which a quantity of one or many must be purchased for coupon to be valid.  If empty, all items apply toward subtotal amount.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "tiers",
+        "description": "A list of discount tiers.",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "subtotal_amount",
+            "description": "The amount of subtotal required to receive the discount amount",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "discount_amount",
+            "description": "The amount of subtotal discount",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "quickbooks_code",
+            "description": "Quickbooks accounting code.",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "tiered_percent_off_subtotal",
+    "description": "Tiered percent off subtotal",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "An optional list of items of which a quantity of one or many must be purchased for coupon to be valid.  If empty, all items apply toward subtotal amount.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "tiers",
+        "description": "A list of discount tiers.",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "subtotal_amount",
+            "description": "The amount of subtotal required to receive the discount percent",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "discount_percent",
+            "description": "The percent of subtotal discount",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "quickbooks_code",
+            "description": "Quickbooks accounting code.",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "tiered_percent_off_subtotal_based_on_msrp",
+    "description": "Tiered percent off subtotal based on MSRP",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "An optional list of items of which a quantity of one or many must be purchased for coupon to be valid.  If empty, all items apply toward subtotal amount.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "tiers",
+        "description": "A list of discount tiers.",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "subtotal_amount",
+            "description": "The amount of subtotal required to receive the discount percent",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "discount_percent",
+            "description": "The percent of subtotal discount",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "quickbooks_code",
+            "description": "Quickbooks accounting code.",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "tiered_percent_off_shipping",
+    "description": "Tiered percent off shipping",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "shipping_methods",
+        "description": "One or more shipping methods that may receive this discount",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "tiers",
+        "description": "A list of discount tiers.",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "subtotal_amount",
+            "description": "The amount of subtotal required to receive the discount percent",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "discount_percent",
+            "description": "The percent of subtotal discount",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "quickbooks_code",
+            "description": "Quickbooks accounting code.",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "quickbooks_code",
+        "description": "Quickbooks accounting code.",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "tiered_amount_off_items",
+    "description": "Tiered amount off items",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "The items being discounted by this coupon.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "tiers",
+        "description": "A list of discount tiers.",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "item_quantity",
+            "description": "The quantity of item purchased (in units)",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "discount_amount",
+            "description": "The amount of discount per item.",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "quickbooks_code",
+            "description": "Quickbooks accounting code.",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The maximum number of discounted items.",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "item_tags",
+        "description": "An optional list of item tags which will receive a discount.  If blank, discount applies to all items except excluded items.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "tiered_percent_off_items",
+    "description": "Tiered percent off items",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of items of which at least one must be purchased for coupon to be valid.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "tiers",
+        "description": "A list of discount tiers.",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "item_quantity",
+            "description": "The quantity of item purchased (in units)",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "discount_percent",
+            "description": "The percent of discount per item.",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "quickbooks_code",
+            "description": "Quickbooks accounting code.",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The (optional) maximum quantity of discounted items.",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "item_tags",
+        "description": "An optional list of item tags which will receive a discount.  If blank, discount applies to all items except excluded items.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "amount_off_items",
+    "description": "Amount off items",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_amount",
+        "description": "The amount of shipping discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of items which are eligible for the discount amount.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The limit of items which are eligible for the discount amount.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "item_tags",
+        "description": "An optional list of item tags which will receive a discount.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "multiple_amounts_off_items",
+    "description": "Multiple amounts off items",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "discounts",
+        "description": "A list of item discounts.",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "REPEATED",
+            "name": "items",
+            "description": "A list of items which will receive this discount.",
+            "type": "RECORD",
+            "fields": [{
+              "mode": "NULLABLE",
+              "name": "value",
+              "type": "STRING"
+            }]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "discount_amount",
+            "description": "The amount of subtotal discount",
+            "type": "NUMERIC"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The (optional) maximum quantity of items that may receive a discount.",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "name": "percent_off_items",
+    "description": "Percent off items",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_percent",
+        "description": "The percentage of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "An optional list of items which will receive a discount.  If blank, discount applies to all items except excluded items.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "excluded_items",
+        "description": "A list of items which cannot be discounted.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The (optional) maximum quantity of discounted items.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "item_tags",
+        "description": "An optional list of item tags which will receive a discount.  If blank, discount applies to all items except excluded items.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "excluded_item_tags",
+        "description": "A list of item tags which cannot be discounted.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "buy_one_get_one",
+    "description": "Buy one get one free",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "An optional list of items of which one must be purchased to receive free quantity of the same item.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The limit of free items that may be received when purchasing multiple items",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "item_tags",
+        "description": "An optional list of item tags which will receive a discount.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "percent_off_retail_price_items",
+    "description": "Percent off retail price items",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_percent",
+        "description": "The percentage of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "An optional list of items which will receive a discount.  If blank, discount applies to all items except excluded items.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "excluded_items",
+        "description": "A list of items which cannot be discounted.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The (optional) maximum quantity of discounted items.",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "name": "percent_off_msrp_items",
+    "description": "Percent off MSRP items",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_percent",
+        "description": "The percentage of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "An list of items which will receive a discount.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "excluded_items",
+        "description": "A list of items which cannot be discounted.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The (optional) maximum quantity of discounted items.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_cumulative_msrp",
+        "description": "The (optional) minimum cumulative msrp of qualifying items.",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_subtotal",
+        "description": "The (optional) minimum subtotal of qualifying items.",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "name": "discount_items",
+    "description": "Discount items",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_price",
+        "description": "The price (unit cost) of the discounted item",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of items that are eligible for this discount_price.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The (optional) maximum quantity of discounted items.",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "name": "free_item_with_item_purchase",
+    "description": "Free item with item purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of free items which will receive a discount if one of the required purchase items is purchased.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "required_purchase_items",
+        "description": "Required items (at least one from the list) that must be purchased for coupon to be valid",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The (optional) maximum quantity of discounted items.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "match_required_purchase_item_to_free_item",
+        "description": "If true then the free item is matched 1:1 with the free item in the list.",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "item_tags",
+        "description": "An optional list of item tags which will receive a discount of one of the required purchased items is purchased.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "required_purchase_items_tags",
+        "description": "An optional list of item tags which are required to be purchased.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "free_item_with_item_purchase_and_free_shipping",
+    "description": "Free item with item purchase and free shipping",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of free items which will receive a discount if one of the required purchase items is purchased.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "required_purchase_items",
+        "description": "Required items (at least one from the list) that must be purchased for coupon to be valid",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The (optional) maximum quantity of discounted items.  Free shipping will apply to all units of the free item ids though.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "match_required_purchase_item_to_free_item",
+        "description": "If true then the free item is matched 1:1 with the free item in the list.",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "shipping_methods",
+        "description": "One or more shipping methods that may be used with this coupon.  If not specified or empty, methods that are marked as qualifies for free shipping will be the only free methods",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "free_item_with_subtotal",
+    "description": "Free items with subtotal",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of items that are eligible for this discount_price.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "subtotal_amount",
+        "description": "The amount of subtotal required to receive the discount percent",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The limit of free items that may be received when purchasing multiple items",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "name": "free_item_and_shipping_with_subtotal",
+    "description": "Free items and shipping with subtotal",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of items that are eligible for this discount_price.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "subtotal_amount",
+        "description": "The amount of subtotal required to receive the discount percent",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "shipping_methods",
+        "description": "One or more shipping methods that may be free",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The limit of free items that may be received when purchasing multiple items",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "name": "percent_off_items_with_items_purchase",
+    "description": "Percent off items with items purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_percent",
+        "description": "The percentage of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of items which will receive a discount if one of the required purchase items is purchased.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "required_purchase_items",
+        "description": "Required items (at least one from the list) that must be purchased for coupon to be valid",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The (optional) maximum quantity of discounted items.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "item_tags",
+        "description": "An optional list of item tags which will receive a discount of one of the required purchased items is purchased.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "required_purchase_items_tags",
+        "description": "An optional list of item tags which are required to be purchased.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "percent_off_item_with_items_quantity_purchase",
+    "description": "Percent off item with items quantity purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_percent",
+        "description": "The percentage of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of items which will receive a discount if one of the required purchase items is purchased.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "required_purchase_items",
+        "description": "Required items (at least one from the list) that must be purchased for coupon to be valid",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "required_purchase_quantity",
+        "description": "The quantity of items that must be purchased for the discount to be applied.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The (optional) maximum quantity of discounted items.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "item_tags",
+        "description": "An optional list of item tags which will receive a discount if one of the required purchased items is purchased.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "required_purchase_items_tags",
+        "description": "Required item tags (at least one from the list) that must be purchase for coupon to be valid.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "amount_off_shipping",
+    "description": "Amount off shipping",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_amount",
+        "description": "The amount of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "shipping_methods",
+        "description": "One or more shipping methods that may be used with this coupon",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "amount_shipping_with_subtotal",
+    "description": "Amount shipping with subtotal",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "shipping_methods",
+        "description": "One or more shipping methods that may be used with this coupon",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "purchase_amount",
+        "description": "The purchase amount to qualify for subtotal discount and free shipping",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "shipping_amount",
+        "description": "The amount of the shipping cost (this is not a discount, this is the actual cost of shipping)",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "name": "percent_off_shipping",
+    "description": "Percent off shipping",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_percent",
+        "description": "The percentage of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "shipping_methods",
+        "description": "One or more shipping methods that may be used with this coupon",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "free_shipping",
+    "description": "Free shipping",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "REPEATED",
+      "name": "shipping_methods",
+      "description": "One or more shipping methods that may be used with this coupon",
+      "type": "RECORD",
+      "fields": [{
+        "mode": "NULLABLE",
+        "name": "value",
+        "type": "STRING"
+      }]
+    }]
+  },
+  {
+    "name": "free_shipping_with_subtotal",
+    "description": "Free shipping with subtotal",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "shipping_methods",
+        "description": "One or more shipping methods that may be used with this coupon",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "purchase_amount",
+        "description": "The purchase amount to qualify for subtotal discount and free shipping",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "name": "free_shipping_with_items_purchase",
+    "description": "Free shipping with items purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "shipping_methods",
+        "description": "One or more shipping methods that may receive this discount",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "A list of items of which at least one must be purchased for coupon to be valid.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "free_shipping_specific_items",
+    "description": "Free shipping specific items",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "REPEATED",
+      "name": "items",
+      "description": "A list of items of which at least one must be purchased for coupon to be valid.",
+      "type": "RECORD",
+      "fields": [{
+        "mode": "NULLABLE",
+        "name": "value",
+        "type": "STRING"
+      }]
+    }]
+  },
+  {
+    "name": "discount_item_with_item_purchase",
+    "description": "Discount item with item purchase",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_price",
+        "description": "The price (unit cost) of the discounted item",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "required_purchase_item",
+        "description": "The item that must be purchased for the discount to be applied to the discount item.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "discount_item",
+        "description": "The item that will be sold at the discount_price when required_purchase_item is purchased.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The (optional) maximum quantity of discounted items.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "discount_item_tags",
+        "description": "An optional list of item tags which will receive a discount of one of the required purchased items is purchased.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "required_purchase_items_tags",
+        "description": "An optional list of item tags which are required to be purchased.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "percent_off_items_and_free_shipping",
+    "description": "Percent off items and free shipping",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_percent",
+        "description": "The percentage of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "An optional list of items which will receive a discount.  If blank, discount applies to all items except excluded items.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "excluded_items",
+        "description": "A list of items which cannot be discounted.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "item_tags",
+        "description": "An optional list of item tags which will receive a discount.  If blank, discount applies to all items except excluded items.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "excluded_item_tags",
+        "description": "A list of item tags which cannot be discounted.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "shipping_methods",
+        "description": "One or more shipping methods that may be used with this coupon.  If not specified or empty, methods that are marked as qualifies for free shipping will be the only free methods",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "percent_off_subtotal_and_free_shipping",
+    "description": "Percent off subtotal and free shipping",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_percent",
+        "description": "The percentage of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "shipping_methods",
+        "description": "One or more shipping methods that may be free",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "no_discount",
+    "description": "No discount",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "ignore_this_property",
+      "description": "This property does nothing but is included in this object to ensure the object is generated by our sdk builders.",
+      "type": "BOOLEAN"
+    }]
+  },
+  {
+    "name": "percent_more_loyalty_points",
+    "description": "Percent more loyalty points",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "percent_more_loyalty_points",
+      "description": "The percentage of additional loyalty points",
+      "type": "NUMERIC"
+    }]
+  },
+  {
+    "name": "more_loyalty_points",
+    "description": "More loyalty points",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "loyalty_points",
+      "description": "The additional loyalty points",
+      "type": "NUMERIC"
+    }]
+  },
+  {
+    "name": "percent_more_loyalty_cashback",
+    "description": "Percent more loyalty cashback",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "percent_more_loyalty_cashback",
+      "description": "The percentage of additional loyalty cashback",
+      "type": "NUMERIC"
+    }]
+  },
+  {
+    "name": "more_loyalty_cashback",
+    "description": "More loyalty cashback",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "loyalty_cashback",
+      "description": "The additional loyalty cashback",
+      "type": "NUMERIC"
+    }]
+  },
+  {
+    "name": "automatically_apply_coupon_codes",
+    "description": "Additional coupon codes to automatically apply",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "REPEATED",
+      "name": "coupon_codes",
+      "description": "The coupon codes to automatically apply if this coupon is applied",
+      "type": "RECORD",
+      "fields": [{
+        "mode": "NULLABLE",
+        "name": "value",
+        "type": "STRING"
+      }]
+    }]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "hide_from_customer",
+    "description": "Hide coupon from customer during checkout.  Often used when coupons are automatic discounting mechanisms.",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "skip_on_rebill",
+    "description": "Skip this coupon when it is on a rebill of an auto order.",
+    "type": "BOOLEAN"
+  }
+]

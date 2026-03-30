@@ -1,0 +1,425 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_oid",
+    "description": "Unique object identifier for this Affiliate",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "Merchant ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "first_name",
+    "description": "First Name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_name",
+    "description": "Last Name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "company_name",
+    "description": "Company Name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "address_1",
+    "description": "Address 1",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "address_2",
+    "description": "Address 2",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "city",
+    "description": "City",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "state",
+    "description": "State",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "postal_code",
+    "description": "Postal Code",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "phone",
+    "description": "Phone",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "fax",
+    "description": "Fax",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email",
+    "description": "Email",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "Active",
+      "Inactive"
+    ],
+    "mode": "NULLABLE",
+    "name": "status",
+    "description": "Status",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "country_code",
+    "description": "ISO-3166 two letter country code",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "tier_relationships",
+    "description": "Relationship with other affiliates that recruted this affiliate",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "tier_number",
+        "description": "Tier number",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_oid",
+        "description": "Affiliate object ID that recruited the affiliate",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "dob",
+    "description": "Date of birth",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "tax_id",
+    "description": "Tax ID (can only be used to update)",
+    "type": "STRING"
+  },
+  {
+    "name": "marketing_strategy",
+    "description": "Information about the affiliates marketing strategy",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "website_url",
+        "description": "URL of the affiliates website",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "website_name",
+        "description": "Name of the affiliates website",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketing_strategy",
+        "description": "Description of their marketing strategy",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "using_ppc",
+        "description": "True if they are using pay per click ads",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "using_website",
+        "description": "True if they are driving traffic from their website",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "using_per_acquisition",
+        "description": "True if they are using a per acquisition model",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "using_seo",
+        "description": "True if they are using search engine optimization techniques",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "using_ad_network",
+        "description": "True if they are using an ad network",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "using_adware",
+        "description": "True if they are using ad software",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "using_blog",
+        "description": "True if they are using their blog",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "using_other",
+        "description": "True if they are using some ohter marketing technique",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "google_conversion_id",
+    "description": "Google Adwords conversion id to use for the tracking pixel",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "ysm_account_id",
+    "description": "Yahoo Search Marketing account id to use for the tracking pixel",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "paypal_email",
+    "description": "Alternate email address to use for their PayPal payment if different than their primary email",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "auto_apply_coupon_oid",
+    "description": "Coupon object id to automatically apply when this affiliate sends traffic",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "auto_apply_coupon_code",
+    "description": "Coupon code to automatically apply when this affiliate sends traffic",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_commission_group_oid",
+    "description": "Commission group that this affiliate is assigned to",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "salesforce_account_id",
+    "description": "Salesforce.com account id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "salesforce_contact_id",
+    "description": "Salesforce.com contact id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "allow_downline_recruiting",
+    "description": "True if affiliate is allowed to recruit downline affiliates",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "analytics_internal_tracking",
+    "description": "True if this is used for internal tracking and should not influence UltraCart Analytics",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "accepted_downline_recruiting_terms",
+    "description": "True if affiliate has agreed to the terms associated with recruiting downline affiliates",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_terms_acceptance",
+    "description": "Last date/time the affiliate program terms were agreed to",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "html_permitted",
+    "description": "True if the affiliate is allowed to specify custom HTML to render on the receipt",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "check_payable_to",
+    "description": "If the affiliate wants to be paid by check instead of PayPal, then this is the name to make the check out to",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "allow_google_adwords_tracking",
+    "description": "True if the affiliate is allowed to have their Google Adwords tracking pixel on the receipt",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "allow_yahoo_search_marketing_tracking",
+    "description": "True if the affiliate is allowed to have their Yahoo Search Marketing tracking pixel on the receipt",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "auto_approve_commissions",
+    "description": "True if this affiliates commissions are automatically approved",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "prevent_cookie_stomping",
+    "description": "True if cookie stomping of this affiliate is prevented",
+    "type": "BOOLEAN"
+  },
+  {
+    "allowed_values": [
+      "None",
+      "Each",
+      "Daily",
+      "Weekly",
+      "Monthly"
+    ],
+    "mode": "NULLABLE",
+    "name": "email_notification_schedule",
+    "description": "Email notification of transactions",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "attributes",
+    "description": "Custom attributes about the affiliate that can be used in the catalog/StoreFront",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "description": "Name of the attribute",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "description": "Value of the attribute",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "type",
+        "description": "Type of the attribute",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "first_name_hash",
+    "description": "First Name SHA-256 Base 64 Hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_name_hash",
+    "description": "Last Name SHA-256 Base 64 Hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "company_name_hash",
+    "description": "Company Name SHA-256 Base 64 Hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "address_1_hash",
+    "description": "Address 1 SHA-256 Base 64 Hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "address_2_hash",
+    "description": "Address 2 SHA-256 Base 64 Hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "phone_hash",
+    "description": "Phone SHA-256 Base 64 Hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "fax_hash",
+    "description": "Fax SHA-256 Base 64 Hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email_hash",
+    "description": "Email SHA-256 Base 64 Hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "dob_hash",
+    "description": "Date of birth SHA-256 Base 64 Hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "tax_id_hash",
+    "description": "Tax ID SHA-256 Base 64 Hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "remove_cookie_after_purchase",
+    "description": "If true, affiliate cookies are removed after a purchase.",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "prevent_sending_all_emails",
+    "description": "If true, affiliate will not receive any email notifications.",
+    "type": "BOOLEAN"
+  }
+]

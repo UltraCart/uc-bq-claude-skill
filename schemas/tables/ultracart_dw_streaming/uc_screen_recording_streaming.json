@@ -1,0 +1,509 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "page_views",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "url",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "domain",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "first_event_timestamp",
+        "description": "First event timestamp",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "last_event_timestamp",
+        "description": "Last event timestamp",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "screen_recording_page_view_uuid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "time_on_page",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "events",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "ts",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "timestamp",
+            "description": "Timestamp of the event",
+            "type": "DATETIME"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "params",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "name",
+                "type": "STRING"
+              },
+              {
+                "name": "value",
+                "type": "RECORD",
+                "fields": []
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "value_hash",
+                "description": "Value Hash SHA-256 Base64",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "prior_page_view",
+            "type": "BOOLEAN"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "params",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "referrer",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "referrer_raw",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "referrer_params",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "http_post",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "timing_dom_content_loaded",
+        "description": "Amount of time for DOMContentLoaded event to fire (milliseconds)",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "timing_loaded",
+        "description": "Amount of time for loaded event to fire (milliseconds)",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "page_view_count",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "storefronts",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "storefront_oid",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "storefront_host_name",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "ucacid",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "screen_recording_uuid",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "start_timestamp",
+    "description": "Starting timestamp",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "end_timestamp",
+    "description": "Ending timestamp",
+    "type": "DATETIME"
+  },
+  {
+    "name": "user_agent",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "original",
+        "type": "STRING"
+      },
+      {
+        "name": "os",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "version",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "full",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "name": "device",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "name",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "version",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "user_agent_raw",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "user_ip",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "window_width",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "window_height",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "geolocation_country",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "geolocation_state",
+    "type": "STRING"
+  },
+  {
+    "name": "geolocation",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "lat",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "lon",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "order_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email_domain",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "referrer_domain",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "time_on_site",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "user_properties",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "name": "value",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "text",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "bd",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "num",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "bool",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "json",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_notes",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "visitor_number",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "visitor_first_seen",
+    "description": "Timestamp this visitor was first seen",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "communications_email_subject",
+    "description": "Email subject",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "communications_email_uuid",
+    "description": "Email UUID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "communications_flow_uuid",
+    "description": "Flow UUID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "communications_flow_name",
+    "description": "Flow Name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "communications_campaign_uuid",
+    "description": "Campaign UUID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "communications_campaign_name",
+    "description": "Campaign Name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "utm_source",
+    "description": "UTM Source",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "utm_campaign",
+    "description": "UTM Campaign",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "language_iso_code",
+    "description": "Language ISO code",
+    "type": "STRING"
+  },
+  {
+    "name": "ad_platform",
+    "description": "Ad Platform Identifiers",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "gacid",
+        "description": "Google Analytics CID (Cookie)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "glcid",
+        "description": "Google Adwords Click Id (Parameter)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "msclkid",
+        "description": "Bing Click Id (Parameter",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "fbclid",
+        "description": "Facebook Click Id Parameter (Parameter)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "fbc",
+        "description": "Facebook Click Id (Cookie)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "fbp",
+        "description": "Facebook Browser Id (Cookie)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ttclid",
+        "description": "TikTok Click Id (Parameter",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "preferred_language",
+    "description": "ISO 3 Letter language code that the customer would prefer",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "missing_external_tracking",
+    "description": "True if external page view was not tracked",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email_hash",
+    "description": "Email Hash SHA-256 Base64",
+    "type": "STRING"
+  }
+]

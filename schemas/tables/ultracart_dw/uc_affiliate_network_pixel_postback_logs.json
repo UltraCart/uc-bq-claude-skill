@@ -1,0 +1,166 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_network_pixel_postback_log_uuid",
+    "description": "Unique postback log record id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_network_pixel_oid",
+    "description": "Unique object identifier for this Affiliate Network Pixel",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "Merchant ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "storefront_oid",
+    "description": "StoreFront object id",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "order_id",
+    "description": "Order ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "postback_dts",
+    "description": "Date/time of the postback",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "url",
+    "description": "The full URL communicated with",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "status_code",
+    "description": "The status code received from the server.  200 = OK",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "response",
+    "description": "The response from the server (2K max stored)",
+    "type": "STRING"
+  },
+  {
+    "name": "network",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_network_pixel_oid",
+        "description": "Unique object identifier for this Affiliate Network Pixel",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "merchant_id",
+        "description": "Merchant ID",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "storefront_oid",
+        "description": "StoreFront object id",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "network_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "parameter_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "parameter_value",
+        "type": "STRING"
+      },
+      {
+        "allowed_values": [
+          "Custom",
+          "Commission Junction",
+          "Server-to-Server"
+        ],
+        "mode": "NULLABLE",
+        "name": "conversion_type",
+        "description": "Type of conversion to perform.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "conversion_pixel",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "fire_percentage",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "record_name_in_custom_field",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "record_fire_in_custom_field",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cookie_lifetime_days",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "stomp_other_cookies",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "no_fire_skip_internal_affiliate_system",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "no_fire_assign_to_internal_affiliate_oid",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "assign_to_internal_affiliate_oid",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "commission_fixed",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "remove_empty_pixel_parameters",
+        "type": "BOOLEAN"
+      }
+    ]
+  }
+]

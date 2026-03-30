@@ -1,0 +1,386 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "storefront_experiment_oid",
+    "description": "Storefront Experiment Oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "storefront_oid",
+    "description": "Storefront oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "name",
+    "description": "Experiment name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "id",
+    "description": "Experiment id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "duration_days",
+    "description": "Duration in days",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "objective",
+    "description": "Objective that is being optimized",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "objective_parameter",
+    "description": "Objective parameter (such as event name) that is being optimized",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "optimization_type",
+    "description": "Type of optimization",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "equal_weighting",
+    "description": "Whether or not traffic is equally weighted or shifts over time during the experiment",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "notes",
+    "description": "Notes about the experiment",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "start_dts",
+    "description": "Start date/time",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "end_dts",
+    "description": "End date/time",
+    "type": "DATETIME"
+  },
+  {
+    "allowed_values": [
+      "Running",
+      "Ended",
+      "Deleted"
+    ],
+    "mode": "NULLABLE",
+    "name": "status",
+    "description": "Status of the experiment",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "variations",
+    "description": "Variations being tested in the experiment",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "variation_number",
+        "description": "Variation number",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "variation_name",
+        "description": "Name of the variation",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "url",
+        "description": "Url of the variation if this experiment is a url experiment.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "traffic_percentage",
+        "description": "Percentage of the traffic this variation is currently receiving",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "original_traffic_percentage",
+        "description": "Percentage of the traffic the variation originally started out with",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "winner",
+        "description": "True if this variation has been declared the winner",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "session_count",
+        "description": "Total sessions for this variation",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "add_to_cart_count",
+        "description": "Total add to cart count for this variation",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "order_count",
+        "description": "Total order count for this variation",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "initiate_checkout_count",
+        "description": "Total initiate checkout count for this variation",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "bounce_count",
+        "description": "Total bounce count for this variation",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "event_count",
+        "description": "Total event ocunt for this variation",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "page_view_count",
+        "description": "Total page view count for this variation",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "duration_seconds_sum",
+        "description": "Total number of seconds spent on the site for this variation",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "revenue",
+        "description": "Total revenue for this variation",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "conversion_rate",
+        "description": "Conversion rate for this variation",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "average_duration_seconds",
+        "description": "Average duration seconds per session for this variation",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "average_order_value",
+        "description": "Average order value for this variation",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "average_objective_per_session",
+        "description": "Average objective value per session for this variation",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "order_item_count",
+        "description": "Total order item count for this variation",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "daily_statistics",
+        "description": "Array of daily statistics for this variation",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "stat_dts",
+            "description": "Date/time that the statistic was created",
+            "type": "DATETIME"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "session_count",
+            "description": "Total sessions for this variation",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "revenue",
+            "description": "Total revenue for this variation",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "order_count",
+            "description": "Total order count for this variation",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "add_to_cart_count",
+            "description": "Total add to cart count for this variation",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "initiate_checkout_count",
+            "description": "Total initiate checkout count for this variation",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "bounce_count",
+            "description": "Total bounce count for this variation",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "page_view_count",
+            "description": "Total page view count for this variation",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "duration_seconds_sum",
+            "description": "Total number of seconds spent on the site for this variation",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "event_count",
+            "description": "Total event count for this variation",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "order_item_count",
+            "description": "Total order item count for this variation",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "sms_opt_in_count",
+            "description": "Total SMS opt in count for this variation",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "order_ids",
+            "description": "Order ID thats converted on this variation",
+            "type": "RECORD",
+            "fields": [{
+              "mode": "NULLABLE",
+              "name": "value",
+              "type": "STRING"
+            }]
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "paused",
+        "description": "True if traffic should be paused to this variation",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "sms_opt_ins",
+        "description": "SMS Opt Ins for this variation",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "session_count",
+    "description": "Total number of sessions in the experiment",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "uri",
+    "description": "URI the experiment was started on",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "container_id",
+    "description": "Contained ID where the experiment element was located",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "experiment_type",
+    "description": "The type of experiment",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "headline",
+      "text",
+      "textblock"
+    ],
+    "mode": "NULLABLE",
+    "name": "openai_element_type",
+    "description": "The type of OpenAI element being experimented on",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "openai_total_iterations",
+    "description": "The total number of iterations to perform on the experiment",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "openai_current_iteration",
+    "description": "The current iteration of the OpenAI related experiment",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "openai_model",
+    "description": "The type of OpenAI model used",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "p_value",
+    "description": "Statistics p-value for the experiment",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "p95_sessions_needed",
+    "description": "Estimated sessions needed to achieve P95",
+    "type": "INTEGER"
+  }
+]

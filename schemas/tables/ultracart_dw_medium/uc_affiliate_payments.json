@@ -1,0 +1,204 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_payment_oid",
+    "description": "Unique object identifier associated with this payment",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_oid",
+    "description": "Affiliate id that this payment is associated with",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "check_number",
+    "description": "Check number of the payment",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "payment_dts",
+    "description": "Date of the payment",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "payment_amount",
+    "description": "Amount of the payment",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "comment",
+    "description": "Comment",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "first_name",
+    "description": "First name of the affiliate",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_name",
+    "description": "Last name of the affiliate",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email",
+    "description": "Email of the affiliate",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email_hash",
+    "description": "Email Hash SHA-256 Base64",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "first_name_hash",
+    "description": "First name Hash SHA-256 Base64",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_name_hash",
+    "description": "Last name Hash SHA-256 Base64",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "payment_ledgers",
+    "description": "The ledgers that make up this payment",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "amount",
+        "description": "The amount paid on the ledger entry associated with this payment",
+        "type": "NUMERIC"
+      },
+      {
+        "name": "ledger",
+        "description": "Ledger record that was paid",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "affiliate_ledger_oid",
+            "description": "Affiliate ledger object ID associated with this ledger",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "transaction_dts",
+            "description": "Date/time that the transaction was made",
+            "type": "DATETIME"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "transaction_memo",
+            "description": "Memo explaining the transaction",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "affiliate_oid",
+            "description": "Affiliate object ID associated with this transaction",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "transaction_amount",
+            "description": "Transaction amount",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "sub_id",
+            "description": "Sub ID associated with transaction (from the click)",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "order_id",
+            "description": "Order ID associated with this transaction",
+            "type": "STRING"
+          },
+          {
+            "allowed_values": [
+              "Pending",
+              "Posted",
+              "Approved",
+              "Paid",
+              "Rejected",
+              "Partially Paid"
+            ],
+            "mode": "NULLABLE",
+            "name": "transaction_state",
+            "description": "Transaction state",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "transaction_amount_paid",
+            "description": "Amount of the transaction that has been paid out.",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "assigned_by_user",
+            "description": "User that assigned the transaction if it was done manually",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "original_transaction_dts",
+            "description": "Date/time of the original transaction for reversals",
+            "type": "DATETIME"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "item_id",
+            "description": "Item ID associated with this transaction",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "tier_number",
+            "description": "Tier number that this transaction earned",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "transaction_percentage",
+            "description": "Percentage associated with this transaction",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "affiliate_link_oid",
+            "description": "Unique object identifier for the link that this click is associated with",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "affiliate_click_oid",
+            "description": "Unique object identifier for the click associated with this ledger entry",
+            "type": "INTEGER"
+          }
+        ]
+      }
+    ]
+  }
+]

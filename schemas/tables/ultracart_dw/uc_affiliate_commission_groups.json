@@ -1,0 +1,317 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_commission_group_oid",
+    "description": "Unique object identifier for this commission group",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "name",
+    "description": "Name of the commission group",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "default_commission_group",
+    "description": "True if this is the default group new affiliate signups are placed into",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "hide_recruiting_link",
+    "description": "True if the recruiting link for downline tiers is hidden for this commission group",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "global_commissions",
+    "description": "The global commissions for each tier",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "tier_number",
+        "description": "Tier number",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "commission_percentage",
+        "description": "Percentage commission",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_commission",
+        "description": "The minimum commission paid out for an order",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "maximum_commission",
+        "description": "The maximum commission paid out for an order",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "fixed_commission",
+        "description": "A fixed commission paid out for an order",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "description",
+        "description": "Description of the tier",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "commission_percentage_repeat_customer",
+        "description": "Percentage commission",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_commission_repeat_customer",
+        "description": "The minimum commission paid out for an order when they are repeat customers",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "maximum_commission_repeat_customer",
+        "description": "The maximum commission paid out for an order when they are repeat customers",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "fixed_commission_repeat_customer",
+        "description": "A fixed commission paid out for an order when they are repeat customers",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "items",
+    "description": "Items configured with specific commissions for this group",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_program_item_oid",
+        "description": "Unique object identifier for this affiliate program item object",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "merchant_item_oid",
+        "description": "The item object identifier this affiliate program item is associated with",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "merchant_item_id",
+        "description": "The item id this affiliate program item is associated with",
+        "type": "STRING"
+      },
+      {
+        "allowed_values": [
+          "Active",
+          "Deleted"
+        ],
+        "mode": "NULLABLE",
+        "name": "status",
+        "description": "Status",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "tier_commissions",
+        "description": "The standard commissions for each tier",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "tier_number",
+            "description": "The tier this commission is associated with",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "commission_ranges",
+            "description": "Used to give different commissions based upon the unit cost the item sold for",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "unit_cost_low",
+                "description": "Low end of the range for the unit cost",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "unit_cost_high",
+                "description": "High end of the range for the unit cost",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "unit_cost",
+                "description": "Exact unit cost",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "commission_amount",
+                "description": "The commission amount earned.  Whether its fixed or percentage is based upon the affiliate program item commission type parent object",
+                "type": "NUMERIC"
+              }
+            ]
+          },
+          {
+            "allowed_values": [
+              "Fixed",
+              "Percentage"
+            ],
+            "mode": "NULLABLE",
+            "name": "commission_type",
+            "description": "The type of commission paid",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "commission_amount",
+            "description": "The amount of the commission.  Type determines how it is applied",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "description",
+            "description": "The description of the tier",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "commission_amount_repeat_customer",
+            "description": "The amount of the commission for repeat customers.  Type determines how it is applied",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "commission_ranges_repeat_customer",
+            "description": "Used to give different commissions based upon the unit cost the item sold for for repeat customers",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "unit_cost_low",
+                "description": "Low end of the range for the unit cost",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "unit_cost_high",
+                "description": "High end of the range for the unit cost",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "unit_cost",
+                "description": "Exact unit cost",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "commission_amount",
+                "description": "The commission amount earned.  Whether its fixed or percentage is based upon the affiliate program item commission type parent object",
+                "type": "NUMERIC"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_commission_group_oid",
+        "description": "Unique object identifier for the commission group this item belongs to",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "hide_from_affiliate_console",
+        "description": "True if this item should be hidden from the affiliates console",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "alternate_description",
+        "description": "An alternate description that may be more meaningful to the affiliate than the item title",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "payment_schedule",
+        "description": "Payment schedule if the affiliate does not earn the commission immediately",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "days",
+            "description": "Number of days",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "percentage",
+            "description": "Percentage of commission to have paid out at this point",
+            "type": "NUMERIC"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "exclude_items",
+    "description": "Items that are excluded from global commissions",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "merchant_item_oid",
+        "description": "The item object identifier that is excluded from the affiliate program",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "merchant_item_id",
+        "description": "The item id that is excluded from the affiliate program",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "remove_cookie_after_purchase",
+    "description": "Optional value if set overrides the same property found on the Affiliate object. If true, affiliate cookies are removed after a purchase.",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "prevent_sending_all_emails",
+    "description": "If true, affiliate in this group will not receive any email notifications.",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "keep_commission_on_refunded_order",
+    "description": "Optional value if set overrides the same property found on the Affiliate object. If true, commissions are not refunded when order is refunded.",
+    "type": "BOOLEAN"
+  }
+]

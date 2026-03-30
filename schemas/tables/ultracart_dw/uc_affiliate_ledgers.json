@@ -1,0 +1,404 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_ledger_oid",
+    "description": "Affiliate ledger object ID associated with this ledger",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "transaction_dts",
+    "description": "Date/time that the transaction was made",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "transaction_memo",
+    "description": "Memo explaining the transaction",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_oid",
+    "description": "Affiliate object ID associated with this transaction",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "transaction_amount",
+    "description": "Transaction amount",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "sub_id",
+    "description": "Sub ID associated with transaction (from the click)",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "order_id",
+    "description": "Order ID associated with this transaction",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "Pending",
+      "Posted",
+      "Approved",
+      "Paid",
+      "Rejected",
+      "Partially Paid"
+    ],
+    "mode": "NULLABLE",
+    "name": "transaction_state",
+    "description": "Transaction state",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "transaction_amount_paid",
+    "description": "Amount of the transaction that has been paid out.",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "assigned_by_user",
+    "description": "User that assigned the transaction if it was done manually",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "original_transaction_dts",
+    "description": "Date/time of the original transaction for reversals",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "item_id",
+    "description": "Item ID associated with this transaction",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "tier_number",
+    "description": "Tier number that this transaction earned",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "transaction_percentage",
+    "description": "Percentage associated with this transaction",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_link_oid",
+    "description": "Unique object identifier for the link that this click is associated with",
+    "type": "INTEGER"
+  },
+  {
+    "name": "link",
+    "description": "Link object associated with this click",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_link_oid",
+        "description": "Unique object identifier associated with this link",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_oid",
+        "description": "Affiliate object ID associated with this link",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "creative_oid",
+        "description": "Creative (image or text) associated with this link",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_html",
+        "description": "Custom HTML associated with this link",
+        "type": "STRING"
+      },
+      {
+        "allowed_values": [
+          "Pending",
+          "Approved",
+          "Rejected"
+        ],
+        "mode": "NULLABLE",
+        "name": "custom_html_approval_status",
+        "description": "Approved status of the custom html",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "invisible_link_url_prefix",
+        "description": "Invisible link URL prefix",
+        "type": "STRING"
+      },
+      {
+        "allowed_values": [
+          "Pending",
+          "Approved",
+          "Rejected"
+        ],
+        "mode": "NULLABLE",
+        "name": "invisible_link_approval_status",
+        "description": "Invisible link approval status",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "deleted",
+        "description": "True if the link has been deleted",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "description": "Name of the link",
+        "type": "STRING"
+      },
+      {
+        "allowed_values": [
+          "image",
+          "text",
+          "invisible",
+          "direct"
+        ],
+        "mode": "NULLABLE",
+        "name": "type",
+        "description": "Type of link",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_landing_url",
+        "description": "Custom landing page URL if configured",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "code",
+        "description": "Code associated with the link",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_program_item_oid",
+        "description": "The affiliate program item this managed link is associated with",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_managed_link_oid",
+        "description": "Managed link OID that this link object was generated from",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_click_oid",
+    "description": "Unique object identifier for the click associated with this ledger entry",
+    "type": "INTEGER"
+  },
+  {
+    "name": "click",
+    "description": "Click object associated with this ledger entry",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_click_oid",
+        "description": "Unique object identifier for this click",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_oid",
+        "description": "Affiliate object ID associated with this click",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "click_dts",
+        "description": "Date/time that the click was made",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ip_address",
+        "description": "IP address that generated the click",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "referrer",
+        "description": "URL that referred the click (Browser Header Referer)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "sub_id",
+        "description": "Sub ID value passed on the click",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "affiliate_link_oid",
+        "description": "Unique object identifier for for the link that this click is associated with",
+        "type": "INTEGER"
+      },
+      {
+        "name": "link",
+        "description": "Link object associated with this click",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "affiliate_link_oid",
+            "description": "Unique object identifier associated with this link",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "affiliate_oid",
+            "description": "Affiliate object ID associated with this link",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "creative_oid",
+            "description": "Creative (image or text) associated with this link",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "custom_html",
+            "description": "Custom HTML associated with this link",
+            "type": "STRING"
+          },
+          {
+            "allowed_values": [
+              "Pending",
+              "Approved",
+              "Rejected"
+            ],
+            "mode": "NULLABLE",
+            "name": "custom_html_approval_status",
+            "description": "Approved status of the custom html",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "invisible_link_url_prefix",
+            "description": "Invisible link URL prefix",
+            "type": "STRING"
+          },
+          {
+            "allowed_values": [
+              "Pending",
+              "Approved",
+              "Rejected"
+            ],
+            "mode": "NULLABLE",
+            "name": "invisible_link_approval_status",
+            "description": "Invisible link approval status",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "deleted",
+            "description": "True if the link has been deleted",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "description": "Name of the link",
+            "type": "STRING"
+          },
+          {
+            "allowed_values": [
+              "image",
+              "text",
+              "invisible",
+              "direct"
+            ],
+            "mode": "NULLABLE",
+            "name": "type",
+            "description": "Type of link",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "custom_landing_url",
+            "description": "Custom landing page URL if configured",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "code",
+            "description": "Code associated with the link",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "affiliate_program_item_oid",
+            "description": "The affiliate program item this managed link is associated with",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "affiliate_managed_link_oid",
+            "description": "Managed link OID that this link object was generated from",
+            "type": "INTEGER"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "referrer_query_string",
+        "description": "Query string that was on the referrer URL.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "landing_page",
+        "description": "URL of the landing page the customer was sent to.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "landing_page_query_string",
+        "description": "Query string on the landing page URL the customer was sent to.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ucacid",
+        "description": "UC Analytics Identifier",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "screen_recording_uuid",
+        "description": "Screen recording UUID",
+        "type": "STRING"
+      }
+    ]
+  }
+]

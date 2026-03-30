@@ -1,0 +1,239 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "fraud_rule_oid",
+    "description": "UltraCart unique identifier for this fraud rule",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "UltraCart merchant ID owning this fraud rule",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "rule_type",
+    "description": "For a list of valid rule types, see getFraudRuleTypes",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "rule_group",
+    "description": "Rule types are grouped for GUI purposes",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "Decline Transaction",
+      "Flag For Review",
+      "Process Payment and Modify",
+      "Process Payment and Review"
+    ],
+    "mode": "NULLABLE",
+    "name": "failure_action",
+    "description": "Action to take if order fails this fraud rule",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "auto_note",
+    "description": "Note that is automatically appended to the merchant_note field of an order failing this fraud rule.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "decline_message",
+    "description": "Message displayed to customer if their order fails this fraud rule.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "param1",
+    "description": "Parameter value for this fraud rule which meaning depends on the rule_type",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "param2",
+    "description": "Parameter value for this fraud rule which meaning depends on the rule_type",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "param3",
+    "description": "Parameter value for this fraud rule which meaning depends on the rule_type",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "param4",
+    "description": "Parameter value for this fraud rule which meaning depends on the rule_type",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "Approved",
+      "Attempted"
+    ],
+    "mode": "NULLABLE",
+    "name": "user_action",
+    "description": "User action will be Approved, Attempted, or null.  Used to refine the fraud rule to a specific action.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_oid",
+    "description": "Unique object identifier for an (optional) affiliate tied to this fraud rule",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "item_filters",
+    "description": "Optional list of items restricting this fraud rule to orders containing one or more of these items",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "merchant_item_oid",
+        "description": "Unique object identifier of this item",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "merchant_item_id",
+        "description": "Unique item id of this item filter",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "rotating_transaction_gateway_filters",
+    "description": "Optional list of rotating transaction gateways restricting this fraud rule to orders processed by one of these gateways",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "rotating_transaction_gateway_oid",
+        "description": "Unique object identifier of a rotating transaction gateway filtering this fraud rule to only orders processed by this gateway",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "code",
+        "description": "The short code identifier of this rotating transaction gateway used to filter this fraud rule",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "storefront_filters",
+    "description": "Optional list of storefronts restricting this fraud rule to orders associated with one or more storefronts",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "storefront_host_name",
+        "description": "StoreFront Host Name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "screen_branding_theme_code",
+        "description": "Screen branding theme code associated with this storefront (legacy checkouts)",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "description",
+    "description": "Convenience string describing this rule, used by UltraCart GUI (not persisted)",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "description_html",
+    "description": "Convenience html string describing this rule, used by UltraCart GUI (not persisted)",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "modify_skip_affiliate",
+    "description": "When true any order that fails this fraud rule skips affiliate association",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "modify_skip_affiliate_network_pixel",
+    "description": "When true any order that fails this fraud rule skips/ignores any affiliate network pixel",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "modify_custom_field1",
+    "description": "Any order that fails this fraud rule will have this custom field set to this value",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "modify_custom_field2",
+    "description": "Any order that fails this fraud rule will have this custom field set to this value",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "modify_custom_field3",
+    "description": "Any order that fails this fraud rule will have this custom field set to this value",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "modify_custom_field4",
+    "description": "Any order that fails this fraud rule will have this custom field set to this value",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "modify_custom_field5",
+    "description": "Any order that fails this fraud rule will have this custom field set to this value",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "modify_custom_field6",
+    "description": "Any order that fails this fraud rule will have this custom field set to this value",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "modify_custom_field7",
+    "description": "Any order that fails this fraud rule will have this custom field set to this value",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "card_number",
+    "description": "If this fraud rule is associated to a specific card number, this is the masked value",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "created_by",
+    "description": "The UltraCart user who created this fraud rule",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "created_dts",
+    "description": "Created date",
+    "type": "DATETIME"
+  }
+]

@@ -1,0 +1,135 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "gift_certificate_oid",
+    "description": "Gift certificate oid.",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "Merchant Id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "code",
+    "description": "The code used by the customer to purchase against this gift certificate.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "original_balance",
+    "description": "Original balance of the gift certificate.",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "remaining_balance",
+    "description": "The remaining balance on the gift certificate.  This is never set directly, but calculated from the ledger.  To change the remaining balance, add a ledger entry.",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "expiration_dts",
+    "description": "Expiration date time.",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email",
+    "description": "Email of the customer associated with this gift certificate.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "reference_order_id",
+    "description": "The order used to purchase this gift certificate.  This value is ONLY set during checkout when a certificate is purchased, not when it is used.  Any usage is recorded in the ledger",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "activated",
+    "description": "True if this gift certificate is activated and ready to apply to purchases.",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "deleted",
+    "description": "True if this gift certificate was deleted.",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "ledger_entries",
+    "description": "A list of all ledger activity for this gift certificate.",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "gift_certificate_ledger_oid",
+        "description": "Gift certificate ledger oid is a primary key for this object, used internally.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "gift_certificate_oid",
+        "description": "Gift certificate oid.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "description",
+        "description": "Description of what this ledger entry is used.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "entry_dts",
+        "description": "Date time of this ledger activity.",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "reference_order_id",
+        "description": "The order id if this gift certificate was used as part of the payment.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "amount",
+        "description": "The amount of the activity.",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_note",
+    "description": "A list of all ledger activity for this gift certificate.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email_hash",
+    "description": "Email Hash SHA-256 Base64",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "internal",
+    "description": "This is an internally managed gift certificate associated with the loyalty cash rewards program.",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "customer_profile_oid",
+    "description": "This is the customer profile oid associated with this internally managed gift certificate.",
+    "type": "INTEGER"
+  }
+]

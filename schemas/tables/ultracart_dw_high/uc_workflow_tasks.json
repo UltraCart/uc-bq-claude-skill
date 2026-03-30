@@ -1,0 +1,377 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "workflow_task_uuid",
+    "description": "Workflow Task UUID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "Merchant ID",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "order",
+      "auto order",
+      "item",
+      "customer profile",
+      "storefront"
+    ],
+    "mode": "NULLABLE",
+    "name": "object_type",
+    "description": "Object Type",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "object_id",
+    "description": "Object ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "object_url",
+    "description": "Object URL",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "object_email",
+    "description": "Object is associated with customer email",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "task_context",
+    "description": "User friendly string of the task context",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "1 - low",
+      "2 - medium",
+      "3 - high",
+      "4 - critical"
+    ],
+    "mode": "NULLABLE",
+    "name": "priority",
+    "description": "Priority",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "created_dts",
+    "description": "Date/time that the workflow task was created",
+    "type": "DATETIME"
+  },
+  {
+    "name": "created_by",
+    "description": "User that created the task",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "user",
+        "description": "The user",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "user_icon_url",
+        "description": "The user icon URL if available",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_update_dts",
+    "description": "Date/time that the workflow task was last updated",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "due_dts",
+    "description": "Date/time that the workflow task is due",
+    "type": "DATETIME"
+  },
+  {
+    "allowed_values": [
+      "open",
+      "closed",
+      "delayed",
+      "awaiting customer feedback",
+      "closed - system",
+      "closed - customer",
+      "closed - expiration"
+    ],
+    "mode": "NULLABLE",
+    "name": "status",
+    "description": "Status of the workflow task",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "delay_until_dts",
+    "description": "Date/time that the workflow task should delay until",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "assigned_to_group",
+    "description": "Assigned to group",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "assigned_to_user",
+    "description": "Assigned to user",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "assigned_to_user_or_group",
+    "description": "Assigned to user or group (used for sorting)",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "task_name",
+    "description": "Task Name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "task_details",
+    "description": "Task Details",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "attachments",
+    "description": "Attachments to the Workflow Task",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "file_name",
+        "description": "File name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "mime_type",
+        "description": "Mime Type",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "file_uuid",
+        "description": "File UUID",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "notes",
+    "description": "Notes on the Workflow Task",
+    "type": "RECORD",
+    "fields": [
+      {
+        "name": "user",
+        "description": "The user that wrote the note",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "user",
+            "description": "The user",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "user_icon_url",
+            "description": "The user icon URL if available",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "note_dts",
+        "description": "Date/time that the note was written",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "note",
+        "description": "Note",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "attachments",
+        "description": "Attachments to the Workflow Task",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "file_name",
+            "description": "File name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "mime_type",
+            "description": "Mime Type",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "file_uuid",
+            "description": "File UUID",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "edit_dts",
+        "description": "Date/time that the note was edited",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "original_note",
+        "description": "Note originally written before any edits",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "histories",
+    "description": "Array of history records for the task",
+    "type": "RECORD",
+    "fields": [
+      {
+        "name": "user",
+        "description": "The user that performed the activity",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "user",
+            "description": "The user",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "user_icon_url",
+            "description": "The user icon URL if available",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "activity_dts",
+        "description": "Date/time that the workflow task history record was created",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "description",
+        "description": "Description of the activity",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ip_address",
+        "description": "IP Address that originated the activity",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "related_workflow_task_uuid",
+    "description": "Related Workflow Task UUID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "dependant_workflow_task_uuid",
+    "description": "Dependant Workflow Task UUID (must be completed before this task can be completed)",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "tags",
+    "description": "Tags",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "properties",
+    "description": "Properties",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "expiration_dts",
+    "description": "Date/time that the workflow task will expire and be closed.  This is set by system generated tasks.",
+    "type": "DATETIME"
+  },
+  {
+    "allowed_values": [
+      "order_accounts_receivable",
+      "order_fraud_review",
+      "auto_order_card_update_issue",
+      "auto_order_canceled_payment",
+      "item_low_stock",
+      "item_out_of_stock"
+    ],
+    "mode": "NULLABLE",
+    "name": "system_task_type",
+    "description": "Constant for the type of system generated task",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "global_task_number",
+    "description": "Global task number",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "object_task_number",
+    "description": "Object specific task number",
+    "type": "INTEGER"
+  }
+]

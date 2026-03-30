@@ -1,0 +1,1372 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "shipping_method_oid",
+    "description": "Shipping method id",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "Merchant ID that owns this shipping method",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "shipping_method",
+    "description": "Shipping method name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "flat_fee_markup",
+    "description": "Flat fee markup",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "percentage_markup",
+    "description": "The percentage markup",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "first_item_markup",
+    "description": "The markup on the first item",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "each_additional_item_markup",
+    "description": "Each additional item markup",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "residential_markup",
+    "description": "The residential markup",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "residential_percentage_discount",
+    "description": "Percentage discount when the delivery address is residential",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "commercial_percentage_discount",
+    "description": "Commercial discount when the delivery address is commercial",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "comment",
+    "description": "Comment",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "OZ",
+      "LB",
+      "KG",
+      "G"
+    ],
+    "mode": "NULLABLE",
+    "name": "uom_weight",
+    "description": "Unit of measure for weight",
+    "type": "STRING"
+  },
+  {
+    "name": "max_weight",
+    "description": "Maximum weight of the package that can be shipped by this method",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "description": "Weight",
+        "type": "NUMERIC"
+      },
+      {
+        "allowed_values": [
+          "KG",
+          "G",
+          "LB",
+          "OZ"
+        ],
+        "mode": "NULLABLE",
+        "name": "uom",
+        "description": "Unit of measure",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "allowed_values": [
+      "POBOX",
+      "APOFPO",
+      "AKHI",
+      "PR",
+      "US48",
+      "DOMONLY",
+      "INTONLY",
+      "CA",
+      "ID",
+      "TH",
+      "RESI",
+      "BUSI",
+      "EUR",
+      "OCEANIA",
+      "GB",
+      "USTERR"
+    ],
+    "mode": "REPEATED",
+    "name": "invalid_for_restrictions",
+    "description": "Invalid for restrictions",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "allowed_values": [
+      "POBOX",
+      "APOFPO",
+      "AKHI",
+      "PR",
+      "US48",
+      "DOMONLY",
+      "INTONLY",
+      "CA",
+      "ID",
+      "TH",
+      "RESI",
+      "BUSI",
+      "EUR",
+      "OCEANIA",
+      "GB",
+      "USTERR"
+    ],
+    "mode": "REPEATED",
+    "name": "valid_only_for_restrictions",
+    "description": "Valid only for restrictions",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "require_delivery_date",
+    "description": "True if delivery date is required to be selected during the checkout",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "delivery_on_monday",
+    "description": "True if delivery can occur on Monday",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "delivery_on_tuesday",
+    "description": "True if delivery can occur on Tuesday",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "delivery_on_wednesday",
+    "description": "True if delivery can occur on Wednesday",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "delivery_on_thursday",
+    "description": "True if delivery can occur on Thursday",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "delivery_on_friday",
+    "description": "True if delivery can occur on Friday",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "delivery_on_saturday",
+    "description": "True if delivery can occur on Saturday",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "delivery_on_sunday",
+    "description": "True if delivery can occur on Sunday",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "order_days_before",
+    "description": "The minimum number of days the customer must order before the ship date (0 = no requirement)",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "order_day_cutoff_time",
+    "description": "Order day cut off time.  This is a date/time object, but UltraCart only causes about the time component.",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "percent_ranges",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_cost",
+        "description": "Minimum cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "percentage",
+        "description": "percentage",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "cost_ranges",
+    "description": "An optional range of shipping costs based on the shopping cart subtotal",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_cost",
+        "description": "The minimum cost for this shipping method range to be valid",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "shipping_cost",
+        "description": "The shipping cost for this shopping cart subtotal range",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "weight_ranges",
+    "description": "An optional range of shipping costs based on the shopping cart weight",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "uom_weight",
+        "description": "Uom for weight",
+        "type": "STRING"
+      },
+      {
+        "name": "minimum_weight",
+        "description": "Minimum weight for this shipping method to be considered valid",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Weight",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "KG",
+              "G",
+              "LB",
+              "OZ"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "shipping_cost",
+        "description": "Shipping cost for this weight range",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "blackouts",
+    "description": "An array of blackout dates when this shipping method cannot be used",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "blacked_out_date",
+      "description": "Blacked out date",
+      "type": "DATETIME"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "item_costs",
+    "description": "Item specific markups or discounts related to this shipping method",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "merchant_item_oid",
+        "description": "Merchant item oid",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cost",
+        "description": "cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "shipping_method_validity",
+        "description": "Shipping method validity",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "free_shipping",
+        "description": "True if this method is free shipping",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "flat_fee_markup",
+        "description": "Flat fee markup",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "per_item_fee_markup",
+        "description": "Per item fee markup",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "percentage_markup",
+        "description": "Percentage markup",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "first_item_markup",
+        "description": "First item markup",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "each_additional_item_markup",
+        "description": "Each additional item markup",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "relax_restrictions_on_upsell",
+        "description": "Relax restrictions on upsell",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "filter_to_if_available",
+        "description": "Filter to if available",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "percentage_of_item_markup",
+        "description": "Optional value that sets the cost of ship to a percentage of the item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "fixed_shipping_cost",
+        "description": "Fixed shipping cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "signature_required",
+        "description": "True if this shipping method requires a signature",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "merchant_item_id",
+        "description": "Merchant item id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "item_currency_code",
+        "description": "Item currency code",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "account_code",
+    "description": "The accounting_code that will be sent to external programs such as Quickbooks",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "none",
+      "math",
+      "realtime"
+    ],
+    "mode": "NULLABLE",
+    "name": "insurance_calculation_type",
+    "description": "The type of insurance calculation",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "insurance_unit_cost",
+    "description": "If the insurance type of math, this is the insurance cost per unit",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "insurance_unit",
+    "description": "If the insurance type of math, this is the unit",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "insurance_threshold",
+    "description": "If the insurance type of math, this is when the insurance starts",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "allowed_for_free_shipping",
+    "description": "Allow method as free shipping",
+    "type": "BOOLEAN"
+  },
+  {
+    "allowed_values": [
+      "<",
+      "<=",
+      "=",
+      ">",
+      ">="
+    ],
+    "mode": "NULLABLE",
+    "name": "allowed_for_free_shipping_comparison",
+    "description": "Comparison when allowed for shipping configuration",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "OZ",
+      "LB",
+      "KG",
+      "G"
+    ],
+    "mode": "NULLABLE",
+    "name": "allowed_for_free_shipping_uom_weight",
+    "description": "Unit of measure for the allowed for free shipping weight",
+    "type": "STRING"
+  },
+  {
+    "name": "allowed_for_free_shipping_weight",
+    "description": "Weight for the allowed for free shipping comparison",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "description": "Weight",
+        "type": "NUMERIC"
+      },
+      {
+        "allowed_values": [
+          "KG",
+          "G",
+          "LB",
+          "OZ"
+        ],
+        "mode": "NULLABLE",
+        "name": "uom",
+        "description": "Unit of measure",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "allowed_values": [
+      "none",
+      "realtime",
+      "weight",
+      "cost",
+      "percent",
+      "item"
+    ],
+    "mode": "NULLABLE",
+    "name": "calculation_type",
+    "description": "The type of shipping calculation",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "discount_if_order_subtotal",
+    "description": "Discount if the order subtotal is at least this",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "discount_if_item_count",
+    "description": "Discount if the item count is at least this",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "export_as_shipping_method",
+    "description": "Export the order as a different shipping method",
+    "type": "STRING"
+  },
+  {
+    "allowed_values": [
+      "UPS",
+      "FedEx",
+      "USPS",
+      "DHL",
+      "CA Post",
+      "AU Post",
+      "PeriShip",
+      "OnTrac",
+      "EasyPost",
+      "ShipStation"
+    ],
+    "mode": "NULLABLE",
+    "name": "tracking_number_type",
+    "description": "The type of tracking number",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "display_name",
+    "description": "The name to display to the customer during checkout",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "hazmat_fee_per_package",
+    "description": "The hazmat fee per package",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "hazmat_fee_per_entire_shipment",
+    "description": "The hazmat fee per the entire shipment",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "maximum_package_count",
+    "description": "Maximum package count",
+    "type": "INTEGER"
+  },
+  {
+    "allowed_values": [
+      "none",
+      "real-time",
+      "x business days",
+      "x to y business days",
+      "x weeks",
+      "x to y weeks"
+    ],
+    "mode": "NULLABLE",
+    "name": "estimated_delivery_type",
+    "description": "The estimated delivery type",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "estimated_delivery_num1",
+    "description": "Estimated delivery minimum range",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "estimated_delivery_num2",
+    "description": "Estimated delivery maximum range",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "allow_third_party_billing",
+    "description": "True to allow third party billing",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "allow_third_party_billing_approved_customers_only",
+    "description": "Only allow third party billing for approved customer profiles",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "maximum_order_fee",
+    "description": "The minimum fee to add",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "minimum_order_fee_limit",
+    "description": "The limit under when the order will be charged the minimum order fee",
+    "type": "NUMERIC"
+  },
+  {
+    "allowed_values": [
+      "<",
+      "<=",
+      "=",
+      ">",
+      ">="
+    ],
+    "mode": "NULLABLE",
+    "name": "total_shipment_comparison",
+    "description": "Total shipment comparison",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "total_shipment_uom_weight",
+    "description": "Total shipment unit of measure for the weight",
+    "type": "STRING"
+  },
+  {
+    "name": "total_shipment_weight",
+    "description": "The total shipment weight that will be compared",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "description": "Weight",
+        "type": "NUMERIC"
+      },
+      {
+        "allowed_values": [
+          "KG",
+          "G",
+          "LB",
+          "OZ"
+        ],
+        "mode": "NULLABLE",
+        "name": "uom",
+        "description": "Unit of measure",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "allowed_values": [
+      "<",
+      "<=",
+      "=",
+      ">",
+      ">="
+    ],
+    "mode": "NULLABLE",
+    "name": "individual_package_comparison",
+    "description": "The individual package comparison operator",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "individual_package_uom_Weight",
+    "description": "The individual package unit of measure for weight",
+    "type": "STRING"
+  },
+  {
+    "name": "individual_package_weight",
+    "description": "The individual package weight that will be compared",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "description": "Weight",
+        "type": "NUMERIC"
+      },
+      {
+        "allowed_values": [
+          "KG",
+          "G",
+          "LB",
+          "OZ"
+        ],
+        "mode": "NULLABLE",
+        "name": "uom",
+        "description": "Unit of measure",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "restrict_shipment_on_sunday",
+    "description": "True if shipping on Sunday should be restricted",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "restrict_shipment_on_monday",
+    "description": "True if shipping on Monday should be restricted",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "restrict_shipment_on_tuesday",
+    "description": "True if shipping on Tuesday should be restricted",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "restrict_shipment_on_wednesday",
+    "description": "True if shipping on Wednesday should be restricted",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "restrict_shipment_on_thursday",
+    "description": "True if shipping on Thursday should be restricted",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "restrict_shipment_on_friday",
+    "description": "True if shipping on Friday should be restricted",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "restrict_shipment_on_saturday",
+    "description": "True if shipping on Saturday should be restricted",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "signature_required",
+    "description": "Optimal cart subtotal which a signature should be required by the end customer",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "countries",
+    "description": "Countries",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "country",
+        "description": "Country",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "handling_charge",
+        "description": "Handling charge",
+        "type": "NUMERIC"
+      },
+      {
+        "name": "maximumPackageLength",
+        "description": "Maximum package length",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "The distance measured in UOM",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "IN",
+              "CM"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "maximum_customs_value",
+        "description": "Maximum customs value",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "states",
+    "description": "States",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "country",
+        "description": "Country",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "province_state",
+        "description": "Province state",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "handling_charge",
+        "description": "Handling charge",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "packages",
+    "description": "Packages",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "package_oid",
+      "description": "Package oid",
+      "type": "INTEGER"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "pricing_tier_restrictions",
+    "description": "Pricing tier restrictions",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "pricing_tier_oid",
+        "description": "Pricing tier oid",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "validity",
+        "description": "Validity",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "shipping_method_discounts",
+    "description": "Discounts",
+    "type": "RECORD",
+    "fields": [
+      {
+        "name": "minimum_weight",
+        "description": "Minimum weight",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Weight",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "KG",
+              "G",
+              "LB",
+              "OZ"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "residential_percentage_discount",
+        "description": "Residential percentage discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "commercial_percentage_discount",
+        "description": "Commercial percentage discount",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "filter_other_methods_when_available",
+    "description": "Filter out other methods when this one is available",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "no_realtime_charge",
+    "description": "No realtime charge for payment if this method is selected (typically for freight that needs further quoting)",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "force_to_distribution_center_oid",
+    "description": "For the order to this distribution center id",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "maximum_insured_value",
+    "description": "Maximum insured value",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "maximum_value",
+    "description": "Maximum value",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "shipment_cut_off_time_monday",
+    "description": "Shipment cut off time when the ship on date is Monday",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "shipment_cut_off_time_tuesday",
+    "description": "Shipment cut off time when the ship on date is Tuesday",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "shipment_cut_off_time_wednesday",
+    "description": "Shipment cut off time when the ship on date is Wednesday",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "shipment_cut_off_time_thursday",
+    "description": "Shipment cut off time when the ship on date is Thursday",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "shipment_cut_off_time_friday",
+    "description": "Shipment cut off time when the ship on date is Friday",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "shipment_cut_off_time_saturday",
+    "description": "Shipment cut off time when the ship on date is Saturday",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "shipment_cut_off_time_sunday",
+    "description": "Shipment cut off time when the ship on date is Sunday",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "valid_only_zip_codes",
+    "description": "Valid only zip codes",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "disabled",
+    "description": "True if the method is disabled",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "radius_miles",
+    "description": "Radius in miles that this method is valid for",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "radius_zip_codes",
+    "description": "Radius in miles for these zip codes",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "invalid_for_screen_branding_theme_restrictions",
+    "description": "Invalid for screen branding theme restrictions",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "valid_only_for_screen_branding_theme_restrictions",
+    "description": "Valid only for screen branding theme restrictions",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "zip_percentage_markup",
+    "description": "Zip percentage markup",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "shipping_method_zip_percentage_range_oid",
+        "description": "Shipping method zip percentage range oid",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "zip_range",
+        "description": "Zip range",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "markup_percentage",
+        "description": "Markup percentage",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "apo_fpo_markup",
+    "description": "APO/FPO markup",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "po_box_markup",
+    "description": "P.O. Box Markup",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "pricing_tier_markup",
+    "description": "Pricing tier specific markups",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "shipping_method_pricing_tier_markup_oid",
+        "description": "Shipping method pricing tier markup oid",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "pricing_tier_oid",
+        "description": "Pricing tier oid",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "percentage_markup",
+        "description": "Percentage markup",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "flat_fee_markup",
+        "description": "Flat fee markup",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "first_item_markup",
+        "description": "First item markup",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "each_additional_item_markup",
+        "description": "Each additional item markup",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "residential_markup",
+        "description": "Residential markup",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "hazmat_fee_per_package",
+        "description": "Hazmat fee per package",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "hazmat_fee_per_entire_shipment",
+        "description": "Hazmat fee per entire shipment",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_order_fee",
+        "description": "Minimum order fee",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_order_fee_limit",
+        "description": "Minimum order fee limit",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "apo_fpo_markup",
+        "description": "APO FPO markup",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "po_box_markup",
+        "description": "PO Box markup",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "lift_gate_fee",
+        "description": "Lift gate fee",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "saturday_fee",
+        "description": "Saturday fee",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "discount_if_order_subtotal_and_us48",
+    "description": "Discount if the order subtotal is at least this and in US 48",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "custom_tracking_url",
+    "description": "Custom tracking URL",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "beoe_only",
+    "description": "Method can only be used in the backend order entry application",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "disocunt_if_cheapest",
+    "description": "Discount this method only if it's the cheapest one available",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "limit_package_weight",
+    "description": "Restrict the package weight to this",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "description": "Weight",
+        "type": "NUMERIC"
+      },
+      {
+        "allowed_values": [
+          "KG",
+          "G",
+          "LB",
+          "OZ"
+        ],
+        "mode": "NULLABLE",
+        "name": "uom",
+        "description": "Unit of measure",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "life_gate_option",
+    "description": "True if lift gate service is available (LTL freight)",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "life_gate_fee",
+    "description": "The fee to charge if the customer requests life gate service",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "pickup",
+    "description": "True if this is a pickup method",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "least_cost_routes",
+    "description": "Least cost routing information",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "shipping_method_last_cost_route_oid",
+        "description": "Shipping method least cost route oid",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "route_to_shipping_method_oid",
+        "description": "Route to shipping method oid",
+        "type": "INTEGER"
+      },
+      {
+        "name": "maximum_longest_dimension",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "The distance measured in UOM",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "IN",
+              "CM"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "maximum_second_longest_dimension",
+        "description": "Maximum second longest dimension",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "The distance measured in UOM",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "IN",
+              "CM"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "maximum_subtotal",
+        "description": "Maximum subtotal",
+        "type": "NUMERIC"
+      },
+      {
+        "name": "maximum_weight",
+        "description": "Maximum weight",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Weight",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "KG",
+              "G",
+              "LB",
+              "OZ"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "minimum_cost",
+    "description": "The minimum cost that this method can be",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "life_gate_required_for_residential",
+    "description": "Require life gate service for residential delivery",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "allowed_for_free_shipping_us48",
+    "description": "Allowed for free shipping if the customer is in the US 48",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "saturday_fee",
+    "description": "Saturday delivery",
+    "type": "NUMERIC"
+  }
+]

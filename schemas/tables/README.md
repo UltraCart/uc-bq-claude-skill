@@ -6,12 +6,14 @@ This directory contains enhanced BigQuery table schemas with human-readable desc
 
 ```
 tables/
-├── ultracart_dw/              # Standard dataset (no PII columns)
-├── ultracart_dw_medium/       # Medium dataset (includes PII columns)
+├── ultracart_dw/              # Standard taxonomy dataset (no PII columns)
+├── ultracart_dw_low/          # Low taxonomy dataset
+├── ultracart_dw_medium/       # Medium taxonomy dataset (includes PII columns)
+├── ultracart_dw_high/         # High taxonomy dataset (full access)
 └── ultracart_dw_streaming/    # Streaming dataset (analytics, screen recordings)
 ```
 
-Each subdirectory corresponds to a BigQuery dataset. The schema files are organized by dataset so taxonomy-level restrictions are respected — a standard-taxonomy user never sees PII columns.
+Each subdirectory corresponds to a BigQuery dataset and taxonomy level. The schema files are organized by dataset so taxonomy-level restrictions are respected — a standard-taxonomy user never sees PII columns.
 
 ## File Format
 

@@ -1,0 +1,271 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "rotating_transaction_gateway_history_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "rotating_transaction_gateway_code",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "transaction_type",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "transaction_date",
+    "description": "Date/time of the transaction",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "custom_field1",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "custom_field2",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "custom_field3",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "custom_field4",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "custom_field5",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "custom_field6",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "custom_field7",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "card_type",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "first_name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "card_last4",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "card_bin",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "country_code",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "address_line1",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "postal_code",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "success",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "cvv2_present",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "order_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "first_item_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "auto_order_original_order_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "auto_order_original_item_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "auto_order_rebill_count",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "auto_order_attempt",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_sub_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "transaction_amount",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "auto_order_cancel",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "card_bin_type",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "cart_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "extended_details",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "three_ds",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "authentication_type",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "authentication_value",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "eci",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "status",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "protocol_version",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ds_trans_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "acs_trans_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "card_token",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "sca_indicator",
+        "type": "BOOLEAN"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "first_name_hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_name_hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "address_line1_hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "returned_dual_vaulted_card",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "used_dual_vaulted_card",
+    "type": "BOOLEAN"
+  }
+]

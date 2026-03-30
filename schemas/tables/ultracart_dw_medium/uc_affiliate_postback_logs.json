@@ -1,0 +1,90 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_postback_log_uuid",
+    "description": "Unique postback log record id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "affiliate_oid",
+    "description": "Unique object identifier for this Affiliate",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "Merchant ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "ledger_oids",
+    "description": "Ledger oids associated with this postback",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "INTEGER"
+    }]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "sub_id",
+    "description": "Sub ID specified by the affiliate",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "order_id",
+    "description": "Order ID of the conversion",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "commission",
+    "description": "The amount of the commission earned",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "postback_dts",
+    "description": "Date/time of the postback",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "config_url",
+    "description": "The configured URL at the time with tokens that are replaced.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "url",
+    "description": "The full URL communicated with",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "status_code",
+    "description": "The status code received from the server.  200 = OK",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "response",
+    "description": "The response from the server (2K max stored)",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "landing_page_query_string",
+    "description": "The landing page query string where parameters can be extracted from for the postback",
+    "type": "STRING"
+  }
+]

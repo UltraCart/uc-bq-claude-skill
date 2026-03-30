@@ -1,0 +1,163 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "storefront_upsell_path_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "storefront_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "path_order",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "active",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "trigger_item_ids",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "path_type",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "variations",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "steps",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "type",
+            "type": "STRING"
+          },
+          {
+            "name": "offer",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "offer_oid",
+                "type": "INTEGER"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "downsell_offer_oid",
+                "type": "INTEGER"
+              }
+            ]
+          },
+          {
+            "name": "experiment",
+            "type": "RECORD",
+            "fields": [{
+              "mode": "REPEATED",
+              "name": "offers",
+              "type": "RECORD",
+              "fields": [
+                {
+                  "mode": "NULLABLE",
+                  "name": "offer_oid",
+                  "type": "INTEGER"
+                },
+                {
+                  "mode": "NULLABLE",
+                  "name": "downsell_offer_oid",
+                  "type": "INTEGER"
+                }
+              ]
+            }]
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "visibility_ordered_offer_oids",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "INTEGER"
+        }]
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "trigger_ages",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "trigger_genders",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "trigger_tags",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "location",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "customer_type",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "archived",
+    "type": "BOOLEAN"
+  }
+]

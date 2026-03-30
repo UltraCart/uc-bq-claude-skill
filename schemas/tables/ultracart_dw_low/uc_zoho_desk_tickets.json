@@ -1,0 +1,1184 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "UltraCart Merchant ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "id",
+    "description": "Unique ticket ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "ticket_number",
+    "description": "Human-readable ticket number",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "subject",
+    "description": "Ticket subject",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "subject_hash",
+    "description": "SHA-256 Base64 hash of subject",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "description",
+    "description": "Initial ticket description (HTML)",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "description_hash",
+    "description": "SHA-256 Base64 hash of description",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "status",
+    "description": "Current status",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "status_type",
+    "description": "Status category",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "priority",
+    "description": "Priority",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "classification",
+    "description": "Ticket classification",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "category",
+    "description": "Category",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "sub_category",
+    "description": "Sub-category",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "department_id",
+    "description": "Department ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "channel",
+    "description": "Source channel",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "phone",
+    "description": "Contact phone from ticket",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "phone_hash",
+    "description": "SHA-256 Base64 hash of phone",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "language",
+    "description": "Ticket language",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "is_spam",
+    "description": "Marked as spam",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "is_public",
+    "description": "Visible to portal users",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "due_date",
+    "description": "Due date in ISO 8601",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "response_due_date",
+    "description": "Response due date in ISO 8601",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "onhold_time",
+    "description": "Total time on hold in ISO 8601 duration format",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "resolution",
+    "description": "Resolution text (HTML)",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "resolution_hash",
+    "description": "SHA-256 Base64 hash of resolution",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "closed_time",
+    "description": "Time when ticket was closed",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "created_time",
+    "description": "Creation timestamp",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "modified_time",
+    "description": "Last modification timestamp",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "customer_response_time",
+    "description": "Last customer response time",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "contact_id",
+    "description": "Contact (customer) ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "assignee_id",
+    "description": "Current assignee (agent) ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "team_id",
+    "description": "Team ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "product_id",
+    "description": "Associated product ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "account_id",
+    "description": "Associated account/organization ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "thread_count",
+    "description": "Total number of threads",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "comment_count",
+    "description": "Number of public comments",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "attachment_count",
+    "description": "Number of attachments",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "task_count",
+    "description": "Number of tasks",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "time_entry_count",
+    "description": "Number of time entries",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "approval_count",
+    "description": "Number of approvals",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "tag_count",
+    "description": "Number of tags",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "follower_count",
+    "description": "Number of followers",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "layout_id",
+    "description": "Ticket layout ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "web_url",
+    "description": "Direct link to ticket in Zoho Desk",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "portal_url",
+    "description": "Customer portal URL",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email",
+    "description": "Primary email (usually same as contact.email)",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email_hash",
+    "description": "SHA-256 Base64 hash of email",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "channel_code",
+    "description": "Channel code",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "sla_id",
+    "description": "Applied SLA ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "contract_id",
+    "description": "Associated contract ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "created_by",
+    "description": "User ID who created the ticket",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "modified_by",
+    "description": "User ID who last modified the ticket",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "sentiment",
+    "description": "Sentiment analysis result",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "is_over_due",
+    "description": "Is ticket overdue",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "is_response_overdue",
+    "description": "Is response overdue",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "is_escalated",
+    "description": "Is ticket escalated",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "is_archived",
+    "description": "Is ticket archived",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "is_trashed",
+    "description": "Is ticket in trash",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "is_deleted",
+    "description": "Is ticket deleted",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "is_read",
+    "description": "Has ticket been read",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "is_following",
+    "description": "Is current user following",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "custom_fields",
+    "description": "Flat map of custom fields using human-readable labels as keys",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "key",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "cf",
+    "description": "Alternative flat custom fields with cf_ prefix",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "key",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "channel_related_info",
+    "description": "Channel-specific metadata",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "key",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "source",
+    "description": "Source metadata",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "app_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ext_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "permalink",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "type",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "uuid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "app_photo_url",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "shared_departments",
+    "description": "Departments this ticket is shared with",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "secondary_contacts",
+    "description": "Additional contacts",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "first_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "last_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "email",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "phone",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "mobile",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "photo_url",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "company_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "is_spam",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "type",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "account",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "key",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "entity_skills",
+    "description": "Required skills as strings",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "skills_info",
+    "description": "Skills routing information",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "contact",
+    "description": "Full contact object",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "first_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "last_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "email",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "phone",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "mobile",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "photo_url",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "company_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "is_spam",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "type",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "account",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "key",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "assignee",
+    "description": "Full assignee (agent) object",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "first_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "last_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "email",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "role_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "photo_url",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "team",
+    "description": "Full team object",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "logo_url",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "product",
+    "description": "Full product object",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "department",
+    "description": "Department details",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "layout_details",
+    "description": "Layout information",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "layout_name",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "threads",
+    "description": "Array of all threads",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ticket_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "direction",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "content",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "content_type",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "is_public",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "sent_time",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "from_email_address",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "to_email_addresses",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "cc_email_addresses",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "bcc_email_addresses",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "attachments",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "id",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "file_id",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "file_name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "size",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "file_url",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "view_url",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "content_type",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "is_public",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "creator_id",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "uploaded_time",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "mentions",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "hashtags",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "attachments",
+    "description": "Array of top-level attachments",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "file_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "file_name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "size",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "file_url",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "view_url",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "content_type",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "is_public",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "creator_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "uploaded_time",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "comments",
+    "description": "Array of all ticket comments",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ticket_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "content_hash",
+        "description": "SHA-256 Base64 hash of content",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "content_type",
+        "description": "Content format: html or plain",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "is_public",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "commented_time",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "modified_time",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "author_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "author_type",
+        "type": "STRING"
+      },
+      {
+        "name": "commenter",
+        "description": "Full author details (agent or contact)",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "id",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "name_hash",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "first_name_hash",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "last_name_hash",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "email_hash",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "photo_url",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "role_name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "type",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "attachments",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "id",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "file_id",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "file_name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "size",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "file_url",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "view_url",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "content_type",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "is_public",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "creator_id",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "uploaded_time",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "mentions",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "id",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "type",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "photo_url",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,79 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "item_inventory_history_oid",
+    "description": "Unique object identifier for the item inventory history.",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "Merchant ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_item_id",
+    "description": "Merchant Item ID",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_item_oid",
+    "description": "Merchant Item object id",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "distribution_center_oid",
+    "description": "Distribution center id",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "distribution_center_code",
+    "description": "Distribution center code",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "before_inventory_level",
+    "description": "Inventory level before the change",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "adjustment",
+    "description": "Adjustment to the inventory level",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "after_inventory_level",
+    "description": "Inventory level after the change",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "order_id",
+    "description": "Order ID that caused the inventory change",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "reason",
+    "description": "Reason for the inventory change",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "history_dts",
+    "description": "Date/time of the history record",
+    "type": "DATETIME"
+  }
+]

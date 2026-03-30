@@ -1,0 +1,431 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "storefront_upsell_offer_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "storefront_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "active",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "test_only",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "allow_upsell_item_in_cart_already",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "free_shipping",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "arbitrary_unit_cost",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "max_quantity",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "start_date",
+    "description": "Start date",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "end_date",
+    "description": "Start date",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "removable_on_confirmation",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "upsell_item_ids",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "trigger_item_ids",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "suppression_item_ids",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "trigger_shipping_methods",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "suppression_shipping_methods",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "trigger_payment_methods",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "suppression_payment_methods",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "trigger_country_codes",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "suppression_country_codes",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "require_all_trigger_item_ids",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "migrate_accessory_item_ids_from",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "migrate_accessory_item_ids_to",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "add_accessory_item_ids",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "remove_accessory_item_ids",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "lock_shipping",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "skip_previous_customers",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "offsite_content_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "offer_container_cjson",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "remove_trigger_item",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "arbitrary_unit_cost_monday",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "arbitrary_unit_cost_tuesday",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "arbitrary_unit_cost_wednesday",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "arbitrary_unit_cost_thursday",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "arbitrary_unit_cost_friday",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "arbitrary_unit_cost_saturday",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "arbitrary_unit_cost_sunday",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "screenshot_small_full_length_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "screenshot_small_view_port_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "screenshot_medium_full_length_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "screenshot_medium_view_port_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "screenshot_large_full_length_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "screenshot_large_view_port_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "thumbnail_small_full_length_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "thumbnail_small_view_port_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "thumbnail_medium_full_length_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "thumbnail_medium_view_port_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "thumbnail_large_full_length_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "thumbnail_large_view_port_url",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "suppress_small",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "suppress_medium",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "suppress_large",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "trigger_ages",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "trigger_genders",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "trigger_tags",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "suppression_tags",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "path_name",
+    "description": "Name of the path that contained this upsell offer.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "path_location",
+    "description": "Location of the path (pre-checkout or post checkout)",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "first_time_store",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "first_time_item",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "trigger_count_across_all_trigger_items",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "trigger_operator",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "trigger_operator_comparison_quantity",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "suppression_count_across_all_trigger_items",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "suppression_operator",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "suppression_operator_comparison_quantity",
+    "type": "INTEGER"
+  }
+]

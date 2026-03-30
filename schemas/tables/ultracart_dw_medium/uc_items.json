@@ -1,0 +1,4437 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_item_oid",
+    "description": "Unique object identifier for this item",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "UltraCart merchant ID owning item",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_item_id",
+    "description": "Unique item id assigned to this item",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "description",
+    "description": "Description of the item up to 500 characters.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "description_translated_text_instance_oid",
+    "description": "Description translated text instance id",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "parent_category_id",
+    "description": "Parent category of the item.  Zero indicates the root folder.",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "parent_category_path",
+    "description": "Parent category path.  / indicates the root folder.  This is the folder structure within item management.",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "kit",
+    "description": "True if this item is a kit",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "inactive",
+    "description": "True if this item is inactive and can not be purchased",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_modified_dts",
+    "description": "Date/time of last modification",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "creation_dts",
+    "description": "Date/time of creation",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "kit_component_only",
+    "description": "True if this item can only be usd as a kit component",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "pricing",
+    "description": "Pricing",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "cost",
+        "description": "Cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "Currency code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "manufacturer_suggested_retail_price",
+        "description": "Manufacturer suggested retail price",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_advertised_price",
+        "description": "Minimum advertised price",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cogs",
+        "description": "Cost of goods sold",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "mix_and_match_group_oid",
+        "description": "Mix and match group object identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "mix_and_match_group",
+        "description": "Mix and match group",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "sale_cost",
+        "description": "Sale cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "sale_start",
+        "description": "Sale start",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "sale_end",
+        "description": "Sale end",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "allow_arbitrary_cost",
+        "description": "Allow arbitrary cost",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_arbitrary_cost",
+        "description": "Minimum arbitrary cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "maximum_arbitrary_cost",
+        "description": "Maximum arbitrary cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "arbitrary_cost_velocity_code",
+        "description": "Arbitrary cost velocity code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "automatic_pricing_tier_oid",
+        "description": "Automatic pricing tier object identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "automatic_pricing_tier_name",
+        "description": "Automatic pricing tier name",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "tiers",
+        "description": "Tiers",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "pricing_tier_oid",
+            "description": "Pricing tier object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "description": "Pricing tier name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "default_tier",
+            "description": "True if this is the default tier",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "discounts",
+            "description": "Discounts",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "quantity",
+                "description": "Quantity",
+                "type": "INTEGER"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "cost",
+                "description": "Cost",
+                "type": "NUMERIC"
+              }
+            ]
+          },
+          {
+            "name": "limit",
+            "description": "Limits",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "individual_order_limit",
+                "description": "Individual order limit",
+                "type": "INTEGER"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "cumulative_order_limit",
+                "description": "Cumulative order limit",
+                "type": "INTEGER"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "multiple_quantity",
+                "description": "Multiple quantity",
+                "type": "INTEGER"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "exempt_from_minimum_item_count",
+                "description": "Exempt from Minimum Item Count",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "REPEATED",
+                "name": "payment_method_validity",
+                "description": "Payment method validity",
+                "type": "RECORD",
+                "fields": [{
+                  "mode": "NULLABLE",
+                  "name": "value",
+                  "type": "STRING"
+                }]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_cost",
+        "description": "Cost if customer selects to receive item on auto order.  Set to zero to delete.",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "name": "shipping",
+    "description": "Shipping",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "allow_back_order",
+        "description": "Allow back order",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "track_inventory",
+        "description": "Track inventory",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "no_shipping_discount",
+        "description": "No shipping discounts",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ship_separately",
+        "description": "Ship this item in a separate box",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "preorder",
+        "description": "This item is on pre-order",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "hazmat",
+        "description": "Hazardous material",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "country_code_of_origin",
+        "description": "Country code of origin for customs forms.  (ISO-3166 two letter code)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "max_days_time_in_transit",
+        "description": "Maximum days allowed in transit",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "customs_description",
+        "description": "Customs description",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "perishable_class_oid",
+        "description": "Perishable class object identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "perishable_class_name",
+        "description": "Perishable class name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "case_units",
+        "description": "Case units",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "freight_class",
+        "description": "Freight class",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "restrict_shipment_on_sunday",
+        "description": "Restrict shipment on Sunday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "restrict_shipment_on_monday",
+        "description": "Restrict shipment on Monday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "restrict_shipment_on_tuesday",
+        "description": "Restrict shipment on Tuesday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "restrict_shipment_on_wednesday",
+        "description": "Restrict shipment on Wednesday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "restrict_shipment_on_thursday",
+        "description": "Restrict shipment on Thursday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "restrict_shipment_on_friday",
+        "description": "Restrict shipment on Friday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "restrict_shipment_on_saturday",
+        "description": "Restrict shipment on Saturday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "customs_value",
+        "description": "Customs value",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "eta",
+        "description": "Estimated time of arrival",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "amazon_fba",
+        "description": "Fulfillment by Amazon.com",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "ship_separately_length",
+        "description": "Ship separately box length",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "The distance measured in UOM",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "IN",
+              "CM"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "ship_separately_width",
+        "description": "Ship separately box width",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "The distance measured in UOM",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "IN",
+              "CM"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "ship_separately_height",
+        "description": "Ship separately box height",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "The distance measured in UOM",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "IN",
+              "CM"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "ship_separately_additional_weight",
+        "description": "Ship separately box weight",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Weight",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "KG",
+              "G",
+              "LB",
+              "OZ"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "hold_for_transmission",
+        "description": "Hold for transmission",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ship_separately_package_special_type",
+        "description": "Ship separately package special type",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "require_delivery_date",
+        "description": "True to require customer to select a delivery date",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "delivery_on_monday",
+        "description": "Delivery on Monday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "delivery_on_tuesday",
+        "description": "Delivery on Tuesday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "delivery_on_wednesday",
+        "description": "Delivery on Wednesday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "delivery_on_thursday",
+        "description": "Delivery on Thursday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "delivery_on_friday",
+        "description": "Delivery on Friday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "delivery_on_saturday",
+        "description": "Delivery on Saturday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "delivery_on_sunday",
+        "description": "Delivery on Sunday",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "made_to_order",
+        "description": "True if this item is made to order",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "made_to_order_lead_time",
+        "description": "Number of days lead time it takes to make the item before ite can ship",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "free_shipping",
+        "description": "Qualifies for free shipping",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "special_product_type",
+        "description": "Special product type (USPS Media Mail)",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "methods",
+        "description": "Methods",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "shipping_method_oid",
+            "description": "Shipping method object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "shipping_method",
+            "description": "Shipping method name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "cost",
+            "description": "Cost",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "invalid for",
+              "valid for",
+              "valid only for"
+            ],
+            "mode": "NULLABLE",
+            "name": "shipping_method_validity",
+            "description": "Shipping method validity",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "free_shipping",
+            "description": "Free shipping",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "flat_fee_markup",
+            "description": "Flat fee markup",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "per_item_fee_markup",
+            "description": "Per item fee markup",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "percentage_markup",
+            "description": "Percentage markup",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "first_item_markup",
+            "description": "First item markup",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "each_additional_item_markup",
+            "description": "Each additional item markup",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "relax_restrictions_on_upsell",
+            "description": "Relax restrictions on upsell",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "ships_separately",
+            "description": "Ships separately",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "filter_to_if_available",
+            "description": "Filter to this method if available",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "percentage_of_item_markup",
+            "description": "Percentage of item markup",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "fixed_shipping_cost",
+            "description": "Fixed shipping cost",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "signature_required",
+            "description": "Signature required",
+            "type": "BOOLEAN"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "distribution_centers",
+        "description": "Distribution centers",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "distribution_center_oid",
+            "description": "Distribution center object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "distribution_center_code",
+            "description": "Distribution center code",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "inventory_level",
+            "description": "Inventory level",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "desired_inventory_level",
+            "description": "Desired inventory level",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "reorder_inventory_level",
+            "description": "Reorder inventory level (triggers notification)",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "handles",
+            "description": "True if this distribution center handles this item",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "stock_picking_location",
+            "description": "Stock picking location",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "maximum_backorder",
+            "description": "Maximum back-order",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "sku",
+            "description": "SKU",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "eta",
+            "description": "Estimated time of arrival",
+            "type": "DATETIME"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "allocated_to_placed_orders",
+            "description": "Allocated to placed orders",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "allocated_to_shopping_carts",
+            "description": "Allocated to shopping carts",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "available_to_allocate",
+            "description": "Available to allocate",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "cogs",
+            "description": "Cost of goods sold override at the distribution center level",
+            "type": "NUMERIC"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "cases",
+        "description": "Cases",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "case_merchant_item_oid",
+            "description": "Case item object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "quantity",
+            "description": "Case quantity",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "case_merchant_item_id",
+            "description": "Case item id",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "case_label",
+            "description": "Case label",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "case_inner_packs",
+        "description": "Case inner packs",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "destination_markups",
+        "description": "Destination markups",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "country_code",
+            "description": "Country code (ISO-3166 two letter)",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "state",
+            "description": "State",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "postal_code",
+            "description": "Postal code",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "shipping_method",
+            "description": "Shipping method",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "flat_fee",
+            "description": "Flat fee",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "per_item",
+            "description": "Per item",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "adult_signature_required",
+            "description": "Adult Signature Required (only updated if not-null value provided)",
+            "type": "BOOLEAN"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "destination_restrictions",
+        "description": "Destination restrictions",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "country_code",
+            "description": "Country code (ISO-3166 two letter)",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "state",
+            "description": "State",
+            "type": "STRING"
+          },
+          {
+            "allowed_values": [
+              "valid only for",
+              "invalid for"
+            ],
+            "mode": "NULLABLE",
+            "name": "validity",
+            "description": "Validity",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "package_requirements",
+        "description": "Package requirements",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "package_oid",
+            "description": "Package object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "package_name",
+            "description": "Package name",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "collect_serial_numbers",
+        "description": "This item is on pre-order",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "include_on_packing_slip",
+        "description": "Force this item onto the packing slip even if there is no weight.",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "send_to_hold_before_fulfillment",
+        "description": "Send order to hold stage before fulfillment",
+        "type": "BOOLEAN"
+      }
+    ]
+  },
+  {
+    "name": "checkout",
+    "description": "Checkout",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "suppress_buysafe",
+        "description": "True to suppress buySAFE (deprecated)",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "terms",
+        "description": "Terms for purchasing this item",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "terms_translated_text_instance_oid",
+        "description": "Terms translated text instance identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "terms_if_auto_order",
+        "description": "Terms only apply if the item is on auto order",
+        "type": "BOOLEAN"
+      }
+    ]
+  },
+  {
+    "name": "auto_order",
+    "description": "Auto Order",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "auto_orderable",
+        "description": "True if this item can be automatically ordered by the customer",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "auto_order_schedules",
+        "description": "The user selectable schedules that are available",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_upsell",
+        "description": "True if this item uses a fixed upsell step schedule",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_upsell_one_per_customer",
+        "description": "Limit the purchase of this item to one per customer",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_upsell_no_easy_cancel",
+        "description": "Do not send the easy cancel email to the customer",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "auto_order_upgrade_items",
+        "description": "List of upgrade items presented to customer service representatives",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "auto_order_downgrade_items",
+        "description": "List of downgrade items presented to customer service representatives",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auth_test_amount",
+        "description": "Amount to try and test authorize",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auth_future_amount",
+        "description": "Amount to try and authorize for the future rebill",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cancel_other_auto_orders",
+        "description": "True if other auto orders for this customer should be canceled when this item is ordered",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_cancel_item_oid",
+        "description": "Item object identifier to attempt charging the customer for if they cancel",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_cancel_item_id",
+        "description": "Item id to attempt charging the customer for if they cancel",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_cancel_minimum_rebill_value",
+        "description": "The minimum rebill value that must be paid in order to not be charged the cancellation item.",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_cancel_minimum_life_time_value",
+        "description": "The minimum life time value that must be paid in order to not be charged the cancellation item.",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_cancel_charge_minimum_balance",
+        "description": "If true, the cost of the cancel item will be the remaining balance of the minimum rebill or lifetime value",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_paused",
+        "description": "True if the rebill processing of this item is paused",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "free_shipping_auto_order",
+        "description": "True if the customer should be given free shipping",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "steps",
+        "description": "The rebill steps if this auto order is an upsell",
+        "type": "RECORD",
+        "fields": [
+          {
+            "allowed_values": [
+              "item",
+              "pause",
+              "loop",
+              "kit only",
+              "pause until"
+            ],
+            "mode": "NULLABLE",
+            "name": "type",
+            "description": "Type of step (item, kit only, loop or pause)",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "pause_days",
+            "description": "Number of days to pause",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "recurring_merchant_item_oid",
+            "description": "Item object identifier to rebill",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "recurring_merchant_item_id",
+            "description": "Item id to rebill",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "schedule",
+            "description": "Frequency of the rebill",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "repeat_count",
+            "description": "Number of times to rebill.  Last step can be null for infinite",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "arbitrary_unit_cost",
+            "description": "Arbitrary unit cost used to override the regular item cost",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "subscribe_email_list_oid",
+            "description": "Email list identifier to subscribe the customer to when this rebill occurs (decommissioned email engine)",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "subscribe_email_list_name",
+            "description": "Email list name to subscribe the customer to when the rebill occurs (decommissioned email engine)",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "managed_by",
+            "description": "Managed by (defaults to UltraCart)",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "arbitrary_schedule_days",
+            "description": "If the schedule is arbitrary, then this is the number of days",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "preshipment_notice_days",
+            "description": "If set, a pre-shipment notice is sent to the customer this many days in advance",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "grandfather_pricing",
+            "description": "Grand-father pricing configuration if the rebill schedule has changed over time",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "on_or_before_date",
+                "description": "On or before date",
+                "type": "DATETIME"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "unit_cost",
+                "description": "Unit cost",
+                "type": "NUMERIC"
+              }
+            ]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "pause_until_date",
+            "description": "Wait for this step to happen until the specified date",
+            "type": "DATETIME"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "arbitrary_unit_cost_schedules",
+            "description": "Arbitrary unit costs schedules for more advanced discounting by rebill attempt",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "arbitrary_unit_cost",
+                "description": "Arbitrary unit cost",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "retry_days",
+                "description": "Retry days",
+                "type": "INTEGER"
+              }
+            ]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "pause_until_day_of_month",
+            "description": "Pause until a specific day of the month",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "pause_until_minimum_delay_days",
+            "description": "Pause at least this many days between the last order and the calculated next day of month",
+            "type": "INTEGER"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "refund_other_auto_orders",
+        "description": "True if other auto orders for this customer should refunded if this item is refunded.",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_prohibit_expiring_cards",
+        "description": "Minimum number of months before expiration for the card.  Overrides the account level setting if higher.  Set to zero to disable.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_cancel_minimum_rebill_count",
+        "description": "The minimum rebill count that must be billed in order to not be charged the cancellation item.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "auto_order_cancel_minimum_life_time_count",
+        "description": "The minimum life time count that must be billed in order to not be charged the cancellation item.",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "name": "reporting",
+    "description": "Reporting",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "report_as_upsell",
+        "description": "Report as an upsell",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "report_pickable_quantities",
+        "description": "Report pickable quantities (deprecated)",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "INTEGER"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "identifiers",
+    "description": "Identifiers such as SKU, Barcode, etc.",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "barcode",
+        "description": "Barcode",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "unspsc",
+        "description": "UNSPSC",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "manufacturer_sku",
+        "description": "Manufacturer SKU",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "manufacturer_name",
+        "description": "Manufacturer Name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "barcode_upc11",
+        "description": "Barcode - UPC 11",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "barcode_upc12",
+        "description": "Barcode - UPC 12",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "barcode_gtin12",
+        "description": "Barcode - GTIN 12",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "barcode_gtin14",
+        "description": "Barcode - GTIN 14",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "internal",
+    "description": "Internal information such as memo",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "memo",
+      "description": "Memo",
+      "type": "STRING"
+    }]
+  },
+  {
+    "name": "salesforce",
+    "description": "Salesforce.com configuration",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "sfdc_product_id",
+        "description": "Salesforce.com product id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "sfdc_pricebook_id",
+        "description": "Salesforce.com pricebook id",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "tax",
+    "description": "Tax settings",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "tax_free",
+        "description": "True if tax free",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "taxable_cost",
+        "description": "Taxable cost if different than regular cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "exemptions",
+        "description": "Exemptions",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "country_code",
+            "description": "Country code (ISO-3166 two letter)",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "state_code",
+            "description": "State code",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "county",
+            "description": "County",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "city",
+            "description": "City",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "postal_code",
+            "description": "Postal code",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "allowed_values": [
+          "digital",
+          "physical",
+          "service"
+        ],
+        "mode": "NULLABLE",
+        "name": "tax_product_type",
+        "description": "Tax product type",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "enrollment123",
+    "description": "Enrollment123.com",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "enrollment123_product_code",
+      "description": "Enrolment 123 product code",
+      "type": "STRING"
+    }]
+  },
+  {
+    "name": "revguard",
+    "description": "Revguard.com (Deprecated)",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "revguard_ivr_prompt_group",
+        "description": "IVR prompt group",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "revguard_csr_prompt_group",
+        "description": "CSR prompt group",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "revguard_web_prompt_group",
+        "description": "Web prompt group",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "revguard_client_brand",
+        "description": "Client brand",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "revguard_canceled_ivr_prompt_group",
+        "description": "IVR prompt group",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "revguard_canceled_web_prompt_group",
+        "description": "Canceled web prompt group",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "revguard_canceled_csr_prompt_group",
+        "description": "Canceled CSR prompt group",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "name": "ccbill",
+    "description": "CCBill.com (Deprecated)",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "ccbill_form_name",
+        "description": "Form name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ccbill_allowed_types",
+        "description": "Allowed types",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ccbill_subscription_type_id",
+        "description": "Subscription type id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ccbill_subaccount_id",
+        "description": "Sub-account id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ccbill_allowed_currencies",
+        "description": "Allowed currencies",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ccbill_currency_code",
+        "description": "Currency code",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "accounting",
+    "description": "Accounting such as QuickBooks codes",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "qb_class",
+        "description": "QuickBooks class if you are classifying items on your invoices/receipts",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "accounting_code",
+        "description": "QuickBooks item name if different than the item id",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "email_notifications",
+    "description": "Email notifications",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "skip_receipt",
+        "description": "Skip receipt email to customer",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "skip_shipment_notification",
+        "description": "Skip shipment notification to customer",
+        "type": "BOOLEAN"
+      }
+    ]
+  },
+  {
+    "name": "gift_certificate",
+    "description": "Gift Certificate",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "gift_certificate",
+        "description": "True if the purchase of this item generates a gift certificate",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "gift_certificate_expiration_days",
+        "description": "The number of days that the gift certificate is good for (optional)",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "name": "kit_definition",
+    "description": "Kit Definition",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "REPEATED",
+      "name": "components",
+      "description": "Components",
+      "type": "RECORD",
+      "fields": [
+        {
+          "mode": "NULLABLE",
+          "name": "component_merchant_item_oid",
+          "description": "Component item object identifier",
+          "type": "INTEGER"
+        },
+        {
+          "mode": "NULLABLE",
+          "name": "quantity",
+          "description": "Quantity",
+          "type": "INTEGER"
+        },
+        {
+          "mode": "NULLABLE",
+          "name": "component_merchant_item_id",
+          "description": "Component item ID",
+          "type": "STRING"
+        },
+        {
+          "mode": "NULLABLE",
+          "name": "component_description",
+          "description": "Component item description",
+          "type": "STRING"
+        },
+        {
+          "mode": "NULLABLE",
+          "name": "component_cost",
+          "description": "Component item cost",
+          "type": "NUMERIC"
+        }
+      ]
+    }]
+  },
+  {
+    "name": "amember",
+    "description": "Amember configuration",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "amember_product_id",
+        "description": "A-member product id give customer access to when they purchase this item",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "amember_payment_duration_days",
+        "description": "The number of days that the customer should be given access to the item",
+        "type": "INTEGER"
+      }
+    ]
+  },
+  {
+    "name": "wishlist_member",
+    "description": "WishList Member",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "wishlist_member_sku",
+        "description": "WishList Member SKU",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "wishlist_member_instance_oid",
+        "description": "WishList Member instance object identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "wishlist_member_instance_description",
+        "description": "WishList Member instance description",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "digital_delivery",
+    "description": "Digital Delivery",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "digital_items",
+        "description": "Digital items that customer can download when this item is purchased",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "digital_item_oid",
+            "description": "The Digital item oid is a primary key used internally by UltraCart.  You should not set or change this value.  Doing so will have no effect.",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "description",
+            "description": "Description of the digital item",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "original_filename",
+            "description": "Original filename",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "file_size",
+            "description": "File size",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "creation_dts",
+            "description": "File creation date",
+            "type": "DATETIME"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "mime_type",
+            "description": "Mime type associated with the file",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "import_from_url",
+            "description": "This url is sourced to create or update a digital file in your digital library.  It is only considered during an insert or update operation.",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "click_wrap_agreement",
+            "description": "Click wrap agreement is presented to the customer before they can purchase your product.",
+            "type": "STRING"
+          },
+          {
+            "name": "pdf_meta",
+            "description": "Additional properties for pdf files",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "printing_allowed",
+                "description": "Printing is allowed",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "modify_contents_allowed",
+                "description": "Modifying contents is allowed",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "copy_allowed",
+                "description": "Copy/Paste is allowed",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "modify_annotations_allowed",
+                "description": "Modifying annotations is allowed",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "fillin_allowed",
+                "description": "Fillin is allowed",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "screen_readers_allowed",
+                "description": "Screen readers are allowed",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "assembly_allowed",
+                "description": "Assembly allowed",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "degraded_printing_allowed",
+                "description": "Degraded printing allowed",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "tagged",
+                "description": "PDF is tagged",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "custom_header",
+                "description": "A custom header for each pdf page",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "custom_footer",
+                "description": "A custom footer for each pdf page",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "external_id",
+            "description": "External Id useful for syncing with a remote filesystem, this may be an MD5 hash or whatever suits your needs.",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "activation_code_type",
+        "description": "Type of activation code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "activation_code_description",
+        "description": "Description of the activation code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "activation_code_low_warning",
+        "description": "The number of activation codes whcih should generate a warning email",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "activation_code_realtime_url",
+        "description": "The URL to retrieve activation codes from in real-time",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "google_product_search",
+    "description": "Google Product Search",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "omit_from_feed",
+        "description": "Omit from feed",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "category_description",
+        "description": "Category description",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "search_position",
+        "description": "Search position",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "search_dts",
+        "description": "Search date/time",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "search_lowest_price",
+        "description": "Search lowest price",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "search_lowest_url",
+        "description": "Search lowest URL",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "product_type",
+        "description": "Product type",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "book_isbn",
+        "description": "Bood - ISBN",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "book_format",
+        "description": "Book - format",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "book_author",
+        "description": "Book - author",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "book_publisher",
+        "description": "Book - publisher",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "music_release_date",
+        "description": "Music - release date",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "music_format",
+        "description": "Music - format",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "music_artist",
+        "description": "Music - artist",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "video_format",
+        "description": "Video - format",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "video_director",
+        "description": "Video - director",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "video_release_date",
+        "description": "Video - release date",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "video_starring",
+        "description": "Video - starring",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "video_rating",
+        "description": "Video - rating",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "google_product_category",
+        "description": "Google product category",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "gender",
+        "description": "Gender",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "age_group",
+        "description": "Age group",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "color",
+        "description": "Color",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "size",
+        "description": "Size",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "available_at_physical_store",
+        "description": "Available at physical store",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adwords_label1",
+        "description": "Adwords label 1",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adwords_label2",
+        "description": "Adwords label 2",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adwords_label3",
+        "description": "Adwords label 3",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adwords_label4",
+        "description": "Adwords label 4",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adwords_label5",
+        "description": "Adwords label 5",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "adwords_grouping",
+        "description": "Adwords grouping",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_label0",
+        "description": "Custom label 0",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_label1",
+        "description": "Custom label 1",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_label2",
+        "description": "Custom label 2",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_label3",
+        "description": "Custom label 3",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_label4",
+        "description": "Custom label 4",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "promotion_id1",
+        "description": "Promotion ID 1",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "promotion_id2",
+        "description": "Promotion ID 2",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "promotion_id3",
+        "description": "Promotion ID 3",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "promotion_id4",
+        "description": "Promotion ID 4",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "promotion_id5",
+        "description": "Promotion ID 5",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "promotion_id6",
+        "description": "Promotion ID 6",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "promotion_id7",
+        "description": "Promotion ID 7",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "promotion_id8",
+        "description": "Promotion ID 8",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "promotion_id9",
+        "description": "Promotion ID 9",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "promotion_id10",
+        "description": "Promotion ID 10",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "condition",
+        "description": "Condition",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "shippingLabel",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "payment_processing",
+    "description": "Payment Processing",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "rotating_transaction_gateway_codes",
+        "description": "Rotating transaction gateway codes",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "credit_card_transaction_type",
+        "description": "Credit card transaction type",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "block_prepaid",
+        "description": "True if prepaid cards should be blocked from buying this item",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "block_refunds",
+        "description": "True if this item should block any refund attempts, set to false otherwise, null value will not update the field",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "payment_method_validity",
+        "description": "Payment method validity",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "no_realtime_charge",
+        "description": "True if no real-time charge should be performed on this item.",
+        "type": "BOOLEAN"
+      }
+    ]
+  },
+  {
+    "name": "chargeback",
+    "description": "Chargeback (deprecated)",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "addendums",
+        "description": "Addendums (deprecated)",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "chargeback_addendum_oid",
+            "description": "Chargeback addendum object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "description",
+            "description": "Description",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "pages",
+            "description": "Number of pages",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "file_size",
+            "description": "Size of the file",
+            "type": "INTEGER"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "adjustment_requests",
+        "description": "Adjustment requests (deprecated)",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "chargeback_adjustment_request_oid",
+            "description": "Chargeback adjustment request object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "description",
+            "description": "Description",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "reason_code",
+            "description": "Reason code",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "reviews",
+    "description": "Reviews",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "review_template_oid",
+        "description": "Review template object identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "review_template_name",
+        "description": "Review template name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "has_review",
+        "description": "True if the item has a review",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "has_approved_review",
+        "description": "True if the item has an approved review",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "review_overall",
+        "description": "Overall score of reviews",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "reviewable",
+        "description": "True if the item is reviewable",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "review_count",
+        "description": "Number of approved reviews",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "share_reviews_with_merchant_item_oid",
+        "description": "Share reviews with item oid.  To null out this field, set teh value to zero.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "share_reviews_with_merchant_item_id",
+        "description": "Share reviews with item id.  To set, use the share_reviews_with_merchant_item_oid field.",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "individual_reviews",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "review_oid",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "customer_profile_oid",
+            "description": "Customer profile object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "overall",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_name1",
+            "description": "Rating Name 1",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_name2",
+            "description": "Rating Name 2",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_name3",
+            "description": "Rating Name 3",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_name4",
+            "description": "Rating Name 4",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_name5",
+            "description": "Rating Name 5",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_name6",
+            "description": "Rating Name 6",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_name7",
+            "description": "Rating Name 7",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_name8",
+            "description": "Rating Name 8",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_name9",
+            "description": "Rating Name 9",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_name10",
+            "description": "Rating Name 10",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_score1",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_score2",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_score3",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_score4",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_score5",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_score6",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_score7",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_score8",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_score9",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "rating_score10",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "recommend_to_friend",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "title",
+            "description": "Title",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "review",
+            "description": "Review",
+            "type": "STRING"
+          },
+          {
+            "allowed_values": [
+              "approved",
+              "unapproved",
+              "rejected",
+              "multimedia processing"
+            ],
+            "mode": "NULLABLE",
+            "name": "status",
+            "description": "Status of the review",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "featured",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "recommend_store_to_friend",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "store_feedback",
+            "description": "Store Feedback",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "submitted_dts",
+            "description": "Date/time of review submission",
+            "type": "DATETIME"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "helpful_yes_votes",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "helperful_no_votes",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "reviewed_nickname",
+            "description": "Nickname",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "reviewer_location",
+            "description": "Location",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "reviewer_email",
+            "description": "Reviewer Email",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "order_id",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "merchant_reply",
+            "description": "Merchant Reply (set to an empty string to remove)",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "physical",
+    "description": "Physical characters like weight and measurements",
+    "type": "RECORD",
+    "fields": [
+      {
+        "name": "weight",
+        "description": "Weight",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Weight",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "KG",
+              "G",
+              "LB",
+              "OZ"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "length",
+        "description": "Length",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "The distance measured in UOM",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "IN",
+              "CM"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "width",
+        "description": "Width",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "The distance measured in UOM",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "IN",
+              "CM"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "name": "height",
+        "description": "Height",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "The distance measured in UOM",
+            "type": "NUMERIC"
+          },
+          {
+            "allowed_values": [
+              "IN",
+              "CM"
+            ],
+            "mode": "NULLABLE",
+            "name": "uom",
+            "description": "Unit of measure",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "related",
+    "description": "Related items",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "REPEATED",
+        "name": "related_items",
+        "description": "Related items",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "related_merchant_item_oid",
+            "description": "Related item object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "related_merchant_item_id",
+            "description": "Related item id",
+            "type": "STRING"
+          },
+          {
+            "allowed_values": [
+              "System",
+              "UserDefined",
+              "Addon",
+              "Complementary"
+            ],
+            "mode": "NULLABLE",
+            "name": "type",
+            "description": "Relationship type",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "not_relatable",
+        "description": "Not relatable",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "no_system_calculated_related_items",
+        "description": "True to suppress system calculated relationships",
+        "type": "BOOLEAN"
+      }
+    ]
+  },
+  {
+    "name": "restriction",
+    "description": "Restrictions",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "purchase_separately",
+        "description": "Purchase separately",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "Items",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "restrict_merchant_item_oid",
+            "description": "Restrict item object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "restrict_merchant_item_id",
+            "description": "Restrict item id",
+            "type": "STRING"
+          },
+          {
+            "allowed_values": [
+              "can not be purchased with",
+              "can only be purchased with",
+              "must be purchased with"
+            ],
+            "mode": "NULLABLE",
+            "name": "type",
+            "description": "Restriction type",
+            "type": "STRING"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "one_per_customer",
+        "description": "One per customer",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "exclude_coupon",
+        "description": "Exclude coupons",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "exclude_from_free_promotion",
+        "description": "Exclude from free promotion",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_quantity",
+        "description": "Minimum quantity (defaults to 1)",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "maximum_quantity",
+        "description": "Maximum quantity",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "multiple_quantity",
+        "description": "Multiple of quantity",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "exclude_from_loyalty",
+        "description": "Exclude from loyalty.  Must be set to true or false to save.  Null is ignored for backwards SDK compatibility",
+        "type": "BOOLEAN"
+      }
+    ]
+  },
+  {
+    "name": "instant_payment_notifications",
+    "description": "Instance Payment Notifications",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "REPEATED",
+      "name": "notifications",
+      "description": "Notifications",
+      "type": "RECORD",
+      "fields": [
+        {
+          "mode": "NULLABLE",
+          "name": "url",
+          "description": "URL",
+          "type": "STRING"
+        },
+        {
+          "mode": "NULLABLE",
+          "name": "successful_response_text",
+          "description": "Successful response text",
+          "type": "STRING"
+        },
+        {
+          "mode": "NULLABLE",
+          "name": "post_operation",
+          "description": "True for HTTP POST instead of GET",
+          "type": "BOOLEAN"
+        }
+      ]
+    }]
+  },
+  {
+    "name": "realtime_pricing",
+    "description": "Real-time Pricing",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "realtime_pricing_provider_oid",
+        "description": "Real-time pricing provide object identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "realtime_pricing_provider",
+        "description": "Real-time pricing provider name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "realtime_pricing_parameter",
+        "description": "Real-time pricing provider parameters",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "name": "content",
+    "description": "Content such as multimedia and attributes",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "exclude_from_top_sellers",
+        "description": "Exclude from the top sellers list in the StoreFront",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "exclude_from_search",
+        "description": "Exclude from search",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "view_url",
+        "description": "Legacy view URL (not used by StoreFronts)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "new_item",
+        "description": "True if the item is new",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "new_item_start",
+        "description": "The date the item should start being considered new",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "new_item_end",
+        "description": "The date the item should no longer be considered new",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "extended_description",
+        "description": "Extended description (max 10000 characters)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "extended_description_translated_text_instance_oid",
+        "description": "Extended description text translation instance identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "assignments",
+        "description": "StoreFront assignments",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "host",
+            "description": "StoreFront host name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "group_path",
+            "description": "Page (group) path",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "group_oid",
+            "description": "Page (group) object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "sort_order",
+            "description": "Sort order (optional)",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "url_part",
+            "description": "URL part if the item id is not used",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "default_assignment",
+            "description": "True if this group is the default assignment for this item",
+            "type": "BOOLEAN"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "attributes",
+        "description": "StoreFront attributes",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "description": "Attribute name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "type",
+            "description": "Attribute type",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Attribute value",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "translated_text_instance_oid",
+            "description": "Attribute translated text instance identifier",
+            "type": "INTEGER"
+          }
+        ]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "multimedia",
+        "description": "Multimedia",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "merchant_item_multimedia_oid",
+            "description": "Item multimedia object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "file_name",
+            "description": "File name",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "description",
+            "description": "Description",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "url",
+            "description": "URL to download file (on new multimedia record this can be a URL for UltraCart to fetch)",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "exclude_from_gallery",
+            "description": "True to exclude from multimedia gallery",
+            "type": "BOOLEAN"
+          },
+          {
+            "allowed_values": [
+              "Image",
+              "PDF",
+              "Text",
+              "Unknown",
+              "Video"
+            ],
+            "mode": "NULLABLE",
+            "name": "type",
+            "description": "Type of file",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "code",
+            "description": "Code assigned to the file",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "temp_multimedia_oid",
+            "description": "Temporary multimedia object identifier assigned if uploading new multimedia",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "orphan",
+            "description": "True if the multimedia is an orphan of the active StoreFront themes",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "placeholder",
+            "description": "True if the object is a place holder that can be populated",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "width",
+            "description": "Width of the image",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "height",
+            "description": "Height of the image",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "cloud_url",
+            "description": "URL where the image can be downloaded from the cloud",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "cloud_url_expiration",
+            "description": "Expiration date of the cloud URL",
+            "type": "DATETIME"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "thumbnails",
+            "description": "Thumbnails of this image",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "height",
+                "description": "Height of the thumbnail",
+                "type": "INTEGER"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "width",
+                "description": "Width of the thumbnail",
+                "type": "INTEGER"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "http_url",
+                "description": "HTTP URL to view the thumbnail",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "https_url",
+                "description": "HTTPS URL to view the thumbnail",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "png_format",
+                "description": "True if PNG, false if JPEG",
+                "type": "BOOLEAN"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "square",
+                "description": "True if the thumbnail is square",
+                "type": "BOOLEAN"
+              }
+            ]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "size",
+            "description": "Size of the file in bytes if known",
+            "type": "INTEGER"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_thank_you_url",
+        "description": "Custom Thank You URL",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "exclude_from_sitemap",
+        "description": "Exclude from the sitemap for the StoreFront",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "meta_title",
+        "description": "SEO meta title used by Storefronts",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "meta_description",
+        "description": "SEO meta description used by Storefronts",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "meta_keywords",
+        "description": "SEO meta keywords used by Storefronts",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "options",
+    "description": "Options",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "option_oid",
+        "description": "Option object identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "description": "Name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "label",
+        "description": "Label",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "system_option",
+        "description": "True if this is a system option",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "required",
+        "description": "True if the customer is required to specify an answer",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ignore_if_default",
+        "description": "Ignore this option on the order if the default value is selected",
+        "type": "BOOLEAN"
+      },
+      {
+        "allowed_values": [
+          "dropdown",
+          "file attachment",
+          "fixed",
+          "hidden",
+          "multiline",
+          "radio",
+          "single"
+        ],
+        "mode": "NULLABLE",
+        "name": "type",
+        "description": "Type of option",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "one_time_fee",
+        "description": "One time fee",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cost_per_line",
+        "description": "Cost per line",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cost_per_letter",
+        "description": "Cost per letter",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cost_if_specified",
+        "description": "Cost if specified",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name_translated_text_instance_oid",
+        "description": "Name translated text instance ID",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "label_translated_text_instance_oid",
+        "description": "Label translated text instance ID",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "values",
+        "description": "Values",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "option_value_oid",
+            "description": "Option value object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "cost_change",
+            "description": "Cost change",
+            "type": "NUMERIC"
+          },
+          {
+            "name": "weight_change",
+            "description": "Weight change",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "Weight",
+                "type": "NUMERIC"
+              },
+              {
+                "allowed_values": [
+                  "KG",
+                  "G",
+                  "LB",
+                  "OZ"
+                ],
+                "mode": "NULLABLE",
+                "name": "uom",
+                "description": "Unit of measure",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "default_value",
+            "description": "True if default value",
+            "type": "BOOLEAN"
+          },
+          {
+            "name": "length",
+            "description": "Additional dimensions (length)",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "The distance measured in UOM",
+                "type": "NUMERIC"
+              },
+              {
+                "allowed_values": [
+                  "IN",
+                  "CM"
+                ],
+                "mode": "NULLABLE",
+                "name": "uom",
+                "description": "Unit of measure",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "name": "height",
+            "description": "Additional dimensions (height)",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "The distance measured in UOM",
+                "type": "NUMERIC"
+              },
+              {
+                "allowed_values": [
+                  "IN",
+                  "CM"
+                ],
+                "mode": "NULLABLE",
+                "name": "uom",
+                "description": "Unit of measure",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "name": "width",
+            "description": "Additional dimensions (width)",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "value",
+                "description": "The distance measured in UOM",
+                "type": "NUMERIC"
+              },
+              {
+                "allowed_values": [
+                  "IN",
+                  "CM"
+                ],
+                "mode": "NULLABLE",
+                "name": "uom",
+                "description": "Unit of measure",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "allowed_values": [
+              "none",
+              "set item to",
+              "add item"
+            ],
+            "mode": "NULLABLE",
+            "name": "additional_dimension_application",
+            "description": "Additional dimensions application",
+            "type": "STRING"
+          },
+          {
+            "mode": "REPEATED",
+            "name": "additional_items",
+            "description": "Additional items to add to the order if this value is selected",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "additional_merchant_item_oid",
+                "description": "Additional item object identifier",
+                "type": "INTEGER"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "additional_merchant_item_id",
+                "description": "Additional item id",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "mode": "REPEATED",
+            "name": "digital_items",
+            "description": "Digital items to allow the customer to download if this option value is selected",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "digital_item_oid",
+                "description": "Digital item object identifier",
+                "type": "INTEGER"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "original_filename",
+                "description": "Original filename",
+                "type": "STRING"
+              }
+            ]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "percent_cost_change",
+            "description": "Percentage cost change",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "weight_change_percent",
+            "description": "Percentage weight change",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "merchant_item_multimedia_oid",
+            "description": "Multimedia object identifier associated with this option value",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "translated_text_instance_oid",
+            "description": "Translated text instance id",
+            "type": "INTEGER"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "variations",
+    "description": "Variations",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "description": "Name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "default_text",
+        "description": "Default text",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "name_translated_text_instance_oid",
+        "description": "Name translated text instance id",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "default_text_translated_text_instance_oid",
+        "description": "Default text translated text instance id",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "options",
+        "description": "Options",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "default_option",
+            "description": "True if default option",
+            "type": "BOOLEAN"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "merchant_item_multimedia_oid",
+            "description": "Multimedia object identifier",
+            "type": "INTEGER"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "translated_text_instance_oid",
+            "description": "Translated text instance id",
+            "type": "INTEGER"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "variant_items",
+    "description": "Variant Items",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "variant_merchant_item_oid",
+        "description": "Variant item object identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "variant_merchant_item_id",
+        "description": "Variant item id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "description",
+        "description": "Description",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "merchant_item_multimedia_oid",
+        "description": "Multimedia object identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "variations",
+        "description": "Variations",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "variation_options",
+        "description": "Variation options",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "name": "ebay",
+    "description": "e-Bay",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "ebay_auction_id",
+        "description": "If listed, this is the e-Bay auction id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "status",
+        "description": "Status of the item's listing",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "category_id",
+        "description": "e-Bay category ID",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "start_time",
+        "description": "Date/time of the auction start",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "end_time",
+        "description": "Date/time of the auction end",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "active",
+        "description": "True if the item is active for listing",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "listing_price",
+        "description": "Price to list the item at",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "quantity",
+        "description": "Quantity available of the item",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "free_shipping",
+        "description": "True if item receives free shipping",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_category1",
+        "description": "e-Bay Store category 1",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "custom_category2",
+        "description": "e-Bay Store category 2",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "listing_dts",
+        "description": "Date/time of the listing",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "last_status_dts",
+        "description": "Date/time of the last status check",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "packaging_handling_costs",
+        "description": "Packaging and handling costs",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "free_shipping_method",
+        "description": "The method that is free for free shipping",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ebay_template_oid",
+        "description": "The template object identifier to use when rendering the e-Bay listing",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ebay_template_name",
+        "description": "The template name to use hwen rendering the e-Bay listing",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "listed_ebay_template_oid",
+        "description": "The template object identifier used for the listing",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "no_promotional_shipping",
+        "description": "True if the item should not qualify for promotional shipping",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "domestic_1_first_cost",
+        "description": "Domestic 1 method first item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "domestic_1_additional_cost",
+        "description": "Domestic 1 method additional item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "domestic_2_first_cost",
+        "description": "Domestic 2 method first item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "domestic_2_additional_cost",
+        "description": "Domestic 2 method additional item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "domestic_3_first_cost",
+        "description": "Domestic 3 method first item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "domestic_3_additional_cost",
+        "description": "Domestic 3 method additional item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "domestic_4_first_cost",
+        "description": "Domestic 4 method first item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "domestic_4_additional_cost",
+        "description": "Domestic 4 method additional item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "international_1_first_cost",
+        "description": "International 1 method first item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "international_1_additional_cost",
+        "description": "International 1 method additional item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "international_2_first_cost",
+        "description": "International 2 method first item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "international_2_additional_cost",
+        "description": "International 2 method additional item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "international_3_first_cost",
+        "description": "International 3 method first item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "international_3_additional_cost",
+        "description": "International 3 method additional item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "international_4_first_cost",
+        "description": "International 4 method first item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "international_4_additional_cost",
+        "description": "International 4 method additional item cost",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ebay_specific_inventory",
+        "description": "e-Bay specific inventory",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "listing_price_override",
+        "description": "The price to list the item at if different than the regular UltraCart item price",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "send_dimensions_and_weight",
+        "description": "How to send the item dimensions and weights to e-Bay",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "consecutive_failures",
+        "description": "Number of consecutive failures trying to list this item",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "next_attempt_dts",
+        "description": "Date/time for the next attempt to list",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "dispatch_time_max",
+        "description": "Maximum number of days it will take to ship the item",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "target_dispatch_time_max",
+        "description": "Typical number of days it will take to ship the item",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "listed_dispatch_time_max",
+        "description": "Current listing dispatch time maximum",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "previous_ebay_auction_id",
+        "description": "Previous e-Bay auction id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "listing_duration",
+        "description": "The duration of the listing",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_analysis_perform",
+        "description": "True if marketplace analysis should be performed",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_overhead",
+        "description": "Marketplace overhead",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_multiplier",
+        "description": "Marketplace multiplier",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_last_check_dts",
+        "description": "Date/time of the marketplace analysis last check",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_our_price",
+        "description": "Marketplace our price",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_our_shipping",
+        "description": "Marketplace our shipping",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_our_total",
+        "description": "Marketplace our total",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_profitable",
+        "description": "True if our listing is profitable to sell",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_other_price",
+        "description": "Marketplace other price",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_other_shipping",
+        "description": "Marketplace other shipping",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_other_total",
+        "description": "Marketplace other total",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_other_seller",
+        "description": "Marketplace other seller",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_lowest",
+        "description": "True if we are the lowest offer in the marketplace",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "marketplace_analysis",
+        "description": "Details of the marketplace analysis",
+        "type": "RECORD",
+        "fields": [
+          {
+            "name": "our_listing",
+            "description": "Our listing",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "auction_id",
+                "description": "Auction ID",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "seller",
+                "description": "Seller",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "price",
+                "description": "Price",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "shipping",
+                "description": "Shipping",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "total",
+                "description": "Total",
+                "type": "NUMERIC"
+              }
+            ]
+          },
+          {
+            "mode": "REPEATED",
+            "name": "other_listings",
+            "description": "Other listings",
+            "type": "RECORD",
+            "fields": [
+              {
+                "mode": "NULLABLE",
+                "name": "auction_id",
+                "description": "Auction ID",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "seller",
+                "description": "Seller",
+                "type": "STRING"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "price",
+                "description": "Price",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "shipping",
+                "description": "Shipping",
+                "type": "NUMERIC"
+              },
+              {
+                "mode": "NULLABLE",
+                "name": "total",
+                "description": "Total",
+                "type": "NUMERIC"
+              }
+            ]
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "cogs",
+            "description": "Cost of goods sold",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "minimum_advertised_price",
+            "description": "Minimum advertised price",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "adjusted_price",
+            "description": "Adjusted price",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "adjusted_shipping",
+            "description": "Adjusted shipping",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "adjusted_total",
+            "description": "Adjusted total",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "profit_potential",
+            "description": "Profit potential",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "overhead",
+            "description": "Overhead",
+            "type": "NUMERIC"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "final_value_fee",
+            "description": "Final value fee",
+            "type": "NUMERIC"
+          }
+        ]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_map_violation",
+        "description": "True if another seller is violating MAP",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_our_profit",
+        "description": "Marketplace our profit",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "next_listing_duration",
+        "description": "The next listing duration to use when the current listing ends.",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "listing_type",
+        "description": "The type of e-Bay listing",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "reserve_price",
+        "description": "Reserve price",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "condition_id",
+        "description": "Numerical ID of the condition (e-Bay constant)",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "condition_description",
+        "description": "Description of the condition (e-Bay constant)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_final_value_fee_percentage",
+        "description": "Marketplace FVF percentage",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "marketplace_our_additional_profit_potential",
+        "description": "Marketplace our additional profit potential",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "category_specifics",
+        "description": "Answers to category specific questions",
+        "type": "RECORD",
+        "fields": [
+          {
+            "mode": "NULLABLE",
+            "name": "name",
+            "description": "Name of the category specification field",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "value",
+            "description": "Value",
+            "type": "STRING"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "third_party_email_marketing",
+    "description": "3rd Party Email Marketing",
+    "type": "RECORD",
+    "fields": [
+      {
+        "allowed_values": [
+          "ActiveCampaign",
+          "AWeber",
+          "Campaign Monitor",
+          "ConstantContact",
+          "Emma",
+          "GetResponse",
+          "iContact",
+          "Klaviyo",
+          "Lyris",
+          "LyrisHQ",
+          "MailChimp",
+          "SilverPop"
+        ],
+        "mode": "NULLABLE",
+        "name": "provider_name",
+        "description": "Provider name",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "subscribe_lists",
+        "description": "Subscribe to lists",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "unsubscribe_lists",
+        "description": "Unsubscribe from lists",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "add_tags",
+        "description": "Add tags",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "remove_tags",
+        "description": "Remove tags",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "channel_partner_item_mappings",
+    "description": "Channel Partner Item Mapping",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "channel_partner_oid",
+        "description": "Channel partner object identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "channel_partner_code",
+        "description": "Channel partner code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "from_sku",
+        "description": "From SKU",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "unit_of_measure",
+        "description": "Unit of measure",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "quantity_ratio_cp",
+        "description": "Ratio (Channel Partner)",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "quantity_ratio_uc",
+        "description": "Ratio (UltraCart)",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "from_item_id",
+        "description": "From Item ID",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "buyer_item_number",
+        "description": "Buyer item number (EDI only)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "buyer_catalog_number",
+        "description": "Buyer catalog number (EDI only)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "buyer_dpci",
+        "description": "Buyer DPCI (EDI only)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "vendor_number",
+        "description": "Vendor number (EDI only)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "mutually_defined_number",
+        "description": "Mutually defined number (EDI only)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "sku",
+        "description": "SKU",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "vendor_style_number",
+        "description": "Vendor style number (EDI only)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "barcode_ua",
+        "description": "Barcode UA (EDI only)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "barcode_uc",
+        "description": "Barcode UC (EDI only)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "barcode_ui",
+        "description": "Barcode UI (EDI only)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "barcode_uk",
+        "description": "Barcode UK (EDI only)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "cost",
+        "description": "Cost given to this channel partner",
+        "type": "NUMERIC"
+      }
+    ]
+  },
+  {
+    "name": "tags",
+    "description": "Tags",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "REPEATED",
+      "name": "tags",
+      "description": "tags",
+      "type": "RECORD",
+      "fields": [
+        {
+          "allowed_values": [
+            "item",
+            "order",
+            "customer"
+          ],
+          "mode": "NULLABLE",
+          "name": "tagType",
+          "description": "tag_type",
+          "type": "STRING"
+        },
+        {
+          "mode": "NULLABLE",
+          "name": "tagValue",
+          "description": "tag_value",
+          "type": "STRING"
+        }
+      ]
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "properties",
+    "description": "Properties",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "description": "Property name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "description": "Property value",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "expirationDts",
+        "description": "Expiration of the property",
+        "type": "DATETIME"
+      }
+    ]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "recommend_replenishment_days",
+    "description": "Number of days to recommend replenishment after.  Null is not configured.  Set to zero to disable.",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "fulfillment_addons",
+    "description": "Fulfillment Add-ons",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "add_item_id",
+        "description": "Add Item Id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "add_item_oid",
+        "description": "Add Item object identifier",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "quantity",
+        "description": "Quantity",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "once_per_order",
+        "description": "Once Per Order",
+        "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "initial_order_only",
+        "description": "Initial Order Only",
+        "type": "BOOLEAN"
+      }
+    ]
+  }
+]

@@ -1,0 +1,338 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "storefront_upsell_offer_event_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "storefront_upsell_offer_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "order_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "event_dts",
+    "description": "Event date/time",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "view_count",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "decline_count",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "item_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "quantity",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "refund_quantity",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "successful_charge",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "revenue",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "profit",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "screen_size",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "session_id",
+    "description": "Session ID - cart id if they did not complete, otherwise the order id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "refunded_revenue",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "refunded_profit",
+    "type": "NUMERIC"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "utms",
+    "description": "UTM clicks.  The zero index is the most recent (last) UTM click",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "click_dts",
+        "description": "Date/time that the click happened",
+        "type": "DATETIME"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_source",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_medium",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_campaign",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_term",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_content",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "utm_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "facebook_ad_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "uc_message_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "glcid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "wbraid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "gbraid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "msclkid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "fbclid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "ttclid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "vmcid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_first_click_total",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_first_click_subtotal",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_last_click_total",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_last_click_subtotal",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_linear_total",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_linear_subtotal",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_position_based_total",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_position_based_subtotal",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_first_click_revenue",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_first_click_profit",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_first_click_refunded_revenue",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_first_click_refunded_profit",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_last_click_revenue",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_last_click_profit",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_last_click_refunded_revenue",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_last_click_refunded_profit",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_linear_revenue",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_linear_profit",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_linear_refunded_revenue",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_linear_refunded_profit",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_position_based_revenue",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_position_based_profit",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_position_based_refunded_revenue",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "attribution_position_based_refunded_profit",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "itm_source",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "itm_medium",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "itm_campaign",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "itm_term",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "itm_content",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "itm_id",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "short_code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "short_code_backup",
+        "type": "BOOLEAN"
+      }
+    ]
+  }
+]
