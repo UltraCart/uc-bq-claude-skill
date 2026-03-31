@@ -1,6 +1,23 @@
 # @ultracart/bq-skill
 
-A Claude Code skill + Node.js CLI for building and replaying UltraCart BigQuery reports with Apache ECharts visualizations.
+**Reports as code. Version-controlled, automated, and replayable — no SaaS reporting tool required.**
+
+Your UltraCart BigQuery data warehouse already has the data. Most reporting tools make you build dashboards in a proprietary UI you can't version, can't diff, and can't automate outside their ecosystem. This package takes a different approach: reports live in your Git repo as SQL, chart configs, and YAML manifests. You get pull requests, commit history, branch-and-merge workflows, and CI/CD automation — the same infrastructure you already use for everything else.
+
+Claude Code designs the report. After that, replay is deterministic Node.js — no per-seat licenses, no vendor lock-in. Need AI-generated executive analysis on each run? Plug in any major LLM provider (Anthropic, OpenAI, Google Gemini, Grok, AWS Bedrock) or skip it entirely and just get the charts and data.
+
+### Why this over a reporting tool
+
+- **Reports are code.** SQL, chart configs, and manifests live in Git. Review changes in PRs, track history with `git log`, roll back a broken report with `git revert`. Your reporting stack gets the same rigor as your application code.
+- **Design once, replay forever.** Claude Code writes the SQL, builds the chart, and saves a replayable manifest. From then on, `uc-bq run` refreshes with fresh data — optionally with AI-generated executive analysis, or charts-only with no AI cost at all. Schedule it in GitHub Actions or cron.
+- **Professional output, not just dashboards.** Every report produces charts (ECharts), PDFs, executive analysis, and optional Slack/email delivery. Combine reports into branded decks or interactive HTML dashboards — delivered automatically.
+- **Management by exception.** Define alarms on your metrics — revenue drops, missing data, unusual spikes. Reports run silently; you only hear about it when something needs attention.
+
+### How it works
+
+1. **Ask a question** — In Claude Code: *"Show me revenue trends by product category for the last 90 days."* Claude discovers your schema, writes optimized SQL, creates a visualization, and saves a replayable report manifest.
+2. **Replay anytime** — `uc-bq run revenue-by-category` re-executes the saved SQL, re-renders the chart, and regenerates the PDF. Add `--no-analysis` for pure data/charts, or let it call your configured LLM for fresh executive analysis.
+3. **Automate with your existing tools** — Commit reports to Git. Schedule runs in GitHub Actions. Deliver to Slack and email. Same workflow as the rest of your stack.
 
 ## What This Is
 
@@ -8,8 +25,6 @@ UltraCart streams e-commerce data (orders, customers, items, analytics, etc.) in
 
 1. **`uc-bq` CLI** — A command-line tool that handles BigQuery queries, ECharts rendering, schema validation, and report replay. No LLM needed for replay.
 2. **Claude Code skill prompt** — A comprehensive prompt that teaches Claude Code how to build reports using the CLI. Claude Code does the thinking (SQL generation, chart design, analysis), the CLI does the execution.
-
-The key insight: **design a report once with Claude Code, replay it forever with just the CLI.** The LLM cost is a one-time design expense. Daily/weekly report refreshes are pure Node.js — no AI calls, no subscription needed.
 
 ## Prerequisites
 
