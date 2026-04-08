@@ -1,6 +1,6 @@
 {
   "name": "@ultracart/bq-skill",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "UltraCart BigQuery reporting skill for Claude Code — CLI + skill prompt for creating and replaying e-commerce reports",
   "main": "dist/cli.js",
   "bin": {
