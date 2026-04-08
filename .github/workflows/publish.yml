@@ -1,13 +1,11 @@
 # Publishes to npm when you push a version tag (e.g., v0.1.0)
 #
 # Security notes:
-# - NPM_TOKEN is stored in GitHub Secrets (never in code)
+# - Uses OIDC Trusted Publishing (no long-lived NPM_TOKEN needed)
 # - Only runs on tags matching v*, not on PRs or branch pushes
 # - Uses a protected GitHub Environment ("npm") as an approval gate
 # - Pins all actions to exact commit SHAs (not mutable tags)
 # - npm provenance links every published package back to this exact build
-#
-# Setup: see docs/NPM-PUBLISH-SETUP.md
 
 name: Publish to npm
 
@@ -59,8 +57,6 @@ jobs:
           fi
           echo "Version verified: $PKG_VERSION"
 
-      # Publish to npm with provenance
+      # Publish to npm with provenance (OIDC Trusted Publishing — no token needed)
       - name: Publish to npm
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
