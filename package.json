@@ -45,7 +45,7 @@
     "typescript": "^5.6.0"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=24.0.0"
   },
   "files": [
     "dist/",
@@ -54,6 +54,6 @@
     "skill/"
   ],
   "volta": {
-    "node": "22.22.2"
+    "node": "24.13.0"
   }
 }

@@ -28,7 +28,7 @@ UltraCart streams e-commerce data (orders, customers, items, analytics, etc.) in
 
 ## Prerequisites
 
-- **Node.js** >= 18
+- **Node.js** >= 24
 - **Google Cloud credentials** — either:
   - `gcloud auth application-default login` (recommended), or
   - `GOOGLE_APPLICATION_CREDENTIALS` pointing to a service account JSON
@@ -784,7 +784,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+        with: { node-version: '24' }
       - run: npm install -g @ultracart/bq-skill
       - uses: google-github-actions/auth@v2
         with: { credentials_json: '${{ secrets.GCP_SA_KEY }}' }
@@ -928,13 +928,22 @@ Report parameters support relative date expressions that resolve at replay time:
 ## Development
 
 ```bash
-git clone https://github.com/UltraCart/bq-skill.git
-cd bq-skill
+git clone https://github.com/UltraCart/uc-bq-claude-skill.git
+cd uc-bq-claude-skill
 npm install
 npm run build        # Compile TypeScript
 npm run dev          # Watch mode
 node dist/cli.js     # Run locally
 ```
+
+## Documentation
+
+- [CLI Reference](docs/CLI-REFERENCE.md) — Full command reference with examples
+- [Report Delivery](docs/REPORT-DELIVERY.md) — Slack, email, and provider setup
+- [Report Decks](docs/DECKS.md) — Combined PDFs, dashboards, and cover pages
+- [Alarms](docs/ALARMS.md) — Threshold, percent change, and missing data alerts
+- [Multi-Client](docs/MULTI-CLIENT.md) — Managing multiple merchant accounts
+- [GitHub Actions](docs/GITHUB-ACTIONS.md) — CI/CD scheduling and automation
 
 ## License
 
