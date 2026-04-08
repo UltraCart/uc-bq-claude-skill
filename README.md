@@ -38,8 +38,26 @@ UltraCart streams e-commerce data (orders, customers, items, analytics, etc.) in
 
 ## Installation
 
+### Global install (recommended)
+
 ```bash
 npm install -g @ultracart/bq-skill
+```
+
+This makes `uc-bq` available as a command everywhere. All examples in this README assume a global install.
+
+### Local install
+
+```bash
+npm install @ultracart/bq-skill
+```
+
+With a local install, prefix commands with `npx`:
+
+```bash
+npx uc-bq init
+npx uc-bq schema --list
+npx uc-bq run revenue-by-category
 ```
 
 All LLM provider SDKs (Anthropic, OpenAI, Google Gemini, AWS Bedrock) are bundled — no extra installs needed.
