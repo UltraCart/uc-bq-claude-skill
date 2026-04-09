@@ -1137,7 +1137,11 @@ Never allow queries against views above the configured taxonomy level. The merch
 | `uc_conversations` | Webchat and SMS conversations |
 | `uc_conversation_pbx_calls` | Phone call records from PBX module |
 | `uc_storefronts` | Storefront configurations (domain, theme, operational settings) |
-| `uc_storefront_customers` | StoreFront Communications customer records (email/SMS campaign history) |
+| `uc_storefront_customers` | StoreFront Communications customer records (large nested table — prefer flat child tables below for email/session/list/segment queries) |
+| `uc_storefront_customer_emails` | Flat table of emails sent to storefront customers, partitioned by sent date (sent/opened/clicked dates, campaign/flow names, conversions) |
+| `uc_storefront_customer_sessions` | Flat table of customer browsing sessions, partitioned by session start date (UTM params, order attribution, screen recordings) |
+| `uc_storefront_customer_lists` | Flat table of customer mailing list memberships (one row per customer-list assignment) |
+| `uc_storefront_customer_segments` | Flat table of customer segment memberships (one row per customer-segment assignment) |
 | `uc_storefront_pages` | Storefront page data (URLs, assigned items, permissions) |
 | `uc_storefront_experiments` | A/B testing data (configurations, variants, performance metrics) |
 | `uc_storefront_upsell_offers` | Upsell offer details (descriptions, conditions, products/discounts) |

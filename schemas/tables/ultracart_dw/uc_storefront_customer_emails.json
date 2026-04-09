@@ -1,0 +1,106 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email_hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "esp_customer_uuid",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email_uuid",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "commseq_uuid",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "sent_dts",
+    "description": "Email sent date/time",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "opened_dts",
+    "description": "Email opened date/time",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "clicked_dts",
+    "description": "Email clicked date/time",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "flow_name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "campaign_name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "subject",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "opened",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "clicked",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "converted",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "spam_complaint",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "spam_complaint_dts",
+    "description": "Spam complaint date/time",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "order_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "transport",
+    "type": "STRING"
+  }
+]

@@ -1,0 +1,43 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email_hash",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "esp_customer_uuid",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "segment_uuid",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "segment_name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "add_dts",
+    "description": "Segment add date/time",
+    "type": "DATETIME"
+  }
+]
