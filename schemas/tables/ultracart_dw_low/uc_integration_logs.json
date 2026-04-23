@@ -1,0 +1,155 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_date",
+    "type": "DATE"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "pk",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "sk",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "log_type",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "logger_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "logger_name",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "integration_log_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "log_dts",
+    "description": "Date/time the integration log was created",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "action",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "direction",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "status",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "status_code",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "order_ids",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "auto_order_oids",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "INTEGER"
+    }]
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "email",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "item_id",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "item_ipn_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "log",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "log_map_entries",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "key",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "attributes",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "name",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "files",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "uuid",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "size",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "mime_type",
+        "type": "STRING"
+      }
+    ]
+  }
+]
