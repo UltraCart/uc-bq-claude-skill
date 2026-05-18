@@ -1126,6 +1126,7 @@ Never allow queries against views above the configured taxonomy level. The merch
 | `uc_cart_abandons` | Abandoned cart records |
 | `uc_coupons` | Coupon configurations (codes, discount types, expiration, usage restrictions) |
 | `uc_gift_certificates` | Gift certificate tracking (codes, balances, issuance, redemption status) |
+| `uc_integration_logs` | Third-party integration activity (payment, shipping, tax, ESP, webhook, channel partner, DC, etc.) identified by `log_type` (~100 types). One row per interaction: status, action, direction, related orders, primary log text, key/value log entries + attributes, and attached files with inline JSON/text/binary content. Low/standard tier strips email, log text, and file content; medium/high retain all PII. |
 | `uc_affiliates` | Affiliate accounts (IDs, contact details, account settings) |
 | `uc_affiliate_clicks` | Affiliate click tracking (timestamps, affiliate IDs, referral details) |
 | `uc_affiliate_ledgers` | Affiliate financial transactions (commissions, adjustments, payout statuses) |
