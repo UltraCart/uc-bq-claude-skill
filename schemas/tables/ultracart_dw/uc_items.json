@@ -950,6 +950,12 @@
         "name": "send_to_hold_before_fulfillment",
         "description": "Send order to hold stage before fulfillment",
         "type": "BOOLEAN"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "one_line_per_unit",
+        "description": "Split cart line items with quantity greater than one into individual lines of quantity one on the order",
+        "type": "BOOLEAN"
       }
     ]
   },

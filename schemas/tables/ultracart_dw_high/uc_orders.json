@@ -3871,8 +3871,20 @@
           },
           {
             "mode": "NULLABLE",
+            "name": "day_phone_e164",
+            "description": "Day phone in E.164 format (derived \u2014 read only)",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
             "name": "evening_phone",
             "description": "Evening phone",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "evening_phone_e164",
+            "description": "Evening phone in E.164 format (derived \u2014 read only)",
             "type": "STRING"
           },
           {
@@ -4023,8 +4035,20 @@
           },
           {
             "mode": "NULLABLE",
+            "name": "day_phone_e164",
+            "description": "Day phone in E.164 format (derived \u2014 read only)",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
             "name": "evening_phone",
             "description": "Evening phone",
+            "type": "STRING"
+          },
+          {
+            "mode": "NULLABLE",
+            "name": "evening_phone_e164",
+            "description": "Evening phone in E.164 format (derived \u2014 read only)",
             "type": "STRING"
           },
           {
