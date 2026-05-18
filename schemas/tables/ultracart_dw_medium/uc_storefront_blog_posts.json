@@ -1,0 +1,192 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "partition_oid",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "merchant_id",
+    "description": "Merchant ID that owns this blog post",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "storefront_oid",
+    "description": "Storefront OID this blog post belongs to",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "storefront_blog_post_oid",
+    "description": "Unique identifier for the blog post",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "title",
+    "description": "Blog post title",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "url_part",
+    "description": "URL slug for the blog post",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "author",
+    "description": "Author name as displayed on the post",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "visibility",
+    "description": "Visibility code: P=Public, L=Logged-in customers only, D=Draft",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "allow_comments",
+    "description": "True if comments are allowed on this post",
+    "type": "BOOLEAN"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "creation_dts",
+    "description": "Date the blog post was created",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "publication_dts",
+    "description": "Date the blog post was published (null if unpublished)",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "last_modified_dts",
+    "description": "Date the blog post was last modified",
+    "type": "DATETIME"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "excerpt",
+    "description": "Short excerpt of the blog post body",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "body",
+    "description": "Full body content of the blog post",
+    "type": "STRING"
+  },
+  {
+    "mode": "REPEATED",
+    "name": "tags",
+    "description": "Tags applied to the blog post",
+    "type": "RECORD",
+    "fields": [{
+      "mode": "NULLABLE",
+      "name": "value",
+      "type": "STRING"
+    }]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "attributes",
+    "description": "Template-driven attributes attached to the blog post",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "name",
+        "description": "Attribute name",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "type",
+        "description": "Attribute type (string, boolean, integer, html, multiline, etc.)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "value",
+        "description": "Attribute value",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "page_assignments",
+    "description": "Storefront pages this blog post is assigned to",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "storefront_page_oid",
+        "description": "Catalog group OID (storefront page) this blog post is assigned to",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "code",
+        "description": "Page code",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "title",
+        "description": "Page title",
+        "type": "STRING"
+      }
+    ]
+  },
+  {
+    "mode": "REPEATED",
+    "name": "multimedia",
+    "description": "Multimedia assets attached to the blog post",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "code",
+        "description": "Multimedia slot code (template-defined identifier)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "type",
+        "description": "Multimedia type (Image, Video, PDF, Text, Unknown)",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "filename",
+        "description": "Original filename",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "description",
+        "description": "Description / alt text",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "url",
+        "description": "Resolved URL for the asset",
+        "type": "STRING"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "default",
+        "description": "True if this is the default multimedia for the post",
+        "type": "BOOLEAN"
+      }
+    ]
+  }
+]

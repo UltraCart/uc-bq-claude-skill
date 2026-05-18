@@ -981,6 +981,81 @@
     ]
   },
   {
+    "name": "percent_off_items_with_minimum_item_amount",
+    "description": "Percent off items with minimum item amount",
+    "type": "RECORD",
+    "fields": [
+      {
+        "mode": "NULLABLE",
+        "name": "discount_percent",
+        "description": "The percentage of subtotal discount",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "minimum_item_amount",
+        "description": "The minimum item amount (dollars) required for the discount to apply",
+        "type": "NUMERIC"
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "currency_code",
+        "description": "The ISO-4217 three letter currency code the customer is viewing prices in",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "items",
+        "description": "An optional list of items which will receive a discount.  If blank, discount applies to all items except excluded items.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "excluded_items",
+        "description": "A list of items which cannot be discounted.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "NULLABLE",
+        "name": "limit",
+        "description": "The (optional) maximum quantity of discounted items.",
+        "type": "INTEGER"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "item_tags",
+        "description": "An optional list of item tags which will receive a discount.  If blank, discount applies to all items except excluded items.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      },
+      {
+        "mode": "REPEATED",
+        "name": "excluded_item_tags",
+        "description": "A list of item tags which cannot be discounted.",
+        "type": "RECORD",
+        "fields": [{
+          "mode": "NULLABLE",
+          "name": "value",
+          "type": "STRING"
+        }]
+      }
+    ]
+  },
+  {
     "name": "buy_one_get_one",
     "description": "Buy one get one free",
     "type": "RECORD",
