@@ -58,8 +58,11 @@ export async function renderChart(options: RenderOptions): Promise<RenderResult>
     deviceScaleFactor: 2,
   });
 
-  // Load the template (loads ECharts from CDN)
-  await page.setContent(strippedHtml, { waitUntil: 'networkidle0' });
+  // Load the template (loads ECharts from CDN).
+  // Puppeteer 25 dropped 'networkidle0' for setContent; 'load' waits for the
+  // ECharts <script src> in the template, and the addScriptTag + waitForFunction
+  // below still gate on actual render completion.
+  await page.setContent(strippedHtml, { waitUntil: 'load' });
 
   // Inject data and render via addScriptTag — guarantees execution after DOM + ECharts are ready
   await page.addScriptTag({
