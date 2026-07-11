@@ -1,0 +1,37 @@
+# Dependabot version-update config.
+# Complements Dependabot security updates (auto-fix PRs for advisories),
+# which are enabled separately in the repo's Code security settings.
+version: 2
+updates:
+  # npm dependencies (package.json / package-lock.json)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+    groups:
+      # Bundle routine minor/patch bumps into one PR to cut noise.
+      npm-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    # Keep majors as separate PRs — puppeteer/commander/etc. majors
+    # need manual testing before merge.
+
+  # GitHub Actions used by the workflows (pinned to commit SHAs).
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+    groups:
+      actions-all:
+        patterns:
+          - "*"
