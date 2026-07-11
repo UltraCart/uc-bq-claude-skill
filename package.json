@@ -1,6 +1,6 @@
 {
   "name": "@ultracart/bq-skill",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "UltraCart BigQuery reporting skill for Claude Code — CLI + skill prompt for creating and replaying e-commerce reports",
   "main": "dist/cli.js",
   "bin": {
@@ -34,13 +34,12 @@
     "ajv": "^8.17.0",
     "ajv-formats": "^3.0.0",
     "commander": "^15.0.0",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^5.2.1",
     "md-to-pdf": "^5.2.5",
     "openai": "^6.0.0",
     "puppeteer": "^25.3.0"
   },
   "devDependencies": {
-    "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.0.0",
     "typescript": "^5.6.0"
   },
