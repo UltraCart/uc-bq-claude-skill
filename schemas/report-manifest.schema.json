@@ -143,6 +143,67 @@
           "description": "Relative path for the analysis markdown file",
           "pattern": "\\.md$",
           "default": "report.md"
+        },
+        "landscape": {
+          "type": "boolean",
+          "description": "Render the analysis PDF in landscape orientation",
+          "default": false
+        }
+      }
+    },
+
+    "alarms": {
+      "type": "array",
+      "description": "Conditions evaluated against each run's result set. A triggered alarm can change delivery behavior and is recorded in alarm_state.json.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "type", "severity"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Unique identifier for this alarm within the report; also the suppression key"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["threshold", "pct_change", "missing_data"],
+            "description": "threshold compares an aggregate to a fixed value; pct_change compares it to the previous run; missing_data fires when the query returns no rows"
+          },
+          "metric": {
+            "type": "string",
+            "description": "Column to aggregate. Required for threshold and pct_change."
+          },
+          "aggregate": {
+            "type": "string",
+            "enum": ["sum", "avg", "min", "max", "first", "last"],
+            "description": "How to reduce the column to a single value",
+            "default": "sum"
+          },
+          "operator": {
+            "type": "string",
+            "enum": ["<", ">", "<=", ">=", "==", "!="],
+            "description": "Comparison applied to the aggregated value"
+          },
+          "value": {
+            "type": "number",
+            "description": "Right-hand side of the comparison. For pct_change this is a percentage."
+          },
+          "compare_to": {
+            "type": "string",
+            "enum": ["previous_run"],
+            "description": "Baseline for pct_change alarms"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "high", "critical"],
+            "description": "Severity label included in notifications"
+          },
+          "cooldown": {
+            "type": "string",
+            "pattern": "^(\\d+[hdm]|0)$",
+            "description": "Suppress repeat firings for this long (e.g., 24h, 7d, 30m). \"0\" disables suppression.",
+            "default": "24h"
+          }
         }
       }
     },
@@ -151,6 +212,12 @@
       "type": "object",
       "description": "Report delivery configuration for Slack and/or email",
       "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["always", "alarm_only"],
+          "description": "Deliver on every run, or only when an alarm fires",
+          "default": "always"
+        },
         "slack": {
           "type": "object",
           "properties": {
@@ -161,6 +228,10 @@
               },
               "minItems": 1,
               "description": "Slack channel IDs (e.g., C0123456789)"
+            },
+            "mention_on_alarm": {
+              "type": "string",
+              "description": "Who to @-mention when an alarm fires (e.g., <!here> or <@U0123456789>)"
             }
           },
           "required": ["channels"],

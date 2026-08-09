@@ -15,8 +15,26 @@ function createAjv(): Ajv {
 }
 
 function getSchemaPath(schemaFile: string): string {
-  // Resolve relative to the package root (two levels up from dist/lib/)
-  return path.resolve(__dirname, '..', '..', 'schemas', schemaFile);
+  // Walk up from this module until the packaged schemas/ directory turns up.
+  //
+  // This used to hardcode '../../schemas', which assumed one exact build
+  // layout (dist/lib/). Any other output structure resolved to a path that
+  // does not exist, and the failure surfaced as an ENOENT from readFileSync
+  // rather than anything that named the real problem.
+  let dir = __dirname;
+  for (;;) {
+    const candidate = path.join(dir, 'schemas', schemaFile);
+    if (fs.existsSync(candidate)) return candidate;
+
+    const parent = path.dirname(dir);
+    if (parent === dir) {
+      throw new Error(
+        `Schema file "${schemaFile}" not found in any schemas/ directory above ${__dirname}. ` +
+        `This usually means the package was installed without its schemas/ directory.`
+      );
+    }
+    dir = parent;
+  }
 }
 
 function loadSchema(schemaFile: string): Record<string, unknown> {

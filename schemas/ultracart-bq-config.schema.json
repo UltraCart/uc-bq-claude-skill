@@ -58,6 +58,12 @@
       },
       "additionalProperties": false
     },
+    "max_query_bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Abort a query whose dry-run estimate exceeds this many bytes. 0 disables the check. Defaults to 10 GB.",
+      "default": 10737418240
+    },
     "llm": {
       "type": "object",
       "description": "LLM provider configuration for analysis and schema filtering",
