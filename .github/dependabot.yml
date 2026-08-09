@@ -12,6 +12,15 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
+    # Wait before proposing a brand-new release. Compromised-package
+    # attacks are usually caught and yanked within days, so a short delay
+    # keeps a malicious version from ever reaching a PR here. Majors wait
+    # longer because they also need time for their own bugs to surface.
+    # Security updates ignore cooldown, so real advisories are still
+    # patched immediately.
+    cooldown:
+      default-days: 5
+      semver-major-days: 14
     groups:
       # Bundle routine minor/patch bumps into one PR to cut noise.
       npm-minor-patch:
@@ -20,8 +29,18 @@ updates:
           - "patch"
     # Keep majors as separate PRs — puppeteer/commander/etc. majors
     # need manual testing before merge.
+    ignore:
+      # @types/node must track the minimum Node we support (engines
+      # requires >=24), not the newest Node that exists. Newer types
+      # would let code compile against APIs missing on Node 24.
+      # Bump this deliberately when the engines floor moves.
+      - dependency-name: "@types/node"
+        update-types:
+          - "version-update:semver-major"
 
   # GitHub Actions used by the workflows (pinned to commit SHAs).
+  # Dependabot reads the "# v1.2.3" comment next to each SHA and updates
+  # the SHA and the comment together, so pinning does not cost updates.
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -31,6 +50,10 @@ updates:
     labels:
       - "dependencies"
       - "github-actions"
+    # The github-actions ecosystem supports default-days only; the
+    # semver-specific cooldown keys used above are not honored here.
+    cooldown:
+      default-days: 5
     groups:
       actions-all:
         patterns:
