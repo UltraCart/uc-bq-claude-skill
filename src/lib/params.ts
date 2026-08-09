@@ -72,6 +72,12 @@ export function resolveRelativeDate(expr: string): string {
 
   // Start-of-period expressions
   if (expr === 'start_of_week') {
+    // Weeks start SUNDAY, not Monday. This is deliberate and load-bearing:
+    // the UltraCart BigQuery tables are partitioned weekly on Sunday
+    // boundaries, so a Sunday-aligned range lines up with the partitions and
+    // prunes cleanly. Switching to ISO-8601 Monday would straddle every
+    // partition boundary — scanning more data than the query needs and
+    // shifting the reported week by a day.
     const d = new Date(today);
     const day = d.getDay(); // 0=Sunday
     d.setDate(d.getDate() - day);

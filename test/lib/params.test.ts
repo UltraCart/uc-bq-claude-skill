@@ -105,13 +105,23 @@ describe('resolveRelativeDate', () => {
       });
     });
 
-    it('resolves start_of_week to Sunday', () => {
+    it('resolves start_of_week to Sunday, matching the weekly partitions', () => {
+      // Sunday is intentional, not an ISO-8601 oversight: the BigQuery tables
+      // are partitioned weekly on Sunday boundaries. A Monday-aligned week
+      // would straddle every partition, scanning extra data and reporting a
+      // week offset by a day. If this test fails because someone "corrected"
+      // it to Monday, the partition alignment is what broke.
       // 2026-08-09 is itself a Sunday.
       withFrozenTime(MIDDAY, () => {
         assert.equal(resolveRelativeDate('start_of_week'), '2026-08-09');
       });
       // 2026-08-12 is a Wednesday; its week starts Sunday the 9th.
       withFrozenTime('2026-08-12T12:00:00', () => {
+        assert.equal(resolveRelativeDate('start_of_week'), '2026-08-09');
+      });
+      // A Saturday is the last day of its week, so it still maps back to the
+      // preceding Sunday rather than forward.
+      withFrozenTime('2026-08-15T12:00:00', () => {
         assert.equal(resolveRelativeDate('start_of_week'), '2026-08-09');
       });
     });

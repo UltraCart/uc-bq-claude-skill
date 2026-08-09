@@ -935,7 +935,7 @@ Report parameters support relative date expressions that resolve at replay time:
 | `-Nw` | N weeks ago |
 | `-Nm` | N months ago |
 | `-Ny` | N years ago |
-| `start_of_week` | **Sunday** of the current week |
+| `start_of_week` | **Sunday** of the current week (see note below) |
 | `start_of_month` | First day of the current month |
 | `start_of_quarter` | First day of the current quarter |
 | `start_of_year` | January 1 of the current year |
@@ -949,6 +949,15 @@ Report parameters support relative date expressions that resolve at replay time:
 All expressions resolve against the **local timezone** of the machine running
 the report, not UTC. A report run at 9pm Eastern uses that day's date, not the
 next day's.
+
+### Why weeks start on Sunday
+
+`start_of_week` returns Sunday rather than the ISO-8601 Monday because the
+UltraCart BigQuery tables are **partitioned weekly on Sunday boundaries**. A
+Sunday-aligned range matches those partitions exactly, so BigQuery prunes to
+the weeks you asked for. A Monday-aligned week would straddle every partition
+boundary — scanning more data than the query needs, and reporting a week
+shifted by a day. Please don't "correct" this to Monday.
 
 ## Development
 
