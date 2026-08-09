@@ -10,6 +10,11 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/cli.js",
+    "build:test": "tsc -p tsconfig.test.json",
+    "test": "npm run build:test && node --test \"dist-test/test/**/*.test.js\"",
+    "test:watch": "npm run build:test && node --test --watch \"dist-test/test/**/*.test.js\"",
+    "test:coverage": "npm run build:test && node --test --experimental-test-coverage \"dist-test/test/**/*.test.js\"",
+    "test:tz": "TZ=UTC npm test && TZ=America/New_York npm test && TZ=Asia/Tokyo npm test && TZ=Pacific/Auckland npm test",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
