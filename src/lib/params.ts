@@ -1,4 +1,5 @@
 import * as readline from 'readline';
+import { formatLocalDate } from './dates';
 
 export interface ParameterValidation {
   min?: number;
@@ -21,7 +22,10 @@ export interface ReportParameter {
 
 export function resolveRelativeDate(expr: string): string {
   const today = new Date();
-  const yyyy = (d: Date) => d.toISOString().substring(0, 10);
+  // Local calendar fields, not toISOString() — see ./dates. Using UTC here
+  // shifted every calendar-anchored expression by a day east of UTC, and made
+  // "today" resolve to tomorrow during US evening hours.
+  const yyyy = formatLocalDate;
 
   if (expr === 'today') {
     return yyyy(today);

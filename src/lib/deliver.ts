@@ -3,6 +3,7 @@ import * as path from 'path';
 import { ReportManifest } from './manifest';
 import { deliverSlack } from './deliver-slack';
 import { deliverEmail } from './deliver-email';
+import { todayLocal } from './dates';
 
 /**
  * Deliver a completed report via Slack and/or email based on manifest config.
@@ -45,7 +46,7 @@ export async function deliverReport(
   // Slack delivery
   if (manifest.delivery.slack) {
     try {
-      const comment = `${manifest.name} — ${new Date().toISOString().split('T')[0]}`;
+      const comment = `${manifest.name} — ${todayLocal()}`;
       await deliverSlack(filePath, fileName, manifest.delivery.slack.channels, comment);
       console.log(`  Delivered to Slack channels: ${manifest.delivery.slack.channels.join(', ')}`);
     } catch (err: any) {

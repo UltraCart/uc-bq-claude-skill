@@ -15,6 +15,7 @@ import { deliverReport } from '../lib/deliver';
 import { evaluateAlarms, extractAlarmMetrics, AlarmResult } from '../lib/alarm';
 import { loadAlarmState, saveAlarmState, recordAlarmRun } from '../lib/alarm-state';
 import { deliverAlarmNotifications } from '../lib/alarm-notify';
+import { todayLocal } from '../lib/dates';
 
 function safePath(baseDir: string, relativePath: string): string {
   const resolved = path.resolve(baseDir, relativePath);
@@ -175,7 +176,7 @@ export const runCommand = new Command('run')
 
       // Update manifest run history
       addRunHistoryEntry(manifest, {
-        run_date: new Date().toISOString().split('T')[0],
+        run_date: todayLocal(),
         parameters: resolved,
         status: 'success',
         rows_returned: result.totalRows,

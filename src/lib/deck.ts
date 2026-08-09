@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as yaml from 'js-yaml';
 import { mdToPdf } from 'md-to-pdf';
 import { loadManifest } from './manifest';
+import { todayLocal } from './dates';
 
 export type DeckReportEntry = string | { name: string; parameters?: Record<string, string> };
 
@@ -93,7 +94,7 @@ export function listDecks(decksDir: string): Array<{ name: string; title: string
  */
 export function buildDeckMarkdown(deck: DeckConfig, reportsBaseDir: string): string {
   const sections: string[] = [];
-  const dateStr = new Date().toISOString().split('T')[0];
+  const dateStr = todayLocal();
 
   // --- Cover page ---
   sections.push(`# ${deck.title}`);
