@@ -268,7 +268,7 @@ export async function executeQuery(
   };
 }
 
-function flattenRow(row: Record<string, unknown>): Record<string, unknown> {
+export function flattenRow(row: Record<string, unknown>): Record<string, unknown> {
   const result: Record<string, unknown> = {};
   for (const [key, val] of Object.entries(row)) {
     result[key] = flattenValue(val);

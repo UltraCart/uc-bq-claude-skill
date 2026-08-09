@@ -1,4 +1,5 @@
 import * as readline from 'readline';
+import { formatLocalDate } from './dates';
 
 export interface ParameterValidation {
   min?: number;
@@ -21,7 +22,10 @@ export interface ReportParameter {
 
 export function resolveRelativeDate(expr: string): string {
   const today = new Date();
-  const yyyy = (d: Date) => d.toISOString().substring(0, 10);
+  // Local calendar fields, not toISOString() — see ./dates. Using UTC here
+  // shifted every calendar-anchored expression by a day east of UTC, and made
+  // "today" resolve to tomorrow during US evening hours.
+  const yyyy = formatLocalDate;
 
   if (expr === 'today') {
     return yyyy(today);
@@ -68,6 +72,12 @@ export function resolveRelativeDate(expr: string): string {
 
   // Start-of-period expressions
   if (expr === 'start_of_week') {
+    // Weeks start SUNDAY, not Monday. This is deliberate and load-bearing:
+    // the UltraCart BigQuery tables are partitioned weekly on Sunday
+    // boundaries, so a Sunday-aligned range lines up with the partitions and
+    // prunes cleanly. Switching to ISO-8601 Monday would straddle every
+    // partition boundary — scanning more data than the query needs and
+    // shifting the reported week by a day.
     const d = new Date(today);
     const day = d.getDay(); // 0=Sunday
     d.setDate(d.getDate() - day);

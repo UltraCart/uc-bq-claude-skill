@@ -1,5 +1,6 @@
 node_modules/
 dist/
+dist-test/
 .ultracart-bq.json
 .ultracart-bq-cache/
 .claude/

@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { todayLocal } from './dates';
 
 const STATE_FILENAME = 'alarm_state.json';
 const MAX_HISTORY_ENTRIES = 30;
@@ -55,7 +56,7 @@ export function recordAlarmRun(
   triggeredAlarmNames: string[],
   suppressedAlarmNames: string[],
 ): void {
-  const runDate = new Date().toISOString().split('T')[0];
+  const runDate = todayLocal();
 
   // Add metric history entry
   state.metric_history.push({

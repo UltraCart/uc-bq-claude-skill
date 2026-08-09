@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { todayLocal } from './dates';
 
 /**
  * Deliver a file via email using one of the supported REST API providers.
@@ -20,7 +21,7 @@ export async function deliverEmail(
   const fileBuffer = fs.readFileSync(filePath);
   const contentType = fileName.endsWith('.pdf') ? 'application/pdf' : 'image/png';
   const reportName = path.basename(path.dirname(filePath));
-  const dateStr = new Date().toISOString().split('T')[0];
+  const dateStr = todayLocal();
   const htmlBody = `<p>Your scheduled report is attached.</p>\n<p><strong>${reportName}</strong> &mdash; Generated ${dateStr}</p>`;
 
   switch (config.provider.toLowerCase()) {

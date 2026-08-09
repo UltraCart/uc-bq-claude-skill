@@ -20,6 +20,7 @@ import { exec } from 'child_process';
 import { evaluateAlarms, extractAlarmMetrics, AlarmResult } from '../lib/alarm';
 import { loadAlarmState, saveAlarmState, recordAlarmRun } from '../lib/alarm-state';
 import { deliverAlarmNotifications, deliverDeckAlarmNotifications } from '../lib/alarm-notify';
+import { todayLocal } from '../lib/dates';
 
 function safePath(baseDir: string, relativePath: string): string {
   const resolved = path.resolve(baseDir, relativePath);
@@ -210,7 +211,7 @@ const deckRunCommand = new Command('run')
 
           // Update manifest run history
           addRunHistoryEntry(manifest, {
-            run_date: new Date().toISOString().split('T')[0],
+            run_date: todayLocal(),
             parameters: resolved,
             status: 'success',
             rows_returned: result.totalRows,
@@ -335,7 +336,7 @@ const deckRunCommand = new Command('run')
         if (deckMode === 'alarm_only' && !hasDeckAlarms) {
           console.log('  Delivery: mode is alarm_only and no alarms triggered, skipping deck PDF delivery.');
         } else {
-          const dateStr = new Date().toISOString().split('T')[0];
+          const dateStr = todayLocal();
           const comment = `${deck.title} — ${dateStr}`;
           const fileName = `${deckName}.pdf`;
 

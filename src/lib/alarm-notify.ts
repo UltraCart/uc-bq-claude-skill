@@ -1,5 +1,6 @@
 import { DeliveryConfig } from './manifest';
 import { AlarmResult } from './alarm';
+import { todayLocal } from './dates';
 
 /**
  * Deliver alarm notifications via Slack and/or email.
@@ -85,7 +86,7 @@ async function deliverAlarmSlack(
   const hasCritical = alarms.some(a => a.alarm.severity === 'critical');
   const mention = hasCritical && config.mention_on_alarm ? `${config.mention_on_alarm} ` : '';
   const color = hasCritical ? '#dc3545' : '#fd7e14'; // red for critical, orange for high
-  const dateStr = new Date().toISOString().split('T')[0];
+  const dateStr = todayLocal();
 
   const blocks = buildAlarmBlocks(reportName, alarms, dateStr);
   const fallbackText = `${mention}[ALARM] ${reportName} — ${alarms.length} alarm(s) triggered`;
@@ -136,7 +137,7 @@ async function deliverDeckAlarmSlack(
   const hasCritical = allFired.some(a => a.result.alarm.severity === 'critical');
   const mention = hasCritical && config.mention_on_alarm ? `${config.mention_on_alarm} ` : '';
   const color = hasCritical ? '#dc3545' : '#fd7e14';
-  const dateStr = new Date().toISOString().split('T')[0];
+  const dateStr = todayLocal();
 
   const blocks = buildDeckAlarmBlocks(deckTitle, allFired, dateStr);
   const fallbackText = `${mention}[ALARM] ${deckTitle} — ${allFired.length} alarm(s) triggered across reports`;
@@ -280,7 +281,7 @@ async function deliverAlarmEmailRaw(
 }
 
 function buildAlarmEmailHtml(reportName: string, alarms: AlarmResult[]): string {
-  const dateStr = new Date().toISOString().split('T')[0];
+  const dateStr = todayLocal();
   const rows = alarms.map(a => {
     const color = a.alarm.severity === 'critical' ? '#dc3545' : '#fd7e14';
     return `<tr>
@@ -313,7 +314,7 @@ function buildDeckAlarmEmailHtml(
   deckTitle: string,
   allFired: Array<{ reportName: string; result: AlarmResult }>,
 ): string {
-  const dateStr = new Date().toISOString().split('T')[0];
+  const dateStr = todayLocal();
   const rows = allFired.map(({ reportName, result }) => {
     const color = result.alarm.severity === 'critical' ? '#dc3545' : '#fd7e14';
     return `<tr>

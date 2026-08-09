@@ -935,13 +935,29 @@ Report parameters support relative date expressions that resolve at replay time:
 | `-Nw` | N weeks ago |
 | `-Nm` | N months ago |
 | `-Ny` | N years ago |
-| `start_of_week` | Monday of the current week |
+| `start_of_week` | **Sunday** of the current week (see note below) |
+| `start_of_month` | First day of the current month |
+| `start_of_quarter` | First day of the current quarter |
+| `start_of_year` | January 1 of the current year |
 | `start_of_last_month` | First day of previous month |
 | `start_of_last_quarter` | First day of previous quarter |
 | `start_of_last_year` | January 1 of previous year |
 | `end_of_last_month` | Last day of previous month |
 | `end_of_last_quarter` | Last day of previous quarter |
 | `end_of_last_year` | December 31 of previous year |
+
+All expressions resolve against the **local timezone** of the machine running
+the report, not UTC. A report run at 9pm Eastern uses that day's date, not the
+next day's.
+
+### Why weeks start on Sunday
+
+`start_of_week` returns Sunday rather than the ISO-8601 Monday because the
+UltraCart BigQuery tables are **partitioned weekly on Sunday boundaries**. A
+Sunday-aligned range matches those partitions exactly, so BigQuery prunes to
+the weeks you asked for. A Monday-aligned week would straddle every partition
+boundary — scanning more data than the query needs, and reporting a week
+shifted by a day. Please don't "correct" this to Monday.
 
 ## Development
 
@@ -953,6 +969,39 @@ npm run build        # Compile TypeScript
 npm run dev          # Watch mode
 node dist/cli.js     # Run locally
 ```
+
+### Tests
+
+The suite uses Node's built-in test runner — no test framework dependency.
+
+```bash
+npm test             # Compile and run the full suite
+npm run test:watch   # Re-run on change
+npm run test:coverage
+npm run test:tz      # Run under four timezones (see below)
+```
+
+Tests live in `test/`, mirroring `src/`, and compile to `dist-test/` via
+`tsconfig.test.json`. They deliberately build as CommonJS to match the shipped
+output: `src/lib/llm/index.ts` loads provider SDKs with a lazy `require()`,
+which would be undefined under ESM.
+
+`npm run test:tz` runs everything under UTC, US Eastern, Tokyo and Auckland.
+This is not incidental — the date handling bugs this suite was written to catch
+were invisible in UTC and only appeared east of UTC or during US evening hours.
+CI runs the same four in parallel.
+
+A few notes if you are adding tests:
+
+- Anything touching "today" must pin the clock with `withFrozenTime` from
+  `test/helpers/clock.ts`. Comparing against a freshly computed date passes
+  vacuously.
+- In that helper, an ISO string **without** a `Z` is parsed as local time; use
+  that form when asserting a calendar date, so the expectation holds in every
+  timezone. Use the `Z` form only when the test is specifically about UTC skew.
+- `npm test` compiles explicitly rather than relying on a `pretest` hook,
+  because `ignore-scripts` is a common local and CI setting and would silently
+  skip it, running the previous build's output.
 
 ## Documentation
 
