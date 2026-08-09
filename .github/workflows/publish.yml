@@ -37,6 +37,13 @@ jobs:
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
+          # This job holds id-token: write and publishes to npm, so it must not
+          # restore a dependency cache that a lower-privileged workflow could
+          # have written. setup-node only auto-enables the npm cache when
+          # package.json declares packageManager/devEngines.packageManager —
+          # it does not today, but setting this explicitly keeps the release
+          # path safe if that ever changes.
+          package-manager-cache: false
 
       # Install dependencies (ci is stricter than install — uses lockfile exactly)
       - name: Install dependencies
