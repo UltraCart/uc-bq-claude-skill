@@ -12,6 +12,11 @@ on:
 
 jobs:
   claude-review:
+    # Dependabot PRs are reviewed locally with Claude Code instead, so skip
+    # them here (the action would otherwise fail red on the bot actor).
+    # Keyed on the PR author, not github.actor, so re-runs and human pushes
+    # to a Dependabot branch still skip.
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
     # Optional: Filter by PR author
     # if: |
     #   github.event.pull_request.user.login == 'external-contributor' ||
